@@ -1259,9 +1259,9 @@ public class GScreen implements Screen {
 		    				batch_illum.draw(lightmap_texture, 0-1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				
 		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size+1.0f, 300*light_map_size, -300*light_map_size);
-		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size-1.0f, 300*light_map_size, -300*light_map_size);
+		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size-0.7f, 300*light_map_size, -300*light_map_size);
 		    				
-		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);
+		    				//batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				
 		    				batch_illum.setColor(1,1,1,1f);
 		    				
