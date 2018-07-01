@@ -110,6 +110,7 @@ public class Assets {
 	public static Texture planet_good3=load("planet_good3");
 	public static Texture planet_good4=load("planet_good4");
 	public static Texture planet_good5=load("planet_good5");
+	public static Texture planet_good_overlay=load("planet_good_overlay");
 	
 	public static Texture human=load ("human");
 	public static Texture dialog_texture=load("dialog_gui");

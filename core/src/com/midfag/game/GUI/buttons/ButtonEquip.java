@@ -377,7 +377,7 @@ public class ButtonEquip extends Button {
 				GScreen.batch_static.draw(Assets.rect_white, info_x+_x-2, info_y-mov-15,770,18);
 			GScreen.batch_static.setColor(Color.WHITE);
 		}
-		if (_x==0) {mov+=28;} 
+		if (_x==0) {mov+=21;} 
 		
 
 	}

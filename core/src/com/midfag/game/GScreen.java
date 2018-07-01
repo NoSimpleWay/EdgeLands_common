@@ -32,6 +32,7 @@ import com.badlogic.gdx.utils.BufferUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.midfag.entity.Entity;
+import com.midfag.entity.Player;
 //import com.midfag.entity.Entity.MySpriteComparator;
 import com.midfag.entity.Shd;
 import com.midfag.entity.enemies.EntityPyra;
@@ -57,6 +58,8 @@ public class GScreen implements Screen {
 	public static int enemy_count=0;
 	public static int plposx;
 	public static int plposy;
+	
+	public static List<Texture> movie_buffer=new ArrayList<Texture>();
 	
 	public static List<Entity> temp_entity_list=new ArrayList<Entity>();
 	public static float battle_music_timer=0;
@@ -232,11 +235,14 @@ public class GScreen implements Screen {
 
 	private int fps;
 	private int cluster_draw_distance;
+	private int movie_frame_x;
+	private int movie_frame_y;
+	private float movie_frame_time;
 
 	public static float sho;
 
 
-	public static boolean camera_auto_zoom=true;
+	public static boolean camera_auto_zoom=false;
 
 	public static float wave_time;
 
@@ -766,7 +772,7 @@ public class GScreen implements Screen {
         for (int j=0; j<300; j++)
         {
         	tile_map[j][i]=(int) rnd(3);
-        	if (rnd(100)<20)
+        	if (rnd(100)<15)
         	{tile_map[j][i]=(int) rnd(9);}
         	
         	tile_map_overlay[j][i]=-1;
@@ -843,7 +849,7 @@ public class GScreen implements Screen {
 
         }
 
-		camera.zoom=50.0f;
+		camera.zoom=5000.0f;
 		
 
 		
@@ -910,7 +916,7 @@ public class GScreen implements Screen {
     public void draw_shaded_text(String _s, float _x, float _y, Color _col, float _size)
     {
     	batch_static.setColor(0.5f,0.5f,0.5f,0.5f);
-    	batch_static.draw (Assets.rect_white,_x-5, _y-18, _size, 20);
+    	batch_static.draw (Assets.rect_white,_x-5, _y-15, _size, 20);
     	
     	Main.font.setColor(Color.BLACK);
     	Main.font.draw(batch_static, _s, _x+1, _y-1);
@@ -1347,7 +1353,7 @@ public class GScreen implements Screen {
 
 
 		
-    	 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
+    	
 		
     	
     	 if ((Gdx.input.isButtonPressed(1))&&(!show_edit))
@@ -1370,10 +1376,11 @@ public class GScreen implements Screen {
     				camera.position.add(-(camera.position.x-camera_target.pos.x)/camspeed, -(camera.position.y-camera_target.z-camera_target.pos.y)/camspeed, 0.0f);
     				camera.update();
     			}
-    	
+    	 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
     	terrain_fbo.begin();
     	
 		batch.begin();
+		 
 	    //Gdx.gl.glBlendEquation(GL20.GL_FUNC_ADD);
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 	      
@@ -1694,8 +1701,9 @@ public class GScreen implements Screen {
           	add_timer("entity_update");
           	
           	
-          	
-          	
+          	batch.setColor(global_illumination);
+          	 batch.draw(Assets.planet_good_overlay, -500, -500, 10000,10000);
+         	batch.setColor(Color.WHITE);
 		batch.end();
 		
 	    	sr.begin(ShapeType.Filled);
@@ -1707,6 +1715,8 @@ public class GScreen implements Screen {
 	 		   mis.draw_shd(delta);
 	        }
 	 	   sr.end();
+	 	   
+	 	 
 
     	terrain_fbo.end();
     	
@@ -1794,7 +1804,7 @@ public class GScreen implements Screen {
 		batch_static.begin();
 		
 		
-		if (Gdx.input.isKeyPressed(Keys.H))
+		if (!Gdx.input.isKeyPressed(Keys.H))
 		{batch_static.setShader(Main.shader_bloom);}
 		else
 		{batch_static.setShader(Main.shader_default);}
@@ -1803,19 +1813,19 @@ public class GScreen implements Screen {
 		//terrain_fbo.begin();
 		
 			
-		
+		if (screen_effect!=null) {batch_static.setShader(screen_effect.shader);}
 			
-				if (screen_effect!=null)
-				{
-					screen_effect.update(delta, real_delta);
-				}
+
 			
 				batch_static.setColor(Color.WHITE);
 				batch_static.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 				//for (int i=0; i<3; i++)
 				{batch_static.draw(terrain_fbo.getColorBufferTexture(),0,scr_h,scr_w,-scr_h);}
 				
-				
+				if (screen_effect!=null)
+				{
+					screen_effect.update(delta, real_delta);
+				}
 				
 				/*batch_static.setShader(Main.shader_lightmap);
 				
@@ -1848,6 +1858,35 @@ public class GScreen implements Screen {
 				
 				
 		//terrain_fbo.end();
+				
+				if (!movie_buffer.isEmpty())
+				{
+					//Helper.log("!!!");
+					batch_static.draw(movie_buffer.get(0), 0, 0, movie_frame_x*640, movie_frame_y*360, 640, 360);
+					
+					movie_frame_time-=real_delta;
+					if (movie_frame_time<=0)
+					{	movie_frame_time=0.033f;
+						
+						movie_frame_x++;
+						
+						movie_buffer.add(new Texture(Gdx.files.internal("data/movies/intro/1.jpg")));
+						
+						if (movie_frame_x>4)
+						{
+							movie_frame_y++;
+							movie_frame_x=0;
+							if (movie_frame_y>5)
+							{
+								movie_frame_y=0;
+								movie_frame_x=0;
+								
+								
+								//movie_buffer.clear();
+							}
+						}
+					}
+				}
 		batch_static.end();
 		
 		
@@ -2369,7 +2408,7 @@ public class GScreen implements Screen {
 		Main.shapeRenderer.begin(ShapeType.Filled);
 			//Main.shapeRenderer.setColor(0.5f, 1, 0.6f, 0.5f);
 		
-		Main.shapeRenderer.rect(pl.pos.x-camera.zoom/2f, pl.pos.y-camera.zoom/2f, camera.zoom,camera.zoom);
+		//Main.shapeRenderer.rect(pl.pos.x-camera.zoom/2f, pl.pos.y-camera.zoom/2f, camera.zoom,camera.zoom);
 		Main.shapeRenderer.end();
 		Main.shapeRenderer.setColor(0.9f, 1, 0.95f, 1.0f);
 		
@@ -2390,11 +2429,10 @@ public class GScreen implements Screen {
 			Main.font.draw(batch_static, "WARM: "+pl.armored_shield.warm, 17, 170);
 			Main.font.draw(batch_static, "dx: "+InputHandler.dx, 17, 240);
 			
-			float warm_indicate=pl.armored_shield.warm/5f*Assets.panel.getWidth();
+			float warm_indicate=pl.armored_shield.warm/5f*Assets.panel.getWidth()*0.9f;
 			
-			batch_static.draw(Assets.panel, 400, 77);
-			batch_static.setColor(Color.CYAN);
-			batch_static.draw(Assets.rect_white, 405, 72, warm_indicate,30);
+			batch_static.draw(Assets.panel, scr_w/2f-200, 77);
+
 			
 			
 			for (int i=0; i<=(int)(50*pl.armored_shield.value/pl.armored_shield.total_value); i++)
@@ -2413,8 +2451,11 @@ public class GScreen implements Screen {
 				else
 				{ batch_static.setColor(Color.WHITE);}
 				
-				batch_static.draw(Assets.diod, 400+7f*i+15, 77+3);
+				batch_static.draw(Assets.diod, scr_w/2f-200+7f*i+15, 77+3);
 			}
+			
+			batch_static.setColor(0.2f,0.4f,0.8f,0.75f);
+			batch_static.draw(Assets.rect_white, scr_w/2f-200+15, 72+15, warm_indicate,30);
 			
 		
 		batch_static.setColor(Color.WHITE);
@@ -2425,12 +2466,7 @@ public class GScreen implements Screen {
 		draw_shaded_text("FPS: "+fps, 5, 40, Color.GREEN,100);
 		
 		
-		Main.font_big.setColor(Color.BLACK);
-		Main.font_big.draw(batch_static, "Eiee?anoai i?ioeaieeia: "+enemy_count, 16, scr_h-50);
-		
-		Main.font_big.setColor(Color.WHITE);
-		Main.font_big.draw(batch_static, "Eiee?anoai i?ioeaieeia: "+enemy_count, 17, scr_h-49);
-		
+		draw_shaded_text ("ENEMY COUNT: "+enemy_count,10,scr_h-20,Color.WHITE,200);
 		
 		if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT))
 		{
@@ -2477,7 +2513,7 @@ public class GScreen implements Screen {
 			int pos=0;
 			
 			
-			
+			batch_static.setColor(Color.WHITE);
 			if ((pl.equals(pl_mech)))
 			{
 				
@@ -2489,7 +2525,7 @@ public class GScreen implements Screen {
 						pl.Skills_list.get(i).time_action(delta);
 						
 						if (pl.Skills_list.get(i).need_to_indicate)
-		    			{pl.Skills_list.get(i).indicate(425+pos,100,real_delta);
+		    			{pl.Skills_list.get(i).indicate(scr_w/2f-150f+pos,150,real_delta);
 		    			pos+=55;}
 					}
 				}
@@ -2500,13 +2536,13 @@ public class GScreen implements Screen {
 				{
 					if (pl.armored_module[i]!=null)
 					{
-						pl.armored_module[i].indicate(scr_w/2+pos, 50, real_delta);
+						pl.armored_module[i].indicate(scr_w/2f+pos, 50, real_delta);
 						pos+=61.2f/*=*/;
 					}
 					else
 					{
 						batch_static.setColor(1, 1, 1, 0.5f);
-						batch_static.draw(Assets.indicate_null, scr_w/2+pos-22, 50-22);
+						batch_static.draw(Assets.indicate_null, scr_w/2f+pos-22, 50-22);
 						batch_static.setColor(Color.WHITE);
 						pos+=61.2f/*=*/;
 					}

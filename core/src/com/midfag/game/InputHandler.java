@@ -116,6 +116,13 @@ public class InputHandler implements InputProcessor {
     		if (GScreen.WD_active>=GScreen.WD.size()) {GScreen.WD_active=0;}
     	}
     	
+    	
+    	if (key==Keys.NUM_0)
+    	{
+    		for (int i=0; i<1; i++)
+    		{GScreen.movie_buffer.add(new Texture(Gdx.files.internal("data/movies/intro/1.jpg")));}
+    		
+    	}
     	/*if (key==Keys.Q)
     	{
     		

@@ -31,7 +31,7 @@ public class ModuleUnit {
 	
 	public Texture tex=Assets.load("icon_firle");
 	public Texture indicate_tex=Assets.load("icon_firle");
-	public Texture lock_tex=Assets.load("icon_firle");
+	public Texture lock_tex=Assets.load("icon_lock");
 	public Texture model;
 	public Rarity rarity;
 	public float level=1.0f;
