@@ -87,6 +87,7 @@ public class GUIEdit extends GUI {
 		GScreen.Button_list.remove(color_r_watcher);
 		GScreen.Button_list.remove(color_g_watcher);
 		GScreen.Button_list.remove(color_b_watcher);
+		GScreen.Button_list.remove(color_power_watcher);
 		
 		color_r_watcher=null;
 		color_g_watcher=null;
@@ -115,14 +116,14 @@ public class GUIEdit extends GUI {
 			InputHandler.key_release=false;
 			
 			//selected_object.standart_slider();
-			color_r_watcher=new ButtonSlider(100,100,0f,1f,0.005f);
-			color_g_watcher=new ButtonSlider(100,150,0f,1f,0.005f);
-			color_b_watcher=new ButtonSlider(100,200,0f,1f,0.005f);
-			color_power_watcher=new ButtonSlider(100,250,0f,10f,0.005f);
+			color_r_watcher=new ButtonSlider(100,200,0f,1f,0.0005f);
+			color_g_watcher=new ButtonSlider(100,150,0f,1f,0.0005f);
+			color_b_watcher=new ButtonSlider(100,100,0f,1f,0.0005f);
+			color_power_watcher=new ButtonSlider(100,250,0f,100f,0.005f);
 			
-			color_r_watcher.col.set(1f,0.8f,0.8f,1f);
-			color_g_watcher.col.set(0.8f,1.0f,0.8f,1f);
-			color_b_watcher.col.set(0.8f,0.8f,1.0f,1f);
+			color_r_watcher.col.set(1f,0.5f,0.5f,1f);
+			color_g_watcher.col.set(0.5f,1.0f,0.5f,1f);
+			color_b_watcher.col.set(0.5f,0.5f,1.0f,1f);
 			color_power_watcher.col.set(1.0f,1.0f,1.0f,1f);
 			
 			color_r_watcher.value=selected_object.light_source.R;

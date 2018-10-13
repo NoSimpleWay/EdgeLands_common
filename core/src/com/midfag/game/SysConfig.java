@@ -174,6 +174,7 @@ public class SysConfig {
 		EntityRegisterer.add(new EntitySmiler(null));
 		EntityRegisterer.add(new EntityRaiderTank(null));
 		EntityRegisterer.add(new EntityMine(null));
+		
 		for (int i=0; i<EntityRegisterer.size(); i++)
 		{
 			for (int j=i+1; j<EntityRegisterer.size(); j++)
