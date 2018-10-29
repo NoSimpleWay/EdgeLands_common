@@ -281,16 +281,13 @@ public class ButtonEquip extends Button {
 					
 					if ((inventory_id==-2)&&(GScreen.pl.inventory[99] instanceof Weapon))
 					{
-						if (GScreen.pl.armored[1]!=null)
-						{
-							GScreen.pl.armored[1].unequip();
-						}	
-							Object swap=(Weapon)GScreen.pl.armored[1];
-							GScreen.pl.armored[1]=(Weapon)GScreen.pl.inventory[99];
-							GScreen.pl.inventory[99]=swap;
-							
-							GScreen.pl.armored[1].equip();
+						GScreen.pl.armored[1].unequip();
 						
+						Object swap=(Weapon)GScreen.pl.armored[1];
+						GScreen.pl.armored[1]=(Weapon)GScreen.pl.inventory[99];
+						GScreen.pl.inventory[99]=swap;
+						
+						GScreen.pl.armored[1].equip();
 					}
 					
 					if ((inventory_id==-5)&&(GScreen.pl.inventory[99] instanceof Energoshield))
