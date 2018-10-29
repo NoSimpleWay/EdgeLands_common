@@ -375,6 +375,8 @@ public class Helper {
 		for (int i=0; i<100; i++)
 		for (int j=0; j<100; j++)
 		{
+			System.out.println("ZBS: "+ss[i]);
+			
 			String sub_s=ss[i].substring(j*2, j*2+2);
 			
 			//if ((i==0)&(j==0)){System.out.println("TWO LETTER="+sub_s);}
