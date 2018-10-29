@@ -15,7 +15,7 @@ public class LegendaryEnergoshieldCup extends Energoshield {
 	{
 		base_value=470;
 		base_regen_speed=50;
-		base_reflect=3f;
+		base_reflect=7f;
 		
 		name="зрјр";
 		uid="shlegcup";

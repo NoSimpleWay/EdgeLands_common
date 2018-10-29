@@ -1217,7 +1217,7 @@ public class GScreen implements Screen {
 			    				batch_illum.draw(lightmap_texture, 0-1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 			    				
 
-			    				if (k % 2 == 0)
+			    				if (k % 3 == 0)
 			    				{
 			    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size+1f, 300*light_map_size, -300*light_map_size);
 			    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size-1f, 300*light_map_size, -300*light_map_size);
@@ -1268,7 +1268,7 @@ public class GScreen implements Screen {
     	    				batch_illum.draw(rect_white, 0, 0, 300, 300);
     	    				}
     	    				
-    	    				if (i % 2 == 0)
+    	    				if (i % 3 == 0)
     	    				{batch_illum.setColor(0.2f,0.2f,0.2f,1f);}
     	    				else
     	    				{batch_illum.setColor(0.33f,0.33f,0.33f,1f);}
@@ -1293,7 +1293,7 @@ public class GScreen implements Screen {
 		    				batch_illum.draw(lightmap_texture, 0+1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				batch_illum.draw(lightmap_texture, 0-1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				
-		    				if (i % 2 == 0)
+		    				if (i % 3 == 0)
 		    				{
 		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size+1f, 300*light_map_size, -300*light_map_size);
 		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size-1f, 300*light_map_size, -300*light_map_size);
