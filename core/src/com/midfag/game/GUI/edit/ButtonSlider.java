@@ -1,7 +1,6 @@
 package com.midfag.game.GUI.edit;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -106,16 +105,7 @@ public class ButtonSlider extends Button {
 			if (anim<0) {anim=4;}
 			if (anim>4) {anim=0;}
 			
-			if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))
-			{value+=InputHandler.dx*step*10f;}
-			else
-			if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT))
-			{value+=InputHandler.dx*step/10f;}
-			else
-			{value+=InputHandler.dx*step;}
-			
-			
-			
+			value+=InputHandler.dx*step;
 			
 			if (value>max) {value=max;}
 			if (value<min) {value=min;}

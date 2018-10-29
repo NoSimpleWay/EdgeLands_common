@@ -71,7 +71,7 @@ public class GScreen implements Screen {
 	public static List<ButtonLayout> layouts = new ArrayList<ButtonLayout>();//_______________________nienie oece?aneeo eeiee
 	public static List<WorldDebug> WD = new ArrayList<WorldDebug>();//_______________________nienie oece?aneeo eeiee
 	
-    public static float lightmap_spread_power = 0.0025f;
+    public static float lightmap_spread_power = 0.35f;
 
 	public static final int path_cell = 30;
     
@@ -204,7 +204,7 @@ public class GScreen implements Screen {
     
     public static boolean main_control=true;
     
-    public static float zoom=100;
+    public static float zoom=1;
     public static float need_zoom=1;
     
     public static float curx=1;
@@ -242,7 +242,7 @@ public class GScreen implements Screen {
 	public static float sho;
 
 
-	public static boolean camera_auto_zoom=true;
+	public static boolean camera_auto_zoom=false;
 
 	public static float wave_time;
 
@@ -282,14 +282,14 @@ public class GScreen implements Screen {
 
 	public static boolean need_static_light_update=true;
 
-	public static int lightmap_blur_pass=16;
-	public static int lightmap_spread_pass=16;
+	public static int lightmap_blur_pass=8;
+	public static int lightmap_spread_pass=8;
 
 	public static boolean chunk_info;
 
 	public static boolean time_freeze=false;
 	public static float enemy_see_player_timer;
-	public static float blur_opacity=0.2f;
+	public static float blur_opacity=0.35f;
 	
 	public class MySpriteComparator implements Comparator<Entity> {
 		@Override
@@ -814,7 +814,7 @@ public class GScreen implements Screen {
 		camera.setToOrtho(false, 1000, 700);
 		camera.position.set(new Vector3(4500,4500,0));
 		
-		camera.zoom=1f;
+		//camera.zoom=0.001f;
 		
 		skills_camera = new OrthographicCamera();
 		skills_camera.setToOrtho(false, 1000/1, 700/1);
@@ -849,7 +849,7 @@ public class GScreen implements Screen {
 
         }
 
-		camera.zoom=2000.0f;
+		camera.zoom=5000.0f;
 		
 
 		
@@ -1182,12 +1182,11 @@ public class GScreen implements Screen {
 			        		{
 			        			batch_illum.setColor(e.light_source.R,e.light_source.G,e.light_source.B,1f);
 			        			float po=e.light_source.light_power;
-			        			batch_illum.draw(rect_white, (int)(e.pos.x/30f-(po-1f)/2f)*light_map_size, (int)(e.pos.y/30f-(po-1f)/4f)*light_map_size,po*light_map_size, po*light_map_size/2f); 
+			        			batch_illum.draw(rect_white, (int)(e.pos.x/30f-(po-1f)/2f)*light_map_size, (int)(e.pos.y/30f-(po-1f)/2f)*light_map_size,po*light_map_size, po*light_map_size); 
 			        		}
 			        		
 			        		batch_illum.setColor(1,1,1,1f);
 			        		
-			        	
 			        		batch_illum.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ZERO);
 			        		batch_illum.draw(shadow_texture, 0, 300*light_map_size,300*light_map_size, -300*light_map_size); 
 			        	}
@@ -1216,20 +1215,24 @@ public class GScreen implements Screen {
 			    				batch_illum.draw(lightmap_texture, 0+1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 			    				batch_illum.draw(lightmap_texture, 0-1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 			    				
+<<<<<<< HEAD
 
 			    				if (k % 3 == 0)
 			    				{
 			    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size+1f, 300*light_map_size, -300*light_map_size);
 			    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size-1f, 300*light_map_size, -300*light_map_size);
 			    				}
+=======
+			    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size+0.5f, 300*light_map_size, -300*light_map_size);
+			    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size-0.5f, 300*light_map_size, -300*light_map_size);
+		    				
+>>>>>>> parent of a35c926... Light improvisation
 			    				batch_illum.setColor(1,1,1,1f);
 				        		
-			    				//if (k+1<lightmap_spread_pass*light_map_size)
-				        		{batch_illum.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ZERO);
-				        		batch_illum.draw(shadow_texture, 0, 300*light_map_size,300*light_map_size, -300*light_map_size); }
-				        		
-			    				/*batch_illum.setColor(0.0f,1.0f,0.0f,1f);
-					    		batch_illum.draw(rect_white,250,250,50,50);*/
+				        		batch_illum.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ZERO);
+				        		batch_illum.draw(shadow_texture, 0, 300*light_map_size,300*light_map_size, -300*light_map_size); 
+				        		batch_illum.setColor(0.0f,1.0f,0.0f,1f);
+					    		batch_illum.draw(rect_white,250,250,50,50);
 					    		
 			    			batch_illum.end();
 			    		lightmap_fbo.end();
@@ -1262,6 +1265,7 @@ public class GScreen implements Screen {
     		    		lightmap_fbo.begin();
     	    			batch_illum.begin();
 
+<<<<<<< HEAD
     	    				
     	    				{batch_illum.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
     	    				batch_illum.setColor(Color.BLACK);
@@ -1274,47 +1278,33 @@ public class GScreen implements Screen {
     	    				{batch_illum.setColor(0.33f,0.33f,0.33f,1f);}
     	    				
     	    				
+=======
+    	    				batch_illum.setColor(1f,1f,1f,blur_opacity);
+>>>>>>> parent of a35c926... Light improvisation
     	    				batch_illum.enableBlending();
     	    				
-	    					batch_illum.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
+	    					batch_illum.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		    				
-		    				if (i+1==lightmap_blur_pass)
-		    				{
-		    					 Gdx.gl.glBlendEquation(GL30.GL_MAX);
-		    					 batch_illum.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		    						{batch_illum.setColor(1f,1f,1f,1f);}
-			        		}
-		    				else
-		    				{
-		    					
-		    				}
-	    					
-	    					batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				batch_illum.draw(lightmap_texture, 0+1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				batch_illum.draw(lightmap_texture, 0-1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				
+<<<<<<< HEAD
 		    				if (i % 3 == 0)
 		    				{
 		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size+1f, 300*light_map_size, -300*light_map_size);
 		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size-1f, 300*light_map_size, -300*light_map_size);
 		    				}
+=======
+		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size+1.0f, 300*light_map_size, -300*light_map_size);
+		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size-0.7f, 300*light_map_size, -300*light_map_size);
+>>>>>>> parent of a35c926... Light improvisation
 		    				
 		    				//batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				
-		    				batch_illum.setColor(blur_opacity,blur_opacity,blur_opacity,1f);
-		    				batch_illum.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
-		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);
+		    				batch_illum.setColor(1,1,1,1f);
 		    				
-		    				/*batch_illum.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
-    	    				batch_illum.setColor(0.1f,0.1f,0.1f,1f);
-		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);*/
-		    				
-		    				if (i+1<lightmap_blur_pass)
-		    				{
-		    				batch_illum.setColor(Color.WHITE);
 			        		batch_illum.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ZERO);
-			        		batch_illum.draw(shadow_texture, 0, 300,300, -300);
-			        		}
+			        		batch_illum.draw(shadow_texture, 0, 300,300, -300); 
 			        		
 			        	batch_illum.end();
 			        	lightmap_fbo.end();
@@ -1332,8 +1322,6 @@ public class GScreen implements Screen {
 			        	
 			        	
     				}
-    				
-    				Gdx.gl.glBlendEquation(GL20.GL_FUNC_ADD);
     				
     				lightmap_fbo.begin();
 	    			batch_illum.begin();
@@ -1479,15 +1467,9 @@ public class GScreen implements Screen {
 			batch.setColor(Color.WHITE);
 		
 			//Helper.log("COLOR "+Color.WHITE.toFloatBits());
-			//batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 			batch.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ZERO);
-			{batch.draw(lightmap_texture,0,9000,9000,-9000);}
-			
-			//batch.setColor(Color.DARK_GRAY);
-			//batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
-			//{batch.draw(lightmap_texture,0,9000,9000,-9000);}
 			//for (int i=0; i<25; i++)
-				
+				{batch.draw(lightmap_texture,0,9000,9000,-9000);}
 				//{batch.draw(shadow_texture,0,9000,9000,-9000);}
 		
 			batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
