@@ -44,8 +44,8 @@ public class DecorSteelBox extends DecorStoneWall {
 		collision_size_x=10;
 		collision_size_y=10;
 		
-		path_x=0;
-		path_y=0;
+		path_x=-1;
+		path_y=-1;
 		/*
 		constant_move_x=100;
 		constant_move_y=0;

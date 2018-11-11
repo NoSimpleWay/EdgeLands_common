@@ -37,10 +37,10 @@ public class SystemLightRandom extends Entity {
 		armored_shield.total_regen_speed=999;
 		
 		light_source=new LightSource();
-		light_source.R=(float) (Math.random()*Math.random()*Math.random());
-		light_source.G=(float) (Math.random()*Math.random()*Math.random());
-		light_source.B=(float) (Math.random()*Math.random()*Math.random());
-		light_source.light_power=1;
+		light_source.R=1-(float) (Math.random()*Math.random());
+		light_source.G=1-(float) (Math.random()*Math.random());
+		light_source.B=1-(float) (Math.random()*Math.random());
+		light_source.light_power=1.5f;
 		
 		
 		

@@ -27,7 +27,7 @@ public class SkillShield_AA_ValueHalfDamage extends Skill {
 	@Override
 	public float damage_action(Object _o, float _damage)
 	{
-		if (_o instanceof Entity){if (((Entity)_o).armored_shield.value/((Entity)_o).armored_shield.total_value>=0.85f){return _damage/2;}}
+		if (_o instanceof Entity){if (((Entity)_o).armored_shield.value/((Entity)_o).armored_shield.total_value>=0.85f){return _damage/2f;}}
 		return _damage;
 	}
 }

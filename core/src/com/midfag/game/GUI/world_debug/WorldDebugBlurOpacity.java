@@ -21,10 +21,27 @@ public class WorldDebugBlurOpacity extends WorldDebug  {
 				(!Gdx.input.isKeyPressed(Keys.DOWN))
 				&&
 				(!Gdx.input.isKeyPressed(Keys.UP))
+				&&
+				(!Gdx.input.isKeyPressed(Keys.LEFT))
+				&&
+				(!Gdx.input.isKeyPressed(Keys.RIGHT))
 			)
 			{release=true;}
 		
 		if (Gdx.input.isKeyPressed(Keys.DOWN)&(release))
+		{
+			GScreen.blur_opacity-=0.01;
+			GScreen.blur_opacity=Math.max(0, GScreen.blur_opacity);
+			
+			release=false;
+			
+			GScreen.need_light_update=true;
+			GScreen.need_static_light_update=true;
+			GScreen.need_pixmap_update=true;
+			GScreen.need_shadow_update=true;
+		}
+		
+		if (Gdx.input.isKeyPressed(Keys.LEFT)&(release))
 		{
 			GScreen.blur_opacity-=0.05;
 			GScreen.blur_opacity=Math.max(0, GScreen.blur_opacity);
@@ -38,6 +55,19 @@ public class WorldDebugBlurOpacity extends WorldDebug  {
 		}
 		
 		if (Gdx.input.isKeyPressed(Keys.UP)&(release))
+		{
+			GScreen.blur_opacity+=0.01f;
+			GScreen.blur_opacity=Math.min(1, GScreen.blur_opacity);
+			
+			release=false;
+			
+			GScreen.need_light_update=true;
+			GScreen.need_static_light_update=true;
+			GScreen.need_pixmap_update=true;
+			GScreen.need_shadow_update=true;
+		}
+		
+		if (Gdx.input.isKeyPressed(Keys.RIGHT)&(release))
 		{
 			GScreen.blur_opacity+=0.05f;
 			GScreen.blur_opacity=Math.min(1, GScreen.blur_opacity);

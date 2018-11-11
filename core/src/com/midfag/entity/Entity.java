@@ -45,8 +45,8 @@ public class Entity {
 	public int update_calls=0;
 	public String[] update_data=new String[10];
 	
-	public int cx;
-	public int cy;
+	public int cluster_pos_x;
+	public int cluster_pos_y;
 	public int ncx;
 	public int ncy;
 	
@@ -493,8 +493,8 @@ public class Entity {
 		
 
 		//Helper.log("CALLER IS "+_caller);
-		cx=(int)(pos.x/300f);
-		cy=(int)(pos.y/300f);
+		cluster_pos_x=(int)(pos.x/GScreen.cluster_size);
+		cluster_pos_y=(int)(pos.y/GScreen.cluster_size);
 		
 		int pcx=(int)(pos.x/30f);
 		int pcy=(int)(pos.y/30f);
@@ -534,18 +534,18 @@ public class Entity {
 				if (pos.y<100){pos.y=100;}
 				//spr.setColor((float)Math.random()*0.2f+0.8f,(float)Math.random()*0.2f+0.8f, (float)Math.random()*0.2f+0.8f, 1.0f);
 				
-				ncx=(int)(pos.x/300f);
-				ncy=(int)(pos.y/300f);
+				ncx=(int)(pos.x/GScreen.cluster_size);
+				ncy=(int)(pos.y/GScreen.cluster_size);
 				
 				int npcx=(int)(pos.x/30f);
 				int npcy=(int)(pos.y/30f);
 				
-				if ((cx!=ncx)||(cy!=ncy))
+				if ((cluster_pos_x!=ncx)||(cluster_pos_y!=ncy))
 				{
-						Helper.log("PRE CHANGE CLUSTER cx="+cx+" cy="+cy+" ncx="+ncx+" ncy="+ncy);
+						Helper.log("PRE CHANGE CLUSTER cx="+cluster_pos_x+"("+pos.x+") cy="+cluster_pos_y+"("+pos.y+") ncx="+ncx+" ncy="+ncy);
 						need_change_cluster=true;
 						
-						GScreen.cluster[cx][cy].Entity_list.remove(this);
+						GScreen.cluster[cluster_pos_x][cluster_pos_y].Entity_list.remove(this);
 						GScreen.cluster[ncx][ncy].Entity_list.add(this);
 				}
 				
@@ -584,8 +584,8 @@ public class Entity {
 					    if (path_x>=0)
 					    {
 					    	Helper.log("UPDATE POSITION!");
-					    	int cluster_x=(int)(pos.x/300f);
-						    int cluster_y=(int)(pos.y/300f);
+					    	int cluster_x=(int)(pos.x/GScreen.cluster_size);
+						    int cluster_y=(int)(pos.y/GScreen.cluster_size);
 						    
 						    int psx=(int)(pos.x/30.0f);
 						    int psy=(int)(pos.y/30.0f);
@@ -649,11 +649,11 @@ public class Entity {
 	
 	public void reposition(float _x, float _y)
 	{
-		int tcx=(int)(pos.x/300f);
-		int tcy=(int)(pos.y/300f);
+		int tcx=(int)(pos.x/GScreen.cluster_size);
+		int tcy=(int)(pos.y/GScreen.cluster_size);
 		
-		int tncx=(int)(_x/300f);
-		int tncy=(int)(_y/300f);
+		int tncx=(int)(_x/GScreen.cluster_size);
+		int tncy=(int)(_y/GScreen.cluster_size);
 		
 		if ((tcx!=tncx)||(tcy!=tncy))
 		{
@@ -678,8 +678,8 @@ public class Entity {
 			
 		    //if (path_x>=0)
 		    //{
-		    	int cluster_x=(int)(_x/300f);
-			    int cluster_y=(int)(_y/300f);
+		    	int cluster_x=(int)(_x/GScreen.cluster_size);
+			    int cluster_y=(int)(_y/GScreen.cluster_size);
 			    
 			   
 				
@@ -724,11 +724,11 @@ public class Entity {
 	
 	public void change_cluster()
 	{
-		GScreen.cluster[cx][cy].Entity_list.remove(this);
+		GScreen.cluster[cluster_pos_x][cluster_pos_y].Entity_list.remove(this);
 		GScreen.cluster[ncx][ncy].Entity_list.add(this);
 		
 		need_change_cluster=false;
-		Helper.log("CLUSTER CHANGED! "+cx+" "+cy+"| "+ncx+" "+ncy);
+		Helper.log("CLUSTER CHANGED! "+cluster_pos_x+" "+cluster_pos_y+"| "+ncx+" "+ncy);
 	}
 	
 	public void standart_slider()
@@ -1240,6 +1240,13 @@ public class Entity {
 
 	public void add_impulse(float _x, float _y, float _d) {
 		// TODO Auto-generated method stub
+		
+		if ((impulse.x>0)&(_x<0)) {impulse.x*=0.95f;}
+		if ((impulse.x<0)&(_x>0)) {impulse.x*=0.95f;}
+		
+		if ((impulse.y>0)&(_y<0)) {impulse.x*=0.95f;}
+		if ((impulse.y<0)&(_y>0)) {impulse.x*=0.95f;}
+		
 		impulse.x+=_x*_d;//\
 		impulse.y+=_y*_d;
 	}

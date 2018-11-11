@@ -16,7 +16,7 @@ public class WeaponRobofirle extends Weapon {
 			base_dispersion_additional=0.0f;
 			base_ammo_size=15;
 			base_reload_time=3.0f;
-			missile_speed=1200;
+			missile_speed=2350;
 			fire_multiplier=base_shoot_cooldown/base_missile_count;
 			
 			/*generate();

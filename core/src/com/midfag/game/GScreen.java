@@ -71,8 +71,9 @@ public class GScreen implements Screen {
 	public static List<ButtonLayout> layouts = new ArrayList<ButtonLayout>();//_______________________nienie oece?aneeo eeiee
 	public static List<WorldDebug> WD = new ArrayList<WorldDebug>();//_______________________nienie oece?aneeo eeiee
 	
-    public static float lightmap_spread_power = 0.0025f;
+    public static float lightmap_spread_power = 0.117f;
 
+    public static final float cluster_size = 600f;
 	public static final int path_cell = 30;
     
     public static float white=Color.WHITE.toFloatBits();
@@ -282,14 +283,14 @@ public class GScreen implements Screen {
 
 	public static boolean need_static_light_update=true;
 
-	public static int lightmap_blur_pass=16;
-	public static int lightmap_spread_pass=16;
+	public static int lightmap_blur_pass=32;
+	public static int lightmap_spread_pass=8;
 
 	public static boolean chunk_info;
 
 	public static boolean time_freeze=false;
 	public static float enemy_see_player_timer;
-	public static float blur_opacity=0.2f;
+	public static float blur_opacity=0.025f;
 	
 	public class MySpriteComparator implements Comparator<Entity> {
 		@Override
@@ -306,11 +307,11 @@ public class GScreen implements Screen {
 	{
 		
 		Entity ne=null;
-		int x_min=Math.min((int)(_x1/300)-1, (int)(_x2/300)-1);
-    	int x_max=Math.max((int)(_x1/300)+1, (int)(_x2/300)+1);
+		int x_min=Math.min((int)(_x1/cluster_size)-1, (int)(_x2/cluster_size)-1);
+    	int x_max=Math.max((int)(_x1/cluster_size)+1, (int)(_x2/cluster_size)+1);
     	
-    	int y_min=Math.min((int)(_y1/300)-1, (int)(_y2/300)-1);
-    	int y_max=Math.max((int)(_y1/300)+1, (int)(_y2/300)+1);
+    	int y_min=Math.min((int)(_y1/cluster_size)-1, (int)(_y2/cluster_size)-1);
+    	int y_max=Math.max((int)(_y1/cluster_size)+1, (int)(_y2/cluster_size)+1);
     	
     	x_min=Math.max(0, x_min);
     	y_min=Math.max(0, y_min);
@@ -468,8 +469,8 @@ public class GScreen implements Screen {
 		//List<Entity> l=new ArrayList<Entity>();
 		temp_entity_list.clear();
 		
-		int temp_cluster_x=(int)(_v.x/300f);
-		int temp_cluster_y=(int)(_v.y/300f);
+		int temp_cluster_x=(int)(_v.x/cluster_size);
+		int temp_cluster_y=(int)(_v.y/cluster_size);
 	        
 	  
 	    for (int x=temp_cluster_x-2; x<=temp_cluster_x+2; x++)
@@ -524,8 +525,8 @@ public class GScreen implements Screen {
     
     public static Entity add_entity_to_map(Entity _e)
     {
-    	int x=(int)(_e.pos.x/300f);
-    	int y=(int)(_e.pos.y/300f);
+    	int x=(int)(_e.pos.x/cluster_size);
+    	int y=(int)(_e.pos.y/cluster_size);
     
     	//System.out.println("Object="+_e);
     	
@@ -549,11 +550,11 @@ public class GScreen implements Screen {
     	float near_dist=9999;
     	near_object=null;
     	
-    	int x_min=Math.min((int)(_x/300)-1, (int)(_x2/300)-1);
-    	int x_max=Math.max((int)(_x/300)+1, (int)(_x2/300)+1);
+    	int x_min=Math.min((int)(_x/cluster_size)-1, (int)(_x2/cluster_size)-1);
+    	int x_max=Math.max((int)(_x/cluster_size)+1, (int)(_x2/cluster_size)+1);
     	
-    	int y_min=Math.min((int)(_y/300)-1, (int)(_y2/300)-1);
-    	int y_max=Math.max((int)(_y/300)+1, (int)(_y2/300)+1);
+    	int y_min=Math.min((int)(_y/cluster_size)-1, (int)(_y2/cluster_size)-1);
+    	int y_max=Math.max((int)(_y/cluster_size)+1, (int)(_y2/cluster_size)+1);
     	
     	x_min=Math.max(0, x_min);
     	y_min=Math.max(0, y_min);
@@ -1067,7 +1068,7 @@ public class GScreen implements Screen {
     	else
     	{draw_distance=Math.round(camera.zoom*(scr_w/30));}
     	
-    	cluster_draw_distance=Math.round(camera.zoom*(scr_w/500f));
+    	cluster_draw_distance=Math.round(camera.zoom*(scr_w/(cluster_size*1.4f)));
     	if (cluster_draw_distance>12) {cluster_draw_distance=12;}
     	
     	if (Gdx.input.isKeyPressed(Keys.K)) draw_distance=5; //{iter=10;}
@@ -1092,18 +1093,18 @@ public class GScreen implements Screen {
     	/*======================================*/
     	
 		
-		 cluster_x=(int)(camera.position.x/300f);
-	     cluster_y=(int)(camera.position.y/300f);
+		 cluster_x=(int)(camera.position.x/cluster_size);
+	     cluster_y=(int)(camera.position.y/cluster_size);
 	     
 	    	
     	
 	    if (need_dynamic_light_update)
 	    {
-	    	int cbound_x_left=(int) (cluster_x/300f-cluster_draw_distance); if (cbound_x_left<0) {cbound_x_left=0;}
-	    	int cbound_x_right=(int) (cluster_x/300f+cluster_draw_distance); if (cbound_x_right>29) {cbound_x_right=29;}
+	    	int cbound_x_left=(int) (cluster_x/cluster_size-cluster_draw_distance); if (cbound_x_left<0) {cbound_x_left=0;}
+	    	int cbound_x_right=(int) (cluster_x/cluster_size+cluster_draw_distance); if (cbound_x_right>29) {cbound_x_right=29;}
 	    	
-	    	int cbound_y_down=(int)(cluster_y/300f-cluster_draw_distance); if (cbound_y_down<0) {cbound_y_down=0;}
-	    	int cbound_y_up=(int)(cluster_y/300f+cluster_draw_distance); if (cbound_y_up>29) {cbound_y_up=29;}
+	    	int cbound_y_down=(int)(cluster_y/cluster_size-cluster_draw_distance); if (cbound_y_down<0) {cbound_y_down=0;}
+	    	int cbound_y_up=(int)(cluster_y/cluster_size+cluster_draw_distance); if (cbound_y_up>29) {cbound_y_up=29;}
 	    	
 			for (int x=cbound_x_left; x<=cbound_x_right; x++)
 			for (int y=cbound_y_down; y<=cbound_y_up; y++)
@@ -1566,16 +1567,15 @@ public class GScreen implements Screen {
 	          	if ((x>=0)&&(y>=0)&&(x<30)&&(y<30))
 	          	{
 	          		Main.font_big.setColor(Color.ORANGE);
-	          		Main.font_big.draw(batch, ""+x+" "+y, x*300+17, y*300+17);
+	          		Main.font_big.draw(batch, ""+x+" "+y, x*cluster_size+17, y*cluster_size+17);
 		            for (int i=0; i<cluster[x][y].Entity_list.size();i++)
 		            {
 		            	Entity e=cluster[x][y].Entity_list.get(i);
 		            	
 		            	Main.font.setColor(Color.WHITE);
 		            	{
-		            		Main.font.draw(batch, e.id.replace("com.midfag.entity", "")+" === "+e.cx+" "+e.cy, x*300, y*300+i*17+30);
-		            		
-		            		
+		            		Main.font.draw(batch, e.id.replace("com.midfag.entity", "")+" === "+e.cluster_pos_x+" "+e.cluster_pos_y, x*cluster_size, y*cluster_size+i*17+30);
+
 		            	}
 		            }
 	          	}
@@ -1969,7 +1969,7 @@ public class GScreen implements Screen {
 				for (int i=0; i<30; i++)
 				for (int j=0; j<30; j++)
 				{		
-					sr.rect(0, 0, j*30*10,i*30*10);
+					sr.rect(cluster_size*j, cluster_size*i, cluster_size,cluster_size);
 				}
 				
 				int px=(int)(camera.position.x/30f);
@@ -1984,11 +1984,11 @@ public class GScreen implements Screen {
 				
 				sr.setColor(Color.GREEN);
 				
-				int x_min=Math.min((int)(pl.pos.x/300)-1, (int)(InputHandler.posx/300)-1);
-		    	int x_max=Math.max((int)(pl.pos.x)+1, (int)(InputHandler.posx/300)+1);
+				int x_min=Math.min((int)(pl.pos.x/cluster_size)-1, (int)(InputHandler.posx/cluster_size)-1);
+		    	int x_max=Math.max((int)(pl.pos.x)+1, (int)(InputHandler.posx/cluster_size)+1);
 		    	
-		    	int y_min=Math.min((int)(pl.pos.y/300)-1, (int)(InputHandler.posy/300)-1);
-		    	int y_max=Math.max((int)(pl.pos.y/300)+1, (int)(InputHandler.posy/300)+1);
+		    	int y_min=Math.min((int)(pl.pos.y/cluster_size)-1, (int)(InputHandler.posy/cluster_size)-1);
+		    	int y_max=Math.max((int)(pl.pos.y/cluster_size)+1, (int)(InputHandler.posy/cluster_size)+1);
 		    	
 		    	x_min=Math.max(0, x_min);
 		    	y_min=Math.max(0, y_min);
@@ -2173,28 +2173,28 @@ public class GScreen implements Screen {
 		 		if ((i>0)&&(i<299)&&(j>0)&&(j<299))
 		 		{
 		 		
-
+		 			int current_path=main_path;
 		 					sr.setColor(0,1,0,0.1f);
 			 					
-			 					if (path[j][i][main_path]>0)
+			 					if (path[j][i][current_path]>0)
 			 		 			{
-			 						float path_cell_color=(1-path[j][i][main_path]/150f)*1.0f;
+			 						float path_cell_color=(1-path[j][i][current_path]/150f)*1.0f;
 			 						
-			 						if (path[j][i][main_path]<50) {sr.setColor(0,path_cell_color,0,0.5f);}
+			 						if (path[j][i][current_path]<50) {sr.setColor(0,path_cell_color,0,0.5f);}
 			 						else
-			 						if (path[j][i][main_path]<100) {sr.setColor(path_cell_color,path_cell_color,0,0.5f);}
+			 						if (path[j][i][current_path]<100) {sr.setColor(path_cell_color,path_cell_color,0,0.5f);}
 			 						else
 			 						{sr.setColor(path_cell_color,0,0,0.5f);}
 			 		 			}
 			 		 			
 			 					
-			 					if (path[j][i][main_path]==0)
+			 					if (path[j][i][current_path]==0)
 			 		 			{
 			 		 	 			sr.setColor(1,1,1,0.5f);
 			 		 			}
 			 		 			
 			 					
-			 					if (path[j][i][main_path]<0)
+			 					if (path[j][i][current_path]<0)
 			 					{
 			 						sr.setColor(1,0,0,0.25f);
 			 					}
@@ -2341,15 +2341,15 @@ public class GScreen implements Screen {
 
 				}
 
-				pcv_left+=20;
-				pcv_right+=20;
+				pcv_left+=40;
+				pcv_right+=40;
 				
 				if ((path_calculate_mode==0)&&(pcv_left>=70)){pcv_right=81;}
 				
 				if (pcv_left>=80)
 				{
 					pcv_left=-80;
-					pcv_right=-60;
+					pcv_right=-40;
 					
 					path_calculate_mode++;
 					if (path_calculate_mode==1)
@@ -2373,7 +2373,7 @@ public class GScreen implements Screen {
 						background_path=1;}
 						
 						pcv_left=-81;
-						pcv_right=-61;
+						pcv_right=-41;
 					}
 				}
 				

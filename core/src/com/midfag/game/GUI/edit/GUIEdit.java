@@ -8,7 +8,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.midfag.entity.Entity;
-
+import com.midfag.entity.LightSource;
 import com.midfag.game.Assets;
 import com.midfag.game.Cluster;
 import com.midfag.game.Enums.TextInputMode;
@@ -144,6 +144,18 @@ public class GUIEdit extends GUI {
 		{
 			indicate_entity=Helper.get_object_from_id(selected_object.id);
 			indicate_entity.z=selected_object.z;
+			
+			if (selected_object.light_source!=null)
+			{
+				Helper.log("LIGHT");
+				if (indicate_entity.light_source==null) {indicate_entity.light_source=new LightSource();}
+				
+				indicate_entity.light_source.R=selected_object.light_source.R;
+				indicate_entity.light_source.G=selected_object.light_source.G;
+				indicate_entity.light_source.B=selected_object.light_source.B;
+				
+				indicate_entity.light_source.light_power=selected_object.light_source.light_power;
+			}
 			
 			selected_object=null;
 			clear_sliders();
@@ -316,8 +328,20 @@ public class GUIEdit extends GUI {
 					Entity en=Helper.get_object_from_id(indicate_entity.id);
 					
 					
+					
 					if (en!=null)
 					{
+						
+						if (indicate_entity.light_source!=null)
+						{
+							en.light_source= new LightSource();
+						
+							en.light_source.R=indicate_entity.light_source.R;
+							en.light_source.G=indicate_entity.light_source.G;
+							en.light_source.B=indicate_entity.light_source.B;
+							
+							en.light_source.light_power=indicate_entity.light_source.light_power;
+						}
 						en.pos.x=xx+array_x*i;
 						en.pos.y=yy+array_y*i;
 						
@@ -500,8 +524,8 @@ public class GUIEdit extends GUI {
 				
 				indicate_entity=null;
 				
-				int cx=(int)(xx/300f);
-				int cy=(int)(yy/300f);
+				int cx=(int)(xx/GScreen.cluster_size);
+				int cy=(int)(yy/GScreen.cluster_size);
 				
 				GScreen.batch.begin();
 					
@@ -526,7 +550,7 @@ public class GUIEdit extends GUI {
 				{
 					
 					
-						GScreen.batch.draw(Assets.mech_foot,cx*300+150,cy*300+150);
+						GScreen.batch.draw(Assets.mech_foot,cx*GScreen.cluster_size+150,cy*GScreen.cluster_size+150);
 					
 					if ((j<30)&&(j>=0)&&(i<30)&&(i>=0))
 					for (int k=0; k<GScreen.cluster[i][j].Entity_list.size(); k++)

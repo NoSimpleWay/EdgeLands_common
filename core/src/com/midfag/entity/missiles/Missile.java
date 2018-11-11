@@ -184,9 +184,9 @@ public class Missile {
 	public void draw_shd(float delta) {
 		// TODO Auto-generated method stub
 		if (lifetime>0)
-		{GScreen.sr.setColor(0.2f,0.1f,0.02f,0.1f);}
+		{GScreen.sr.setColor(0.2f,0.1f,0.02f,0.02f);}
 		else
-		{{GScreen.sr.setColor(0.2f,0.1f,0.02f,(1f+lifetime)/10f);}}
+		{{GScreen.sr.setColor(0.2f,0.1f,0.02f,(1f+lifetime)/50f);}}
 		
 		GScreen.sr.rectLine(start_x, start_y, pos.x, pos.y,3);
 		
