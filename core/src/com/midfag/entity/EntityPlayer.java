@@ -31,9 +31,11 @@ import com.midfag.game.skills.shield_skills.SkillGodShield_B_SuperRegen;
 import com.midfag.game.skills.shield_skills.SkillGodShield_C_SuperReflect;
 import com.midfag.game.skills.shield_skills.SkillNoDeath;
 import com.midfag.game.skills.shield_skills.SkillShield;
-import com.midfag.game.skills.shield_skills.SkillShield_AA_ValueHalfDamage;
+import com.midfag.game.skills.shield_skills.SkillShield_ValueHalfDamage;
+import com.midfag.game.skills.shield_skills.SkillShield_ValueHalfDamage_A_BetterDamageReduction;
+import com.midfag.game.skills.shield_skills.SkillShield_ValueHalfDamage_B_BetterShieldCondition;
 import com.midfag.game.skills.shield_skills.SkillShield_AB_ValueHalfDamageTime;
-import com.midfag.game.skills.shield_skills.SkillShield_A_MoreValue;
+import com.midfag.game.skills.shield_skills.SkillShield_MoreValue;
 import com.midfag.game.skills.shield_skills.SkillShield_BA_WarmProtect;
 import com.midfag.game.skills.shield_skills.SkillShield_BB_RestoreSpeed;
 import com.midfag.game.skills.shield_skills.SkillShield_B_MoreRegen;
@@ -157,26 +159,21 @@ public class EntityPlayer extends Entity {
 			
 			//ammo_count=(int) armored_weapon.total_ammo_size;
 			
-			Skill skl=new SkillShield();
-			Skills_list.add(skl);
+			Skill skill=new SkillShield();
+			Skills_list.add(skill);
 			
-				Skill subskl=new SkillShield_A_MoreValue();
-				Skills_list.add(skl.add_subskill(subskl, GScreen.pl));
-				
-					Skills_list.add(subskl.add_subskill(new SkillShield_AA_ValueHalfDamage(), GScreen.pl));
-					Skills_list.add(subskl.add_subskill(new SkillShield_AB_ValueHalfDamageTime(), GScreen.pl));
 					//---
 					//---
 					
-				subskl=new SkillShield_B_MoreRegen();
-				Skills_list.add(skl.add_subskill(subskl, GScreen.pl));
-					Skills_list.add(subskl.add_subskill(new SkillShield_BA_WarmProtect(), GScreen.pl));
-					Skills_list.add(subskl.add_subskill(new SkillShield_BB_RestoreSpeed(), GScreen.pl));
+				Skill subskill=new SkillShield_B_MoreRegen();
+					Skills_list.add(skill.add_subskill(subskill, GScreen.pl));
+					Skills_list.add(subskill.add_subskill(new SkillShield_BA_WarmProtect(), GScreen.pl));
+					Skills_list.add(subskill.add_subskill(new SkillShield_BB_RestoreSpeed(), GScreen.pl));
 			
-				subskl=new SkillShield_C_MoreReflect();
-				Skills_list.add(skl.add_subskill(subskl, GScreen.pl));
-					Skills_list.add(subskl.add_subskill(new SkillShield_CA_MoreReflectDouble(), GScreen.pl));
-					Skills_list.add(subskl.add_subskill(new SkillShield_CB_MoreReflectRegen(), GScreen.pl));
+				subskill=new SkillShield_C_MoreReflect();
+				Skills_list.add(skill.add_subskill(subskill, GScreen.pl));
+					Skills_list.add(subskill.add_subskill(new SkillShield_CA_MoreReflectDouble(), GScreen.pl));
+					Skills_list.add(subskill.add_subskill(new SkillShield_CB_MoreReflectRegen(), GScreen.pl));
 			
 					armored[0]=new WeaponSimpleFirle();
 					armored[1]=null;
@@ -185,45 +182,52 @@ public class EntityPlayer extends Entity {
 					armored_shield=new EnergoshieldSimple();
 	
 					
+				skill=new SkillShield_ValueHalfDamage();
+				Skills_list.add(skill);	
+						subskill=new SkillShield_ValueHalfDamage_A_BetterDamageReduction();
+						Skills_list.add(skill.add_subskill(subskill, GScreen.pl));
+						
+						subskill=new SkillShield_ValueHalfDamage_B_BetterShieldCondition();	
+						Skills_list.add(skill.add_subskill(subskill, GScreen.pl));
+							
 					
-					
-				skl=new SkillWeapon();
-				Skills_list.add(skl);	
-					subskl=new SkillWeapon_A_FastReload();
-					Skills_list.add(skl.add_subskill(subskl, GScreen.pl));
-						Skills_list.add(subskl.add_subskill(new SkillWeapon_AA_ReloadChance(), GScreen.pl));
-						Skills_list.add(subskl.add_subskill(new SkillWeapon_AB_AmmoOrReload(), GScreen.pl));
-					subskl=new SkillWeapon_B_Bloodlust();	
-					Skills_list.add(skl.add_subskill(subskl, GScreen.pl));
-						Skills_list.add(subskl.add_subskill(new SkillWeapon_BA_TripleShot(), GScreen.pl));
-						Skills_list.add(subskl.add_subskill(new SkillWeapon_BB_AdvancedBloodlust(), GScreen.pl));
-					subskl=new SkillWeapon_D_WeaponMaster();
-					Skills_list.add(skl.add_subskill(subskl, GScreen.pl));
-						Skills_list.add(subskl.add_subskill(new SkillWeapon_DA_WeaponExpert(), GScreen.pl));
+				skill=new SkillWeapon();
+				Skills_list.add(skill);	
+					subskill=new SkillWeapon_A_FastReload();
+					Skills_list.add(skill.add_subskill(subskill, GScreen.pl));
+						Skills_list.add(subskill.add_subskill(new SkillWeapon_AA_ReloadChance(), GScreen.pl));
+						Skills_list.add(subskill.add_subskill(new SkillWeapon_AB_AmmoOrReload(), GScreen.pl));
+					subskill=new SkillWeapon_B_Bloodlust();	
+					Skills_list.add(skill.add_subskill(subskill, GScreen.pl));
+						Skills_list.add(subskill.add_subskill(new SkillWeapon_BA_TripleShot(), GScreen.pl));
+						Skills_list.add(subskill.add_subskill(new SkillWeapon_BB_AdvancedBloodlust(), GScreen.pl));
+					subskill=new SkillWeapon_D_WeaponMaster();
+					Skills_list.add(skill.add_subskill(subskill, GScreen.pl));
+						Skills_list.add(subskill.add_subskill(new SkillWeapon_DA_WeaponExpert(), GScreen.pl));
 				
-				skl=new SkillFire();
-				Skills_list.add(skl);
-					subskl=new SkillFire_A_ExplodingFire();
-					Skills_list.add(skl.add_subskill(subskl, GScreen.pl));
+				skill=new SkillFire();
+				Skills_list.add(skill);
+					subskill=new SkillFire_A_ExplodingFire();
+					Skills_list.add(skill.add_subskill(subskill, GScreen.pl));
 			
-				skl=new SkillGodShield();
-					subskl=new SkillGodShield_A_SuperValue();
-					Skills_list.add(skl.add_subskill(subskl, GScreen.pl));
+				skill=new SkillGodShield();
+					subskill=new SkillGodShield_A_SuperValue();
+					Skills_list.add(skill.add_subskill(subskill, GScreen.pl));
 					
-					subskl=new SkillGodShield_B_SuperRegen();
-					Skills_list.add(skl.add_subskill(subskl, GScreen.pl));
+					subskill=new SkillGodShield_B_SuperRegen();
+					Skills_list.add(skill.add_subskill(subskill, GScreen.pl));
 					
-					subskl=new SkillGodShield_C_SuperReflect();
-					Skills_list.add(skl.add_subskill(subskl, GScreen.pl));
+					subskill=new SkillGodShield_C_SuperReflect();
+					Skills_list.add(skill.add_subskill(subskill, GScreen.pl));
 					
 					
-				Skills_list.add(skl);	
+				Skills_list.add(skill);	
 				
 				
 				
-				skl=new SkillNoDeath();
+				skill=new SkillNoDeath();
 				
-				Skills_list.add(skl);	
+				Skills_list.add(skill);	
 				
 				engine_id=Assets.engine.play();
 				Assets.engine.setVolume(engine_id, 0.25f);

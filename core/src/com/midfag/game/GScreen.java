@@ -20,6 +20,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.g2d.CustomSpriteBatch;
+import com.badlogic.gdx.graphics.g2d.CustomSpriteBatchTwoUV;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -113,6 +114,7 @@ public class GScreen implements Screen {
 	private static final int enemy_gen_count = 0;
 
     public static CustomSpriteBatch batch;
+    public static CustomSpriteBatchTwoUV batch_uv;
     public static SpriteBatch batch_static;
     public static SpriteBatch batch_illum;
 	
@@ -205,7 +207,7 @@ public class GScreen implements Screen {
     
     public static boolean main_control=true;
     
-    public static float zoom=100;
+    public static float zoom=10;
     public static float need_zoom=1;
     
     public static float curx=1;
@@ -243,7 +245,7 @@ public class GScreen implements Screen {
 	public static float sho;
 
 
-	public static boolean camera_auto_zoom=true;
+	public static boolean camera_auto_zoom=false;
 
 	public static float wave_time;
 
@@ -684,6 +686,7 @@ public class GScreen implements Screen {
     	terrain_fbo.getColorBufferTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
     	
         batch = new CustomSpriteBatch();
+        batch_uv = new CustomSpriteBatchTwoUV();
         //batch.setShader(shader);
         
         batch_static = new SpriteBatch();
@@ -850,7 +853,7 @@ public class GScreen implements Screen {
 
         }
 
-		camera.zoom=2000.0f;
+		camera.zoom=2.0f;
 		
 
 		
@@ -1270,7 +1273,7 @@ public class GScreen implements Screen {
     	    				}
     	    				
     	    				if (i % 2 == 0)
-    	    				{batch_illum.setColor(0.2f,0.2f,0.2f,1f);}
+    	    				{batch_illum.setColor(0.25f,0.25f,0.25f,1f);}
     	    				else
     	    				{batch_illum.setColor(0.33f,0.33f,0.33f,1f);}
     	    				
@@ -1290,7 +1293,7 @@ public class GScreen implements Screen {
 		    					
 		    				}
 	    					
-	    					batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);
+	    					//batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				batch_illum.draw(lightmap_texture, 0+1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				batch_illum.draw(lightmap_texture, 0-1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				
@@ -1750,9 +1753,12 @@ public class GScreen implements Screen {
     	      		
           	add_timer("entity_update");
           	
-          	
+          	//batch.setColor(1,1,1,0.55f);
+     	 	//  {batch.draw(shadow_texture,0,9000,9000,-9000);}
+     	 	  
           	batch.setColor(global_illumination);
           	 batch.draw(Assets.planet_good_overlay, -500, -500, 10000,10000);
+          	 
          	batch.setColor(Color.WHITE);
 		batch.end();
 		
@@ -1766,7 +1772,7 @@ public class GScreen implements Screen {
 	        }
 	 	   sr.end();
 	 	   
-	 	 
+	 	  
 
     	terrain_fbo.end();
     	
@@ -2731,7 +2737,7 @@ public class GScreen implements Screen {
 		/*camera.position.x=Math.round(camera.position.x);
 		camera.position.y=Math.round(camera.position.y);*/
 		
-		if ((InputHandler.keyF_release)&&(Gdx.input.isKeyPressed(Keys.SPACE)))
+		if ((InputHandler.keyF_release)&&(Gdx.input.isKeyPressed(Keys.NUM_1)))
 		{
 			InputHandler.keyF_release=false;
 			camera_auto_zoom=!camera_auto_zoom;

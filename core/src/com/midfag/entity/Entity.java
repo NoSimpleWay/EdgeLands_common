@@ -25,7 +25,7 @@ import com.midfag.game.InputHandler;
 import com.midfag.game.Main;
 import com.midfag.game.Phys;
 import com.midfag.game.GUI.buttons.Button;
-import com.midfag.game.GUI.edit.ButtonSlider;
+import com.midfag.game.GUI.buttons.ButtonSlider;
 import com.midfag.game.Enums.EntityType;
 import com.midfag.game.script.ScriptSystem;
 import com.midfag.game.skills.Skill;
@@ -197,6 +197,7 @@ public class Entity {
 	public float stuck=0f;
 	public boolean need_remove=false;
 	public boolean have_module=false;
+	public float color_total_A=1;
 	
 	public void use_module(int _id)
 	{
@@ -1300,7 +1301,14 @@ public class Entity {
 			
 	    	color_total_R=color_multiplier_R+dynamic_multiplier_R; if (color_total_R>1) {color_total_R=1;}
 	    	color_total_G=color_multiplier_G+dynamic_multiplier_G; if (color_total_G>1) {color_total_G=1;}
-	    	color_total_B=color_multiplier_B+dynamic_multiplier_B; if (color_total_B>1) {color_total_B=1;}	
+	    	color_total_B=color_multiplier_B+dynamic_multiplier_B; if (color_total_B>1) {color_total_B=1;}
+	    	color_total_A=1f;
+	    	/*if (selected)
+	    	{
+	    		color_total_R=1;
+	    		color_total_G=1;
+	    		color_total_B=1;
+	    	}*/
 	    		/*
 	    		float red = ((pxm >> 24) & 0xFF)/255f;
 	    		float green = ((pxm >>16 ) & 0xFF)/255f;
@@ -1339,7 +1347,7 @@ public class Entity {
 		Color temp_color=spr.getColor();
 
 		if (light_source==null)
-		{spr.setColor(color_total_R,color_total_G,color_total_B,1f);}
+		{spr.setColor(color_total_R,color_total_G,color_total_B,color_total_A);}
 		else
 		{spr.setColor(1,1,1,1f);}
 		

@@ -204,24 +204,27 @@ public class Helper {
 					i++;
 					m=get_module_by_uid(ss[i]);
 					
-					m.Attribute_list.clear();
-					m.Available_attribute_list.clear();
-					
-					log("get module="+(m.getClass().getName()));
+					if (m!=null)
+					{
+						m.Attribute_list.clear();
+						m.Available_attribute_list.clear();
+						
+						log("get module="+(m.getClass().getName()));
+					}
 				}
 				
-				if (ss[i].equals("module_rarity")) {i++; m.rarity=Rarity.values()[Integer.parseInt(ss[i])];}
-				if (ss[i].equals("module_level"))
+				if (ss[i].equals("module_rarity")&&(m!=null)) {i++; m.rarity=Rarity.values()[Integer.parseInt(ss[i])];}
+				if (ss[i].equals("module_level")&&(m!=null))
 				{
 					i++;
 					m.level=Float.parseFloat(ss[i]);
 				}
 				
-				if (ss[i].equals("ModuleAttr")) {i++;  ma=get_module_attr_by_uid(ss[i]);  		log ("attr: "+ma.name);}
-				if (ss[i].equals("module_attr_level")) {i++; ma.level=Integer.parseInt(ss[i]);	log ("attr level: "+ma.level);}
-				if (ss[i].equals("ModuleAttrReady")) {m.Attribute_list.add(ma); log ("attr level: "+ma.level);}
+				if (ss[i].equals("ModuleAttr")&&(m!=null)) {i++;  ma=get_module_attr_by_uid(ss[i]);  		log ("attr: "+ma.name);}
+				if (ss[i].equals("module_attr_level")&&(m!=null)) {i++; ma.level=Integer.parseInt(ss[i]);	log ("attr level: "+ma.level);}
+				if (ss[i].equals("ModuleAttrReady")&&(m!=null)) {m.Attribute_list.add(ma); log ("attr level: "+ma.level);}
 				
-				if (ss[i].equals("ModuleReady"))
+				if (ss[i].equals("ModuleReady")&&(m!=null))
 				{
 					log("module ready! "+slot);
 					log("put module="+(m.getClass().getName())+" "+slot);

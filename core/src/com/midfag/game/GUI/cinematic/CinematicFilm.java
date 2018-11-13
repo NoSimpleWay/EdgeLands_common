@@ -19,7 +19,7 @@ public class CinematicFilm {
 	
 	public CinematicFilm(String _tex_path)
 	{
-		tex=new Texture(Gdx.files.internal(_tex_path+".png"));
+		tex=new Texture(Gdx.files.internal("data/"+_tex_path+".png"));
 		h=tex.getHeight();
 		w=tex.getWidth();
 	}

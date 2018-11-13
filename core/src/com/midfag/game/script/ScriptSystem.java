@@ -37,7 +37,7 @@ public class ScriptSystem {
 	
 	public static void add_script(String _name)
 	{
-		FileHandle file = Gdx.files.local("scripts/"+_name+".txt");
+		FileHandle file = Gdx.files.local("data/scripts/"+_name+".txt");
 		
 		String s=file.readString();
 		String[] lines = s.split("\n");

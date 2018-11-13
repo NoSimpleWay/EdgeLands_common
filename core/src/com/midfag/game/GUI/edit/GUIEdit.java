@@ -1,17 +1,20 @@
 package com.midfag.game.GUI.edit;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.midfag.entity.Entity;
 import com.midfag.entity.LightSource;
 import com.midfag.game.Assets;
 import com.midfag.game.Cluster;
 import com.midfag.game.Enums.TextInputMode;
+import com.midfag.game.GScreen.MySpriteComparator;
 import com.midfag.game.GScreen;
 import com.midfag.game.Helper;
 import com.midfag.game.InputHandler;
@@ -19,6 +22,8 @@ import com.midfag.game.Main;
 import com.midfag.game.TextInput;
 import com.midfag.game.GUI.GUI;
 import com.midfag.game.GUI.buttons.Button;
+import com.midfag.game.GUI.buttons.ButtonSlider;
+import com.midfag.game.script.ScriptTimer;
 
 public class GUIEdit extends GUI {
 	
@@ -56,7 +61,42 @@ public class GUIEdit extends GUI {
 	private ButtonSlider color_g_watcher;
 	private ButtonSlider color_b_watcher;
 	private ButtonSlider color_power_watcher;
-	 
+	
+	private boolean rama_started=false;
+	
+	private float rama_x1=0;
+	private float rama_y1=0;
+	
+	private float rama_x2=0;
+	private float rama_y2=0;
+	
+	public List<Entity> selected_object_list=new ArrayList<Entity>();
+	
+	ArraySorterX ASX = new ArraySorterX();
+	ArraySorterY ASY = new ArraySorterY();
+	
+	public class ArraySorterX implements Comparator<Entity> {
+		@Override
+		public int compare (Entity _e1, Entity _e2) {
+			if (_e2==null) {Helper.log("ERROR! ENTITY 2 IS NULL!");}
+			if (_e1==null) {Helper.log("ERROR! ENTITY 1 IS NULL!");}
+			return (_e2.pos.x - _e1.pos.x) < 0 ? 1 : -1;
+			//if (sprite2.pos.y = sprite1.pos.y)
+			//return sprite1;
+		}
+	}
+	
+	public class ArraySorterY implements Comparator<Entity> {
+		@Override
+		public int compare (Entity _e1, Entity _e2) {
+			if (_e2==null) {Helper.log("ERROR! ENTITY 2 IS NULL!");}
+			if (_e1==null) {Helper.log("ERROR! ENTITY 1 IS NULL!");}
+			return (_e2.pos.y - _e1.pos.y) < 0 ? 1 : -1;
+			//if (sprite2.pos.y = sprite1.pos.y)
+			//return sprite1;
+		}
+	}
+	
 	public GUIEdit()
 	{
 		//indicate_entity=new Entity(new Vector2());
@@ -98,6 +138,11 @@ public class GUIEdit extends GUI {
 	public void sub_update(float _d) 
 	{
 		
+		if (selected_object!=null)
+		{
+			highight_selected_object(selected_object);
+		}
+		
 		if(!GScreen.show_edit){GScreen.GUI_list.remove(this);}
 		
 		int mod=3;
@@ -118,7 +163,7 @@ public class GUIEdit extends GUI {
 			color_r_watcher=new ButtonSlider(100,100,0f,1f,0.005f);
 			color_g_watcher=new ButtonSlider(100,150,0f,1f,0.005f);
 			color_b_watcher=new ButtonSlider(100,200,0f,1f,0.005f);
-			color_power_watcher=new ButtonSlider(100,250,0f,10f,0.005f);
+			color_power_watcher=new ButtonSlider(100,250,0f,100f,0.005f);
 			
 			color_r_watcher.col.set(1f,0.8f,0.8f,1f);
 			color_g_watcher.col.set(0.8f,1.0f,0.8f,1f);
@@ -520,17 +565,16 @@ public class GUIEdit extends GUI {
 				
 			if ((InputHandler.but==1))
 			{
-				if (selected_object!=null){selected_object.spr.setColor(Color.WHITE); selected_object.selected=false;}
+				if (selected_object!=null){ selected_object.selected=false; selected_object.update_color_state();}
 				
 				indicate_entity=null;
 				
 				int cx=(int)(xx/GScreen.cluster_size);
 				int cy=(int)(yy/GScreen.cluster_size);
 				
-				GScreen.batch.begin();
-					
-					GScreen.batch.draw(Assets.mech_foot,xx,yy);
-				GScreen.batch.end();
+				//GScreen.batch.begin();
+				//	GScreen.batch.draw(Assets.mech_foot,xx,yy);
+				//GScreen.batch.end();
 				
 				float near_dist=9999;
 				
@@ -543,14 +587,14 @@ public class GUIEdit extends GUI {
 				selected_cluster=null;
 				
 				
-				GScreen.batch.begin();
+				//GScreen.batch.begin();
 				for (int i=cx-1; i<=cx+1; i++)
 				for (int j=cy-1; j<=cy+1; j++)
 				if ((i>=0)&&(j>=0))
 				{
 					
 					
-						GScreen.batch.draw(Assets.mech_foot,cx*GScreen.cluster_size+150,cy*GScreen.cluster_size+150);
+						//GScreen.batch.draw(Assets.mech_foot,cx*GScreen.cluster_size+150,cy*GScreen.cluster_size+150);
 					
 					if ((j<30)&&(j>=0)&&(i<30)&&(i>=0))
 					for (int k=0; k<GScreen.cluster[i][j].Entity_list.size(); k++)
@@ -566,11 +610,104 @@ public class GUIEdit extends GUI {
 						}
 					}
 				}
-				GScreen.batch.end();
+				//GScreen.batch.end();
 				
-				if (selected_object!=null){selected_object.spr.setColor(Color.GREEN); selected_object.spr.setAlpha(0.5f); selected_object.selected=true;}
+				if (selected_object!=null)
+				{
+					selected_object.selected=true;
+					highight_selected_object(selected_object);
+				}
+				
+
+			}
+			
+			
+			
+			if (Gdx.input.isKeyPressed(Keys.SPACE))
+			{
+				if (!rama_started)
+				{
+					rama_started=true;
+					
+					rama_x1=xx;
+					rama_y1=yy;
+				}
+				
+				rama_x2=xx;
+				rama_y2=yy;
+				
+				for (Entity e:selected_object_list)
+				{
+					e.update_color_state();
+				}
+				
+				
+				if (!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))
+				{
+					selected_object_list.clear();
+				}
+				
+				
+				float bound_min_x=Math.min(rama_x1, rama_x2);
+				float bound_min_y=Math.min(rama_y1, rama_y2);
+				
+				float bound_max_x=Math.max(rama_x1, rama_x2);
+				float bound_max_y=Math.max(rama_y1, rama_y2);
+				
+				int cluster_bound_min_x=(int)(bound_min_x/GScreen.cluster_size);
+				int cluster_bound_max_x=(int)(bound_max_x/GScreen.cluster_size);
+				
+				int cluster_bound_min_y=(int)(bound_min_y/GScreen.cluster_size);
+				int cluster_bound_max_y=(int)(bound_max_y/GScreen.cluster_size);
+				
+				for (int i=cluster_bound_min_x; i<=cluster_bound_max_x; i++)
+				for (int j=cluster_bound_min_y; j<=cluster_bound_max_y; j++)
+				{
+					for (Entity e:GScreen.cluster[i][j].Entity_list)
+					{
+						if (
+								(e.pos.x>=bound_min_x)
+								&
+								(e.pos.y>=bound_min_y)
+								&
+								(e.pos.x<=bound_max_x)
+								&
+								(e.pos.y<=bound_max_y)
+							)
+						{
+							if (!selected_object_list.contains(e))
+							{selected_object_list.add(e);}
+						}
+					}
+				}
+			}
+			else
+			{
+				if (rama_started)
+				//fill selected_object list
+				{
+					selected_object=null;
+				}
+				
+				rama_started=false;
+			}
+			
+			//if (!selected_object_list.isEmpty())
+			{
+				for (Entity e:selected_object_list)
+				{
+					highight_selected_object(e);
+				}
 			}
 		}
+		
+			
+		
+		up_align();
+		x_align();
+		
+		x_compact();
+		y_compact();
 		
 		if ((InputHandler.key==Keys.X)&&(selected_object!=null))
 		{
@@ -584,15 +721,22 @@ public class GUIEdit extends GUI {
 			selected_cluster.Entity_list.add(selected_object);*/
 		}
 		
+		
+		
+		if ((Gdx.input.isKeyPressed(Keys.C))&(!selected_object_list.isEmpty()))
+		for (Entity e:selected_object_list)
+		{
+			e.reposition(e.pos.x+InputHandler.dx*GScreen.camera.zoom, e.pos.y+InputHandler.dy*GScreen.camera.zoom);
+		}
+		
+		
+		
 		if ((InputHandler.key==Keys.C)&&(selected_object!=null))
 		{
 			release_key_C=true;
 			
 			//selected_object.hard_move(xx-selected_object.pos.x, yy-selected_object.pos.y, 1);
 			selected_object.reposition(xx, yy);
-			
-
-			
 			
 			/*for (int k=0; k<150; k++)
 			for (int i=0; i<300; i++)
@@ -632,7 +776,133 @@ public class GUIEdit extends GUI {
 				indicate_entity.pos.set(xx+array_x*i,yy+array_y*i);
 				indicate_entity.draw_action(_d);
 			}
+		GScreen.batch.end();
+		
+		}
+		
+		if (rama_started)
+		{GScreen.batch.begin();
+			GScreen.batch.draw(Assets.rama,rama_x1,rama_y1,rama_x2-rama_x1,rama_y2-rama_y1);
 		GScreen.batch.end();}
+		
+	}
+
+	private void x_compact() {
+		if (
+				(!selected_object_list.isEmpty())
+				&
+				(Gdx.input.isKeyPressed(Keys.ALT_LEFT))
+				&
+				(Gdx.input.isKeyPressed(Keys.RIGHT))
+			)
+		{
+			selected_object_list.sort(ASX);
+			
+			float new_x=-999999;
+			
+			for (Entity e:selected_object_list)
+			{
+				
+				if (new_x==-999999) {new_x=e.pos.x;} else {e.pos.x=new_x+e.collision_size_x;}
+			new_x+=e.collision_size_x;
+				//shift=e.main_tex.getWidth();
+			}
+			
+		}
+	}
+	
+	private void y_compact() {
+		if (
+				(!selected_object_list.isEmpty())
+				&
+				(Gdx.input.isKeyPressed(Keys.ALT_LEFT))
+				&
+				(Gdx.input.isKeyPressed(Keys.UP))
+			)
+		{
+			selected_object_list.sort(ASY);
+			
+			float new_y=-999999;
+			Entity prev_e=null;
+			
+			for (Entity e:selected_object_list)
+			{
+				
+				
+				if (prev_e!=null) {e.pos.y=prev_e.pos.y+prev_e.collision_size_y+e.collision_size_y;}
+				
+				prev_e=e;
+				//new_y=0;
+				
+				//new_y+=e.collision_size_y;
+				//shift=e.main_tex.getWidth();
+			}
+			
+		}
+	}
+
+	private void up_align() {
+		if (
+				(!selected_object_list.isEmpty())
+				&
+				(Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))
+				&
+				(
+						(Gdx.input.isKeyPressed(Keys.LEFT))
+						||
+						(Gdx.input.isKeyPressed(Keys.RIGHT))
+				)
+			)
+		{
+			float ymax=-999999;
+			for (Entity e:selected_object_list)
+			{
+				if (e.pos.y>ymax) {ymax=e.pos.y;}
+			}
+			
+			for (Entity e:selected_object_list)
+			{
+				e.pos.y=ymax;
+			}
+		}
+	}
+	
+	private void x_align() {
+		if (
+				(!selected_object_list.isEmpty())
+				&
+				(Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))
+				&
+				(
+						(Gdx.input.isKeyPressed(Keys.UP))
+						||
+						(Gdx.input.isKeyPressed(Keys.DOWN))
+				)
+			)
+		{
+			float xmax=-999999;
+			for (Entity e:selected_object_list)
+			{
+				if (e.pos.x>xmax) {xmax=e.pos.x;}
+			}
+			
+			for (Entity e:selected_object_list)
+			{
+				e.pos.x=xmax;
+			}
+		}
+	}
+
+	private void highight_selected_object(Entity _e) {
+		// TODO Auto-generated method stub
+		float highlight_color=(float) (Math.sin(TimeUtils.millis()/50)+1f)/2f;
+		
+		_e.color_total_R=1f-highlight_color/2f;
+		_e.color_total_G=1f-highlight_color/2f;
+		_e.color_total_B=1f-highlight_color/2f;
+		
+		_e.color_total_A=1f-highlight_color/3f;
+		//if (selected_object.color_total_A>1) {selected_object.color_total_A=1f;}
 		
 	}
 }

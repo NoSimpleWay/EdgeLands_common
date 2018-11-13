@@ -42,7 +42,7 @@ public class DecorStoneWall extends Entity {
 		path_y=0;
 		mass=999999;
 		
-		collision_size_x=49;
+		collision_size_x=45;
 		collision_size_y=10;
 		
 		

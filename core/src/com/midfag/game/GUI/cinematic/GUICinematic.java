@@ -10,7 +10,7 @@ import com.midfag.game.GUI.GUI;
 
 public class GUICinematic extends GUI {
 	
-	public Texture bg=new Texture(Gdx.files.internal("intro_bg.png"));
+	public Texture bg=new Texture(Gdx.files.internal("data/intro_bg.png"));
 	public List<CinematicFilm> Film_list=new ArrayList<CinematicFilm>();
 
 	
