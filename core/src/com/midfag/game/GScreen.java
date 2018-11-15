@@ -72,7 +72,7 @@ public class GScreen implements Screen {
 	public static List<ButtonLayout> layouts = new ArrayList<ButtonLayout>();//_______________________nienie oece?aneeo eeiee
 	public static List<WorldDebug> WD = new ArrayList<WorldDebug>();//_______________________nienie oece?aneeo eeiee
 	
-    public static float lightmap_spread_power = 0.117f;
+    public static float lightmap_spread_power = 0.20f;
 
     public static final float cluster_size = 600f;
 	public static final int path_cell = 30;
@@ -242,7 +242,7 @@ public class GScreen implements Screen {
 	private int movie_frame_y;
 	private float movie_frame_time;
 
-	public static float sho;
+	public static float sho=1f;
 
 
 	public static boolean camera_auto_zoom=false;
@@ -286,13 +286,13 @@ public class GScreen implements Screen {
 	public static boolean need_static_light_update=true;
 
 	public static int lightmap_blur_pass=32;
-	public static int lightmap_spread_pass=8;
+	public static int lightmap_spread_pass=0;
 
 	public static boolean chunk_info;
 
 	public static boolean time_freeze=false;
 	public static float enemy_see_player_timer;
-	public static float blur_opacity=0.025f;
+	public static float blur_opacity=0.25f;
 	
 	public class MySpriteComparator implements Comparator<Entity> {
 		@Override
@@ -1135,7 +1135,7 @@ public class GScreen implements Screen {
 					batch_illum.setColor(1.0f,1.0f,1.0f,1f);
 					batch_illum.draw(rect_white, 0, 0, 300*light_map_size, 300*light_map_size);
 					
-					batch_illum.setColor(sho,sho,sho,1f);
+					batch_illum.setColor(0,0,0,1f);
 					//for (int k=0; k<10; k++)
 					for (int i=bound_y_down; i<bound_y_up; i++)
 					for (int j=bound_x_left; j<bound_x_right; j++)
@@ -1217,14 +1217,14 @@ public class GScreen implements Screen {
 		    					batch_illum.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
 					        	batch_illum.setColor(lightmap_spread_power,lightmap_spread_power,lightmap_spread_power,1.0f);				
 		    				
-			    				batch_illum.draw(lightmap_texture, 0+1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
+			    				batch_illum.draw(lightmap_texture, 0+1.1f, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 			    				batch_illum.draw(lightmap_texture, 0-1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 			    				
 
 			    				if (k % 2 == 0)
 			    				{
-			    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size+1f, 300*light_map_size, -300*light_map_size);
-			    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size-1f, 300*light_map_size, -300*light_map_size);
+			    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size+1.2f, 300*light_map_size, -300*light_map_size);
+			    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size-1.3f, 300*light_map_size, -300*light_map_size);
 			    				}
 			    				batch_illum.setColor(1,1,1,1f);
 				        		
@@ -1238,30 +1238,30 @@ public class GScreen implements Screen {
 			    			batch_illum.end();
 			    		lightmap_fbo.end();
 			    		
-			    		lightmap_fbo_additional.begin();
-			    			batch_illum.begin();
-			    				batch_illum.setColor(Color.WHITE);
-			    				batch_illum.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-			    				
-			    				batch_illum.draw(lightmap_fbo.getColorBufferTexture(), 0, 300, 300, -300);
-			    			batch_illum.end();
-			    		lightmap_fbo_additional.end();
 			    		
-			    		lightmap_texture=lightmap_fbo_additional.getColorBufferTexture();
 			    		
 			    		
 	    				}
-	    				
+	    				lightmap_fbo_additional.begin();
+		    			batch_illum.begin();
+		    				batch_illum.setColor(Color.WHITE);
+		    				batch_illum.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		    				
+		    				batch_illum.draw(lightmap_fbo.getColorBufferTexture(), 0, 300, 300, -300);
+		    			batch_illum.end();
+		    		lightmap_fbo_additional.end();
+		    		
+		    		lightmap_texture=lightmap_fbo_additional.getColorBufferTexture();
 	    									add_timer("spread");
 	    				
 	    				
 	    	
     				
-    				
+	    			lightmap_texture=lightmap_fbo_additional.getColorBufferTexture();
     				for (int i=0; i<lightmap_blur_pass; i++)
     				{
     					
-    					lightmap_texture=lightmap_fbo_additional.getColorBufferTexture();
+    					
     					
     		    		lightmap_fbo.begin();
     	    			batch_illum.begin();
@@ -1273,7 +1273,7 @@ public class GScreen implements Screen {
     	    				}
     	    				
     	    				if (i % 2 == 0)
-    	    				{batch_illum.setColor(0.25f,0.25f,0.25f,1f);}
+    	    				{batch_illum.setColor(0.20f,0.20f,0.20f,1f);}
     	    				else
     	    				{batch_illum.setColor(0.33f,0.33f,0.33f,1f);}
     	    				
@@ -1288,12 +1288,9 @@ public class GScreen implements Screen {
 		    					 batch_illum.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		    						{batch_illum.setColor(1f,1f,1f,1f);}
 			        		}
-		    				else
-		    				{
-		    					
-		    				}
+
 	    					
-	    					//batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);
+	    					batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				batch_illum.draw(lightmap_texture, 0+1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				batch_illum.draw(lightmap_texture, 0-1, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				
@@ -1304,8 +1301,30 @@ public class GScreen implements Screen {
 		    				}
 		    				
 		    				//batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);
+		    				//batch_illum.setColor(sho,sho,sho,1f);
+		    				float c=blur_opacity/(i*lightmap_spread_power+1f);
+		    				if (true)
+		    				{
+		    					for (int x=cluster_x-cluster_draw_distance; x<=cluster_x+cluster_draw_distance; x++)
+		    			        	for (int y=cluster_y-cluster_draw_distance; y<=cluster_y+cluster_draw_distance; y++)
+		    			        	if ((x>=0)&&(y>=0)&&(x<30)&&(y<30))
+		    			        	for (int k=0; k<cluster[x][y].Entity_list.size();k++)
+		    			        	{
+		    			        		Entity e=cluster[x][y].Entity_list.get(k);
+		    			        		
+		    			        		batch_illum.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
+
+		    			        		if ((!e.hidden)&&(e.light_source!=null))
+		    			        		{
+		    			        			batch_illum.setColor(e.light_source.R*sho,e.light_source.G*sho,e.light_source.B*sho,1f);
+		    			        			float po=e.light_source.light_power;
+		    			        			batch_illum.draw(rect_white, (int)(e.pos.x/30f-(po-1f)/2f)*light_map_size, (int)(e.pos.y/30f-(po-1f)/4f)*light_map_size,po*light_map_size, po*light_map_size/2f); 
+		    			        		}
+		    			        	}
+		    				}
 		    				
-		    				batch_illum.setColor(blur_opacity,blur_opacity,blur_opacity,1f);
+		    				batch_illum.setColor(c,c,c,1f);
+		    				
 		    				batch_illum.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
 		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				

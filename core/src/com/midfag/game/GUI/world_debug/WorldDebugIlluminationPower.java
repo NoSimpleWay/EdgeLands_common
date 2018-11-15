@@ -18,7 +18,7 @@ public class WorldDebugIlluminationPower extends WorldDebug  {
 	{
 		if (Gdx.input.isKeyPressed(Keys.DOWN))
 		{
-			GScreen.lightmap_spread_power-=_d/10f;
+			GScreen.lightmap_spread_power-=_d/1f;
 			
 			GScreen.lightmap_spread_power=Math.max(0, GScreen.lightmap_spread_power);
 			
@@ -29,9 +29,9 @@ public class WorldDebugIlluminationPower extends WorldDebug  {
 		
 		if (Gdx.input.isKeyPressed(Keys.UP))
 		{
-			GScreen.lightmap_spread_power+=_d/10f;
+			GScreen.lightmap_spread_power+=_d/1f;
 			
-			GScreen.lightmap_spread_power=Math.min(1, GScreen.lightmap_spread_power);
+			GScreen.lightmap_spread_power=Math.min(10, GScreen.lightmap_spread_power);
 			
 			GScreen.need_light_update=true;
 			GScreen.need_static_light_update=true;
