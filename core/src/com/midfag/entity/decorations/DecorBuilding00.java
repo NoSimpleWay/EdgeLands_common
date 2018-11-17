@@ -17,6 +17,8 @@ public class DecorBuilding00 extends Entity {
 
 		custom_phys=true;
 		
+		have_collision=false;
+		
 		id=this.getClass().getName();
 		uid="78dfcedf";
 		type=EntityType.BUILDING;
@@ -38,6 +40,8 @@ public class DecorBuilding00 extends Entity {
 		spr.setOrigin(94, 0);
 		
 		friction=0.95f;
+		
+		mass=10000;
 		
 		/*
 		constant_move_x=100;

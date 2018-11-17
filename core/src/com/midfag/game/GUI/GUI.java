@@ -39,6 +39,7 @@ public class GUI {
 		{
 			Button_list.get(i).second_update(_d);
 			Button_list.get(i).second_draw();
+			Button_list.get(i).text_pass(GScreen.batch_static);
 		}
 	}
 	

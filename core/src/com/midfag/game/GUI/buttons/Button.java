@@ -4,11 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.midfag.game.Assets;
 import com.midfag.game.GScreen;
 import com.midfag.game.Helper;
 import com.midfag.game.InputHandler;
+import com.midfag.game.Main;
 
 public class Button {
 	public Vector2 pos=new Vector2();
@@ -26,6 +28,7 @@ public class Button {
 	public int size_y=40;
 	public Color standart_color=Color.WHITE;
 	private Color color_overlapped=Color.GREEN;
+	public String description="";
 	
 	public Button(float _x, float _y)
 	{
@@ -118,6 +121,22 @@ public class Button {
 	}
 
 	public void second_update(float _d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void text_pass(SpriteBatch _b) {
+		_b.setColor(1f,1f,1f,0.9f);
+		
+		Main.font.setColor(Color.DARK_GRAY);
+		
+		if (!description.equals("")&&(is_overlap()))
+		{
+			_b.draw(Assets.rect_white, pos.x+size_x, pos.y-20,500,30);
+			Main.font.draw(_b,description, pos.x+size_x, pos.y);
+		}
+		
+		_b.setColor(Color.WHITE);
 		// TODO Auto-generated method stub
 		
 	}

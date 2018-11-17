@@ -45,9 +45,9 @@ public class ButtonRandomGenerator extends Button {
 		egt=_egt;
 		if (!GScreen.show_equip){need_remove=true;}
 		
-		if (egt==EquipGenerationType.WEAPON)	{tex=Assets.load("skill_weapon");}
-		if (egt==EquipGenerationType.SHIELD)	{tex=Assets.load("skill_shield");}
-		if (egt==EquipGenerationType.MODULE)	{tex=Assets.load("icon_time_control");}
+		if (egt==EquipGenerationType.WEAPON)	{tex=Assets.load("skill_weapon"); 		description="Генерирует оружие";}
+		if (egt==EquipGenerationType.SHIELD)	{tex=Assets.load("skill_shield"); 		description="Генерирует щиты";}
+		if (egt==EquipGenerationType.MODULE)	{tex=Assets.load("icon_time_control"); 	description="Генерирует модули";}
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -89,6 +89,9 @@ public class ButtonRandomGenerator extends Button {
 					for (int i=0; i<SysConfig.ModuleRegisterer.size(); i++)
 					{
 						ModuleUnit m=Helper.get_module_from_id(SysConfig.ModuleRegisterer.get(i).getClass().getName());
+						m.level=Helper.inventory_level;
+						m.rarity=Helper.invenory_rarity;
+						
 						m.generate();
 						m.update_attributes_bonus(GScreen.pl);
 						GScreen.pl.inventory[i]=m;
@@ -118,6 +121,9 @@ public class ButtonRandomGenerator extends Button {
 					for (int i=0; i<SysConfig.ShieldRegisterer.size(); i++)
 					{
 						Energoshield sh=Helper.get_shield_from_id(SysConfig.ShieldRegisterer.get(i).getClass().getName());
+						sh.level=Helper.inventory_level;
+						sh.rarity=Helper.invenory_rarity;
+						
 						sh.generate();
 						sh.update_attributes_bonus(GScreen.pl);
 						GScreen.pl.inventory[i]=sh;
@@ -153,6 +159,9 @@ public class ButtonRandomGenerator extends Button {
 					for (int i=0; i<SysConfig.WeaponRegisterer.size(); i++)
 					{
 						Weapon w=Helper.get_weapon_from_id(SysConfig.WeaponRegisterer.get(i).getClass().getName());
+						w.level=Helper.inventory_level;
+						w.rarity=Helper.invenory_rarity;
+						
 						w.generate();
 						w.update_attributes_bonus(GScreen.pl);
 						GScreen.pl.inventory[i]=w;

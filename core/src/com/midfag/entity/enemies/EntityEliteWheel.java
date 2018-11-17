@@ -65,6 +65,7 @@ public class EntityEliteWheel extends Entity {
 		
 		
 		speed=500;
+		friction=100;
 	}
 	
 	public void boom_check()

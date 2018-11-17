@@ -24,6 +24,7 @@ import com.midfag.equip.weapon.WeaponSimpleShotgun;
 import com.midfag.game.Assets;
 import com.midfag.game.GScreen;
 import com.midfag.game.InputHandler;
+import com.midfag.game.Main;
 import com.midfag.game.skills.Skill;
 import com.midfag.game.skills.shield_skills.SkillGodShield;
 import com.midfag.game.skills.shield_skills.SkillGodShield_A_SuperValue;
@@ -131,22 +132,22 @@ public class EntityPlayer extends Entity {
 			//foot_shadow.setOrigin(17, 12);
 			//is_player
 			
-			speed=250*15.025f;
-			friction=0.15f;
+			speed=200*15.025f;
+			friction=150.15f;
 	
 			have_ability=true;
 			
 			collision_size_x=30;
 			collision_size_y=30;
 			
-			
-			/*light_source=new LightSource();
-			light_source.light_power=1.0f;
-			light_source.R=0.02f;
-			light_source.G=0.04f;
+			/*
+			light_source=new LightSource();
+			light_source.light_power=1.8f;
+			light_source.R=0.2f;
+			light_source.G=0.4f;
 			light_source.B=0.9f;
-			light_source.is_static=true;*/
-			
+			light_source.is_static=true;
+			*/
 			size=30;
 			
 			mass=300;
@@ -337,6 +338,8 @@ public class EntityPlayer extends Entity {
 		spr.setTexture(tex[draw_sprite]);
 		spr.draw(GScreen.batch);
 		spr.translate(10,25);
+		
+		
 
 	}
 	

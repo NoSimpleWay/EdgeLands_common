@@ -34,6 +34,11 @@ public class ButtonVertical extends Button {
 		up=_up;
 		
 		function=_f;
+		
+		if (function==ButtonVerticalFunction.INVENTORY_LEVEL)
+		{
+			if (_up) {description="Увеличивает уровень оружия";} else {description="Уменьшает уровень оружия";}
+		}
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -69,12 +74,28 @@ public class ButtonVertical extends Button {
 				float offset=0.5f;
 				if (!up) {offset=-0.5f;} 
 				
+				Helper.inventory_level+=offset;
+				
+				if (Helper.inventory_level<0.1f) {Helper.inventory_level=0.1f;}
+				
 				for (int i=0; i<30; i++)
 				{
-					if (GScreen.pl.inventory[i] instanceof Energoshield) {((Energoshield)GScreen.pl.inventory[i]).level+=offset;}
-					if (GScreen.pl.inventory[i] instanceof Weapon) {((Weapon)GScreen.pl.inventory[i]).level+=offset;}
-					if (GScreen.pl.inventory[i] instanceof ModuleUnit) {((ModuleUnit)GScreen.pl.inventory[i]).level+=offset;}
+					
+					
+					if (GScreen.pl.inventory[i] instanceof Energoshield) {((Energoshield)GScreen.pl.inventory[i]).level=Helper.inventory_level;}
+					if (GScreen.pl.inventory[i] instanceof Weapon) {((Weapon)GScreen.pl.inventory[i]).level=Helper.inventory_level;}
+					if (GScreen.pl.inventory[i] instanceof ModuleUnit) {((ModuleUnit)GScreen.pl.inventory[i]).level=Helper.inventory_level;}
 				}
+				
+				if (GScreen.pl.armored[0]!=null){GScreen.pl.armored[0].level=Helper.inventory_level;}
+				if (GScreen.pl.armored[1]!=null){GScreen.pl.armored[1].level=Helper.inventory_level;}
+				
+				if (GScreen.pl.armored_shield!=null){GScreen.pl.armored_shield.level=Helper.inventory_level;}
+				
+				if (GScreen.pl.armored_module[0]!=null){GScreen.pl.armored_module[0].level=Helper.inventory_level;}
+				if (GScreen.pl.armored_module[1]!=null){GScreen.pl.armored_module[1].level=Helper.inventory_level;}
+				if (GScreen.pl.armored_module[2]!=null){GScreen.pl.armored_module[2].level=Helper.inventory_level;}
+				if (GScreen.pl.armored_module[3]!=null){GScreen.pl.armored_module[3].level=Helper.inventory_level;}
 			}
 		}
 	}

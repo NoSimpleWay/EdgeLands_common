@@ -321,19 +321,19 @@ public class InputHandler implements InputProcessor {
     			for (int j=0; j<2; j++)
     			{gui.Button_list.add(new ButtonEquip(170+j*220,130+275*i,-10-j-i*2));}
     			
-    			gui.Button_list.add(new ButtonRandomGenerator(30,350+45*0,EquipGenerationType.WEAPON));
-    			gui.Button_list.add(new ButtonRandomGenerator(30,350+45*1,EquipGenerationType.SHIELD));
-    			gui.Button_list.add(new ButtonRandomGenerator(30,350+45*2,EquipGenerationType.MODULE));
+    			gui.Button_list.add(new ButtonRandomGenerator(30,350+47*0,EquipGenerationType.WEAPON));
+    			gui.Button_list.add(new ButtonRandomGenerator(30,350+47*1,EquipGenerationType.SHIELD));
+    			gui.Button_list.add(new ButtonRandomGenerator(30,350+47*2,EquipGenerationType.MODULE));
     			
     			gui.Button_list.add(new ButtonChangeQuality(30,35,Rarity.COMMON));
-    			gui.Button_list.add(new ButtonChangeQuality(30,35+40*1,Rarity.UNCOMMON));
-    			gui.Button_list.add(new ButtonChangeQuality(30,35+40*2,Rarity.RARE));
-    			gui.Button_list.add(new ButtonChangeQuality(30,35+40*3,Rarity.ELITE));
-    			gui.Button_list.add(new ButtonChangeQuality(30,35+40*4,Rarity.LEGENDARY));
-    			gui.Button_list.add(new ButtonChangeQuality(30,35+40*5,Rarity.ANOMALY));
+    			gui.Button_list.add(new ButtonChangeQuality(30,35+27*1,Rarity.UNCOMMON));
+    			gui.Button_list.add(new ButtonChangeQuality(30,35+27*2,Rarity.RARE));
+    			gui.Button_list.add(new ButtonChangeQuality(30,35+27*3,Rarity.ELITE));
+    			gui.Button_list.add(new ButtonChangeQuality(30,35+27*4,Rarity.LEGENDARY));
+    			gui.Button_list.add(new ButtonChangeQuality(30,35+27*5,Rarity.ANOMALY));
     			
-    			gui.Button_list.add(new ButtonVertical(150,360,null,true,ButtonVerticalFunction.INVENTORY_LEVEL));
-    			gui.Button_list.add(new ButtonVertical(150,330,null,false,ButtonVerticalFunction.INVENTORY_LEVEL));
+    			gui.Button_list.add(new ButtonVertical(30,230,null,true,ButtonVerticalFunction.INVENTORY_LEVEL));
+    			gui.Button_list.add(new ButtonVertical(30,210,null,false,ButtonVerticalFunction.INVENTORY_LEVEL));
     			
     			//Assets.shoot00.
     			for (int j=0; j<10; j++)

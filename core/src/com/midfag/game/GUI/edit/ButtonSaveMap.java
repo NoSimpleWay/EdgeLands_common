@@ -77,6 +77,15 @@ public class ButtonSaveMap extends Button {
 					s+="pos.y"+"\n";
 					s+=Math.round(e.pos.y)+"\n";
 					
+					if (!e.default_collision_size)
+					{
+					s+="collision_size_x"+"\n";
+					s+=Math.round(e.collision_size_x)+"\n";
+					
+					s+="collision_size_y"+"\n";
+					s+=Math.round(e.collision_size_y)+"\n";
+					}
+					
 					s+="y"+"\n";
 					s+=Math.round(e.z)+"\n";
 					

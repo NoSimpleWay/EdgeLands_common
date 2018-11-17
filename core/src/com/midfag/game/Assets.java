@@ -122,6 +122,7 @@ public class Assets {
 	public static Texture barrel_crash_icon=load("barrel_crash_icon");
 	
 	public static Texture helper=load("helper");
+	public static Texture helper_wall=load("helper_wall");
 	public static Texture helper_icon=load("helper_icon");
 	
 	public static Texture light=load("light");
@@ -178,7 +179,7 @@ public class Assets {
 	public static Texture beton_wall_window=load ("beton_wall_window");
 	public static Texture beton_wall_window_icon=load ("beton_wall_window_icon");
 	
-	public static Texture building_wall_in=load ("building_02");
+	public static Texture building_wall_in=load ("angar_final_post");
 	
 	public static Texture wall_angle_A=load ("wall_angle_A");
 	public static Texture wall_angle_B=load ("wall_angle_B");
@@ -205,6 +206,11 @@ public class Assets {
 	public static Texture decoration_stone_wall_02_icon=load ("decoration_stone_wall_02_icon");
 	public static Texture decoration_tube_cystern_icon=load ("decoration_tube_cystern_icon");
 	public static Texture entity_pyra_icon=load ("entity_pyra_icon");
+	
+	public static Texture entity_raider_tank_icon=load ("entity_raider_tank_icon");
+	public static Texture entity_smiler_icon=load ("entity_smiler_icon");
+	public static Texture entity_spawn_tower_icon=load ("spawn_tower_icon");
+	
 	public static Texture entity_wheel_icon=load ("entity_wheel_icon");
 	public static Texture entity_elite_wheel_icon=load ("entity_elite_wheel_icon");
 	

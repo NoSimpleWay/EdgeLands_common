@@ -199,6 +199,8 @@ public class Entity {
 	public boolean have_module=false;
 	public float color_total_A=1;
 	
+	public boolean default_collision_size=true;
+	
 	public void use_module(int _id)
 	{
 		if ((armored_module[_id]!=null)&&(armored_module[_id].can_use()))
@@ -543,7 +545,7 @@ public class Entity {
 				
 				if ((cluster_pos_x!=ncx)||(cluster_pos_y!=ncy))
 				{
-						Helper.log("PRE CHANGE CLUSTER cx="+cluster_pos_x+"("+pos.x+") cy="+cluster_pos_y+"("+pos.y+") ncx="+ncx+" ncy="+ncy);
+						//Helper.log("PRE CHANGE CLUSTER cx="+cluster_pos_x+"("+pos.x+") cy="+cluster_pos_y+"("+pos.y+") ncx="+ncx+" ncy="+ncy);
 						need_change_cluster=true;
 						
 						GScreen.cluster[cluster_pos_x][cluster_pos_y].Entity_list.remove(this);
@@ -882,7 +884,7 @@ public class Entity {
 		float dy=_e.pos.y-pos.y;
 		float spd=(float) Math.sqrt(dx*dx+dy*dy);
 		
-		Entity e=GScreen.get_collision(pos.x,pos.y,_e.pos.x,_e.pos.y,(pos.x-_e.pos.x)/(pos.y-_e.pos.y),(pos.y-_e.pos.y)/(pos.x-_e.pos.x),1);
+		Entity e=GScreen.get_collision(pos.x,pos.y,_e.pos.x,_e.pos.y,(pos.x-_e.pos.x)/(pos.y-_e.pos.y),(pos.y-_e.pos.y)/(pos.x-_e.pos.x),1,1);
 		
 		if ((e!=null)&&(e.is_enemy!=is_enemy))
 		{GScreen.enemy_see_player_timer=3f; return true;}
@@ -1016,6 +1018,8 @@ public class Entity {
 		
 		//if (Math.abs(impulse.x)<0.5f) {impulse.x=0;}
 		//if (Math.abs(impulse.y)<0.5f) {impulse.y=0;}
+		//if (impulse.x*impulse.x<1.0f) {impulse.x=0f;}
+		//if (impulse.y*impulse.y<1.0) {impulse.y=0f;}
 		
 		float mx=impulse.x*cold_rating;
 		float my=impulse.y*cold_rating;
@@ -1028,6 +1032,11 @@ public class Entity {
 		//float spd=(float) (Math.sqrt(mx*mx+my*my));
 		
 		
+		
+
+		
+		
+		
 		if ((mx!=0)||(my!=0))
 		for (int i=0; i<GScreen.Missile_list.size(); i++)
 		{
@@ -1036,8 +1045,8 @@ public class Entity {
 			{
 				float dx=0;
 				float dy=0;
-				if (Math.abs(my)<0.1f) {dx=99999;}else{dx=mx/my;}
-				if (Math.abs(mx)<0.1f) {dy=99999;}else{dy=my/mx;}
+				if (my*my<1.0f) {dx=mx;}else{dx=mx/my;}
+				if (mx*mx<1.0f) {dy=my;}else{dy=my/mx;}
 				
 				///GScreen.temp_vector_collision_result.set(99999,99999);
 				
@@ -1057,10 +1066,12 @@ public class Entity {
 		{
 			float dx=0;
 			float dy=0;
-			if (Math.abs(my)<0.1f) {dx=99999;}else{dx=mx/my;}
-			if (Math.abs(mx)<0.1f) {dy=99999;}else{dy=my/mx;}
+			if (my*my<1.0f) {dx=mx;}else{dx=mx/my;}
+			if (mx*mx<1.0f) {dy=my;}else{dy=my/mx;}
 			
-			near_object=GScreen.get_collision(pos.x,pos.y,pos.x+mx*_d,pos.y+my*_d,dx,dy,size);
+			//Float.MAX_VALUE;
+			
+			near_object=GScreen.get_collision(pos.x,pos.y,pos.x+mx*_d,pos.y+my*_d,dx,dy,collision_size_x,collision_size_y);
 		}
 		
 
@@ -1132,10 +1143,20 @@ public class Entity {
 				impulse.y-=additive_impulse_y*(1f-mass/(mass+near_object.mass));
 			}
 		}
+		
+		/*Main.font.draw(GScreen.batch, "mx="+mx, pos.x, pos.y);
+		Main.font.draw(GScreen.batch, "my="+my, pos.x, pos.y-15);*/
 
 		look_cooldown-=_d;
+		if (impulse.x>0) {impulse.x-=friction*_d*(1f+impulse.x/64f); if (impulse.x<0) {impulse.x=0;}}
+		else
+		if (impulse.x<0) {impulse.x+=friction*_d*(1f-impulse.x/64f); if (impulse.x>0) {impulse.x=0;}}
+		//										
 		
-		impulse.scl((float) Math.pow(friction, _d));
+		if (impulse.y>0) {impulse.y-=friction*_d*(1f+impulse.y/64f); if (impulse.y<0) {impulse.y=0;}}
+		else
+		if (impulse.y<0) {impulse.y+=friction*_d*(1f-impulse.y/64f); if (impulse.y>0) {impulse.y=0;}}
+		//impulse.scl((float) Math.pow(friction, _d));
 		
 		if (is_AI)
 		{
@@ -1420,6 +1441,11 @@ public class Entity {
 	}
 
 	public void post_update(float _d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void always_draw(float _d) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -16,6 +16,8 @@ public class DecorStoneWall extends Entity {
 
 		custom_phys=true;
 		
+		have_collision=false;
+		
 		is_AI=false;
 		is_player=false;
 		type=EntityType.WALL;

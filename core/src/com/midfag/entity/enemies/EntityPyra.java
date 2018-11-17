@@ -58,6 +58,8 @@ public class EntityPyra extends Entity {
 		
 		friction=0.25f;
 		speed*=5f;
+		
+		friction=100;
 	}
 	
 	@Override

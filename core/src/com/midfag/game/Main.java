@@ -45,7 +45,7 @@ public class Main extends Game {
 
     	
         Assets.load_assets();
-        
+        SysConfig.RegisterSSD();
         SysConfig.RegisterEntity();
         
         SysConfig.RegisterWeapon();

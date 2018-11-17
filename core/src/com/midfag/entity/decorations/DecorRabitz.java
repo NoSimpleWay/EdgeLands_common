@@ -27,8 +27,8 @@ public class DecorRabitz extends Entity {
 		path_x=1;
 		path_y=0;
 		
-		collision_size_x=60;
-		collision_size_y=20;
+		collision_size_x=50;
+		collision_size_y=10;
 		
 		size=60;
 		mass=999999999;

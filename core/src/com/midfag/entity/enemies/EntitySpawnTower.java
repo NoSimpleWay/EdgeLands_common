@@ -44,7 +44,7 @@ public class EntitySpawnTower extends Entity {
 		id=this.getClass().getName();
 		uid="spwntwr";
 		//Helper.log ("THIS ID="+id);
-		icon=Assets.entity_pyra_icon;
+		icon=Assets.entity_spawn_tower_icon;
 		
 		//armored[0]=new WeaponRobofirle();
 		//armored[0].generate();

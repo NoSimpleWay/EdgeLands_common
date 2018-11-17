@@ -68,8 +68,9 @@ public class EntityMine extends Entity {
 		offset.y=10;
 		can_rotate=false;
 		
-		friction=0.05f;
+		//friction=0.05f;
 		speed=0.0f;
+		friction=100;
 	}
 	
 	@Override

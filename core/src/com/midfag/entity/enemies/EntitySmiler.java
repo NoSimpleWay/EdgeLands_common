@@ -48,7 +48,7 @@ public class EntitySmiler extends Entity {
 		id=this.getClass().getName();
 		uid="entsmiler";
 		//Helper.log ("THIS ID="+id);
-		icon=Assets.entity_pyra_icon;
+		icon=Assets.entity_smiler_icon;
 		
 		/*armored[0]=new WeaponRobofirle();
 		armored[0].generate();

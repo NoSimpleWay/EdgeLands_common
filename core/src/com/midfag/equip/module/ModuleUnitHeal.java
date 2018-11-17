@@ -96,8 +96,8 @@ public class ModuleUnitHeal extends ModuleUnit {
 	@Override
 	public void additional_update_stats()
 	{
-		total_immediate_heal=base_immediate_heal;
-		total_gradual_heal=base_gradual_heal;
+		total_immediate_heal=base_immediate_heal*level;
+		total_gradual_heal=base_gradual_heal*level;
 	}
 	
 	@Override

@@ -13,7 +13,7 @@ public class WeaponRaiderTank extends Weapon {
 			base_missile_count=3;
 			base_shoot_cooldown=0.2f;
 			base_dispersion=0f;
-			base_dispersion_additional=0.0f;
+			base_dispersion_additional=3.0f;
 			base_ammo_size=30;
 			base_reload_time=5.0f;
 			missile_speed=1200;

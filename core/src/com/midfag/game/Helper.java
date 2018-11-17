@@ -32,6 +32,8 @@ public class Helper {
 	public static String alphabet[]=new String [16];
 	public static String hex[]={"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P"};
 	public static GlyphLayout  layout = new GlyphLayout();
+	public static float inventory_level=1.0f;
+	public static Rarity invenory_rarity=Rarity.COMMON;
 	
 	public Helper()
 	{
@@ -67,7 +69,11 @@ public class Helper {
 			if (GScreen.cluster[j][i].Phys_list!=null){GScreen.cluster[j][i].Phys_list.clear();}
 		}
 		
-		FileHandle file = Gdx.files.local("level_data/z.txt");
+		System.out.println("LOCAL: "+Gdx.files.getLocalStoragePath());
+		System.out.println("EXTERNAL: "+Gdx.files.getExternalStoragePath());
+		
+		if (Gdx.files.local("data/level_data/z.txt").exists()) {log ("GOOD!");} else  {log ("DAMN...");}
+		FileHandle file = Gdx.files.local("data/level_data/z.txt");
 		
 		String s=file.readString();
 		
@@ -93,6 +99,8 @@ public class Helper {
 		
 		for (int i=0; i<ss.length; i++)
 		{
+			log ("!ss["+i+"]="+ss[i]);
+			
 			if (ss[i].equals("###ENTITY"))
 			{
 				i++;
@@ -106,12 +114,14 @@ public class Helper {
 				if (SysConfig.get_package_path_by_uid(id).equals(""))
 				{e=null;}
 				else
-				{e=get_object_from_id(SysConfig.get_package_path_by_uid(id));}
+				{e=get_object_from_id(SysConfig.get_package_path_by_uid(id)); e.uid=id;}
 				//System.out.println("ID="+id);	
 			}
 			
 			if (e!=null)
 			{
+				//log ("SS["+i+"] "+ss[i]);
+				
 				if (ss[i].equals("pos.x"))
 				{
 					i++;
@@ -122,6 +132,23 @@ public class Helper {
 				{
 					i++;
 					e.pos.y=Integer.parseInt(ss[i]);
+				}
+				
+				if (ss[i].equals("collision_size_x"))
+				{
+					i++;
+					e.collision_size_x=Integer.parseInt(ss[i]);
+					e.default_collision_size=false;
+					e.have_collision=true;
+					
+					log ("Colx");
+				}
+				
+				if (ss[i].equals("collision_size_y"))
+				{
+					i++;
+					e.collision_size_y=Integer.parseInt(ss[i]);
+					e.default_collision_size=false;
 				}
 				
 				if (ss[i].equals("y"))
@@ -311,7 +338,8 @@ public class Helper {
 			GScreen.pl_mech=GScreen.add_entity_to_map(new EntityPlayer(new Vector2(4400,4400)));
 		}
 		
-		file = Gdx.files.local("level_data/z_tile.txt");
+		
+		file = Gdx.files.local("data/level_data/z_tile.txt");
 		
 		s=file.readString();
 		
@@ -342,43 +370,17 @@ public class Helper {
 					}*/
 					
 
-					
-				
-					file = Gdx.files.local("z_tile_compress.txt");
-					file.writeString(compress, false);
-					
-					file = Gdx.files.local("z_tile_dict.txt");
-					file.writeString(dict, false);
-					
-					file = Gdx.files.local("z_tile_compress.txt");
-					compress=file.readString();
-					
-					file = Gdx.files.local("z_tile_dict.txt");
-					dict=file.readString();
-
-					String result=compress;
-					
-					/*
-					for (int i=15; i>=0; i--)
-					{
-						result=result.replace(alphabet[i], dict.substring(i*2,i*2+1));
-					}*/
-					
-					
-
-					
-					file = Gdx.files.local("z_tile_decode.txt");
-					file.writeString(result, false);
 		
 		
 		ss=s.split("\n");
 		
 		//System.out.println("FIRST DATA="+ss[0]);
 		
+		if (true)
 		for (int i=0; i<100; i++)
 		for (int j=0; j<100; j++)
 		{
-			System.out.println("ZBS: "+ss[i]);
+			//System.out.println("ZBS: "+ss[i]);
 			
 			String sub_s=ss[i].substring(j*2, j*2+2);
 			
@@ -401,7 +403,7 @@ public class Helper {
 				}
 		}
 		
-		file = Gdx.files.local("level_data/z_tile_overlay.txt");
+		file = Gdx.files.local("data/level_data/z_tile_overlay.txt");
 		
 		s=file.readString();
 		ss=s.split("\n");
@@ -615,6 +617,8 @@ public class Helper {
 			//System.out.println("CONSTRUCTOR[1]: "+constructor[1]);
 			
 			Entity enn=(Entity) constructor[0].newInstance(new Vector2());
+			
+			
 			return enn;
 
 

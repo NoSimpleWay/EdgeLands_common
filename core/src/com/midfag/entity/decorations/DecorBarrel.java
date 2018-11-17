@@ -29,7 +29,15 @@ public class DecorBarrel extends Entity {
 		spr.setOrigin(spr.getTexture().getWidth()/2f, 00f);
 
 		is_AI=false;
-		is_decor=true;
+		is_decor=false;
+		
+		have_collision=true;
+		
+		mass=100;
+		friction=50;
+		
+		collision_size_x=50;
+		collision_size_y=15;
 		
 		armored_shield.value=50;
 		armored_shield.total_value=50;
@@ -40,7 +48,7 @@ public class DecorBarrel extends Entity {
 		
 		light_source=new LightSource();
 		light_source.light_power=1.0f;
-		light_source.R=0.01f;
+		light_source.R=0.1f;
 		light_source.G=0.00f;
 		light_source.B=1.0f;
 		light_source.is_static=true;
@@ -59,25 +67,7 @@ public class DecorBarrel extends Entity {
 		// TODO Auto-generated constructor stub
 	}
 	
-	@Override
-	public void update(float _d)
-	{
-		
-		/*
-		color_cooldown+=_d;
-		
-		//if (color_cooldown<=0)	
-		{
-			//color_cooldown=1f;
-			
-			light_source.R=((float) Math.sin(color_cooldown/2f)+1f)/2f;
-			light_source.G=((float) Math.sin(color_cooldown/2f)+1f)/2f;
-			light_source.B=((float) Math.sin(color_cooldown/2f)+1f)/2f;
-			
-			GScreen.need_light_update=true;
-		}*/
-		
-	}
+
 	
 	@Override
 	public void pre_death_action(boolean need_dead_anim) {

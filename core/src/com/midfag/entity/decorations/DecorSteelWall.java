@@ -21,7 +21,10 @@ public class DecorSteelWall extends Entity {
 		spr.setSize(155, 44);
 		spr.setOrigin(155/2, 44/2f);
 		
-		
+		/*
+		collision_size_x=100;
+		collision_size_y=10;
+		*/
 		//shield=999999;
 		// TODO Auto-generated constructor stub
 	}

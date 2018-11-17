@@ -17,7 +17,7 @@ public class SystemLightRandom extends Entity {
 		have_collision=false;
 		
 		id=this.getClass().getName();
-		uid="syslight";
+		uid="syslightrandom";
 		Helper.log("package path "+id);
 		type=EntityType.SYSTEM;
 		

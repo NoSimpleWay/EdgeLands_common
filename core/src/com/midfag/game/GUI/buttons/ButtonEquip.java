@@ -178,9 +178,11 @@ public class ButtonEquip extends Button {
 				
 				float mx=0;
 				
-				draw_info(""+((Weapon)obj).get_name()+" ("+w.level+" level) "+w.attr_point_indicate,"");
+				draw_info(((Weapon)obj).get_name(),"");
 				//mov+=25;
 				//draw_info("Bonuses: ",""+((Weapon)obj).attr_count);
+				mov+=15;
+				draw_info("׃נמגוםü: "+((Weapon)obj).level,"");
 				mov+=15;
 				color_it (w.total_damage,w.base_damage); draw_info("׃נמם: ",""+w.total_damage,1);
 				if (w.total_fire_damage>0) {Main.font.setColor(Color.YELLOW); mx+=280; draw_info("ֿמהזמד: ",""+w.total_fire_damage*10f,mx); }
@@ -270,7 +272,8 @@ public class ButtonEquip extends Button {
 					
 					if ((inventory_id==-1)&&(GScreen.pl.inventory[99] instanceof Weapon))
 					{
-						GScreen.pl.armored[0].unequip();
+						if (GScreen.pl.armored[0]!=null)
+						{GScreen.pl.armored[0].unequip();}
 						
 						Object swap=(Weapon)GScreen.pl.armored[0];
 						GScreen.pl.armored[0]=(Weapon)GScreen.pl.inventory[99];

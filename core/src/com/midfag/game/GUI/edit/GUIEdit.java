@@ -155,6 +155,41 @@ public class GUIEdit extends GUI {
 		
 		
 		//open property editor
+		
+		if (Gdx.input.isKeyPressed(Keys.B))
+		{
+			if (selected_object!=null)
+			{
+				float modx=1;
+				float mody=1;
+				if (InputHandler.posx<selected_object.pos.x){modx=-1;}
+				if (InputHandler.posy<selected_object.pos.y){mody=-1;}
+				
+				selected_object.collision_size_x+=InputHandler.dx*GScreen.camera.zoom*modx;
+				selected_object.collision_size_y+=InputHandler.dy*GScreen.camera.zoom*mody;
+				
+				selected_object.default_collision_size=false;
+				
+			}
+			
+			if (!selected_object_list.isEmpty())
+			{
+				for (Entity e:selected_object_list)
+				{
+					
+					float modx=1;
+					float mody=1;
+					if (InputHandler.posx<e.pos.x){modx=-1;}
+					if (InputHandler.posy<e.pos.y){mody=-1;}
+					
+					e.collision_size_x+=InputHandler.dx*GScreen.camera.zoom*modx;
+					e.collision_size_y+=InputHandler.dy*GScreen.camera.zoom*mody;
+					
+					e.default_collision_size=false;
+				}
+			}
+		}
+		
 		if ((Gdx.input.isKeyPressed(Keys.P)&&(InputHandler.key_release)&&(selected_object!=null)&&(selected_object.light_source!=null)))
 		{
 			InputHandler.key_release=false;
@@ -189,6 +224,9 @@ public class GUIEdit extends GUI {
 		{
 			indicate_entity=Helper.get_object_from_id(selected_object.id);
 			indicate_entity.z=selected_object.z;
+			
+			indicate_entity.collision_size_x=selected_object.collision_size_x;
+			indicate_entity.collision_size_y=selected_object.collision_size_y;
 			
 			if (selected_object.light_source!=null)
 			{
@@ -387,8 +425,19 @@ public class GUIEdit extends GUI {
 							
 							en.light_source.light_power=indicate_entity.light_source.light_power;
 						}
+						
+						en.have_collision=indicate_entity.have_collision;
+
+						en.collision_size_x=indicate_entity.collision_size_x;
+						en.collision_size_y=indicate_entity.collision_size_y;
+						
+						en.path_x=indicate_entity.path_x;
+						en.path_y=indicate_entity.path_y;
+						
 						en.pos.x=xx+array_x*i;
 						en.pos.y=yy+array_y*i;
+						
+						en.uid=indicate_entity.uid;
 						
 						en.spr.setRotation(indicate_entity.spr.getRotation());
 						//en.init("gui edit");
@@ -798,13 +847,16 @@ public class GUIEdit extends GUI {
 		{
 			selected_object_list.sort(ASX);
 			
-			float new_x=-999999;
+			Entity prev_e=null;
 			
 			for (Entity e:selected_object_list)
 			{
+				if (prev_e!=null) {e.pos.x=prev_e.pos.x+prev_e.collision_size_x+e.collision_size_x;}
 				
-				if (new_x==-999999) {new_x=e.pos.x;} else {e.pos.x=new_x+e.collision_size_x;}
-			new_x+=e.collision_size_x;
+				prev_e=e;
+				//new_y=0;
+				
+				//new_y+=e.collision_size_y;
 				//shift=e.main_tex.getWidth();
 			}
 			

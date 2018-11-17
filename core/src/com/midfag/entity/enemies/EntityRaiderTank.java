@@ -36,7 +36,7 @@ public class EntityRaiderTank extends Entity {
 		
 		uid="raider_tank";
 		//Helper.log ("THIS ID="+id);
-		icon=Assets.entity_pyra_icon;
+		icon=Assets.entity_raider_tank_icon;
 		
 		armored[0]=new WeaponRaiderTank();
 		armored[0].generate();

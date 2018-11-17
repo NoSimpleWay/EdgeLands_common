@@ -3,6 +3,9 @@ package com.midfag.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.math.Vector2;
 import com.midfag.entity.Entity;
 import com.midfag.entity.EntityHuman;
 import com.midfag.entity.EntityPlayer;
@@ -35,6 +38,78 @@ public class SysConfig {
 	public  SysConfig()
 	{
 
+	}
+	
+	public static void RegisterSSD()
+	{
+		if (Gdx.files.internal("data/SSD.txt").exists())
+		{
+			Helper.log ("SSD data loaded!");
+			FileHandle file = Gdx.files.local("data/SSD.txt");
+			
+			
+			String s=file.readString();
+			
+			Entity ssd_entity=null;
+
+			//s=s.replace("\n"+"\n", "\n");
+			String[] string_array = s.split("\r\n");
+			
+			for (int i=0; i<string_array.length; i++)
+			{
+				Helper.log ("string_array["+i+"]= |"+string_array[i]+"|");
+				
+				if (string_array[i].toLowerCase().equals("ssd"))
+				{
+					i++;
+					ssd_entity=new SSD(new Vector2());
+					ssd_entity.uid=string_array[i];
+					EntityRegisterer.add(ssd_entity);
+					Helper.log ("Happy birthday, SSD "+ssd_entity.uid);
+					
+					
+				}
+				
+				if (string_array[i].toLowerCase().equals("x"))
+				{
+					i++;
+					ssd_entity.pos.x=Integer.parseInt(string_array[i]);
+				}
+				
+				if (string_array[i].toLowerCase().equals("y"))
+				{
+					i++;
+					ssd_entity.pos.y=Integer.parseInt(string_array[i]);
+				}
+				
+				if (string_array[i].toLowerCase().equals("path_x"))
+				{
+					i++;
+					ssd_entity.path_x=Integer.parseInt(string_array[i]);
+				}
+				
+				if (string_array[i].toLowerCase().equals("path_y"))
+				{
+					i++;
+					ssd_entity.path_y=Integer.parseInt(string_array[i]);
+				}
+				
+				if (string_array[i].toLowerCase().equals("collision_x"))
+				{
+					i++;
+					ssd_entity.collision_size_x=Integer.parseInt(string_array[i]);
+					ssd_entity.have_collision=true;
+					Helper.log ("have collision");
+				}
+				
+				if (string_array[i].toLowerCase().equals("collision_y"))
+				{
+					i++;
+					ssd_entity.collision_size_y=Integer.parseInt(string_array[i]);
+				}
+			}
+		}
+		
 	}
 	
 	public static void RegisterModule()
@@ -118,7 +193,7 @@ public class SysConfig {
 	
 	public static void RegisterEntity()
 	{
-		EntityRegisterer.clear();
+		//EntityRegisterer.clear();
 		EntityRegisterer.add(new DecorBarrel(null));
 		EntityRegisterer.add(new DecorBarrelCrash(null));
 		EntityRegisterer.add(new DecorBuilding(null));
@@ -152,6 +227,7 @@ public class SysConfig {
 		EntityRegisterer.add(new DecorWallAngleB(null));
 		
 		EntityRegisterer.add(new SystemHelper(null));
+		EntityRegisterer.add(new SystemCollision(null));
 		EntityRegisterer.add(new SystemLight(null));
 		EntityRegisterer.add(new SystemLightRandom(null));
 		
