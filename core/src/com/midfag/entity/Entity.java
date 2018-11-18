@@ -200,6 +200,8 @@ public class Entity {
 	public float color_total_A=1;
 	
 	public boolean default_collision_size=true;
+	public float temp_collision_x;
+	public float temp_collision_y;
 	
 	public void use_module(int _id)
 	{
@@ -352,6 +354,11 @@ public class Entity {
 				if (Skills_list.get(i).learned)
 				{_damage=Skills_list.get(i).damage_action(this,_damage);}
 			}
+		}
+		
+		if (armored_shield!=null)
+		{
+			armored_shield.damage_action(this, _damage);
 		}
 		
 		armored_shield.value-=_damage;
@@ -1142,6 +1149,8 @@ public class Entity {
 				near_object.impulse.y+=additive_impulse_y*mass/(mass+near_object.mass);
 				impulse.y-=additive_impulse_y*(1f-mass/(mass+near_object.mass));
 			}
+			
+			//reposition (near_object.temp_collision_x,near_object.temp_collision_y);
 		}
 		
 		/*Main.font.draw(GScreen.batch, "mx="+mx, pos.x, pos.y);

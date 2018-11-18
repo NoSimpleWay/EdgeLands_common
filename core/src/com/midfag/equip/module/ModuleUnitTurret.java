@@ -30,7 +30,7 @@ public class ModuleUnitTurret extends ModuleUnit {
 		base_cooldown=25;
 
 		
-		level=1;
+		//level=1;
 		
 
 		
@@ -41,13 +41,12 @@ public class ModuleUnitTurret extends ModuleUnit {
 		
 		Available_attribute_list.add(new ModuleAttributeExplosionIce());
 		
-		weapon=new WeaponSimpleFirle();
-		weapon.level=level;
-		weapon.rarity=rarity;
-		weapon.generate();
-		
 		generate();
 		update_stats();
+		
+		
+		
+
 	}
 	
 	@Override
@@ -65,6 +64,8 @@ public class ModuleUnitTurret extends ModuleUnit {
 		en.armored[0]=weapon;
 		turret=en;
 		GScreen.add_entity_to_map(en);
+		
+		//GScreen.pl=en;
 	}
 	
 	@Override
@@ -82,7 +83,10 @@ public class ModuleUnitTurret extends ModuleUnit {
 	@Override
 	public void additional_update_stats()
 	{
-		
+		weapon=new WeaponSimpleFirle();
+		weapon.level=level;
+		weapon.rarity=rarity;
+		weapon.generate();
 	}
 	
 	@Override

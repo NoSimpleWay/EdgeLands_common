@@ -148,7 +148,8 @@ public class SysConfig {
 		ShieldRegisterer.add(new EnergoshieldStone());
 		ShieldRegisterer.add(new EnergoshieldRobo());
 		ShieldRegisterer.add(new LegendaryEnergoshieldCup());
-		
+		ShieldRegisterer.add(new LegendaryEnergoshieldCastIron());
+		ShieldRegisterer.add(new LegendaryEnergoshieldOptimusAdaptius());
 	}
 	
 	public static void RegisterShieldAttribute()

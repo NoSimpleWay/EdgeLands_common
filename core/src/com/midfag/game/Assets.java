@@ -282,29 +282,21 @@ public class Assets {
 	public static Texture load(String _s) {
 		// TODO Auto-generated method stub
 		Texture tex;
-		
-	
-		
+
 			if (Gdx.files.internal("data/"+_s+".png").exists())
 			{
 				tex = new Texture(Gdx.files.internal("data/"+_s+".png"));
 			
-			tex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+				tex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 			return tex;
 			}
 			else
 			{
-			// TODO Auto-generated catch block
-				
-
-			Helper.log("texture ["+"data/"+_s+".png"+"] not found");
-			
-			//e.printStackTrace();
-			tex = new Texture(Gdx.files.internal("data/null.png"));
+				Helper.log("texture ["+"data/"+_s+".png"+"] not found");
+				tex = new Texture(Gdx.files.internal("data/null.png"));
 			}
 		
 		return tex;
-
 	}
 
 	public static void load_assets()

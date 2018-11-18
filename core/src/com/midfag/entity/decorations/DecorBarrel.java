@@ -34,9 +34,9 @@ public class DecorBarrel extends Entity {
 		have_collision=true;
 		
 		mass=100;
-		friction=50;
+		friction=100;
 		
-		collision_size_x=50;
+		collision_size_x=15;
 		collision_size_y=15;
 		
 		armored_shield.value=50;

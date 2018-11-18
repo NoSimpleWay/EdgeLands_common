@@ -11,14 +11,14 @@ public class ESAttributeValue extends ESAttribute {
 		name="shield";
 		uid="val";
 		cost=2;
-		max_level=100;
+		max_level=10000;
 	}
 	
 	@Override
 	public void calculate(Energoshield _e)
 	{
 		_e.total_value+=_e.base_value*(level*0.02f)+_e.base_value*(_e.level-1);
-		_e.total_value+=(level*5f);
+		_e.total_value+=(level*0.5f);
 	}
 	
 	@Override

@@ -12,7 +12,7 @@ public class ESAttributeReflect extends ESAttribute {
 		name="regeneration";
 		uid="refl";
 		cost=1;
-		max_level=100;
+		max_level=10000;
 	}
 	
 	@Override

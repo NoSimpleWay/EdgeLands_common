@@ -78,7 +78,7 @@ public class Helper {
 		String s=file.readString();
 		
 
-		String[] ss = s.split("\n");
+		String[] ss = s.split("\r\n");
 		
 		    // if file doesnt exists, then create it
 		//System.out.println(ss);
@@ -111,10 +111,12 @@ public class Helper {
 				
 				log ("UID="+id+" | ID="+SysConfig.get_package_path_by_uid(id));
 				
+
+				
 				if (SysConfig.get_package_path_by_uid(id).equals(""))
 				{e=null;}
 				else
-				{e=get_object_from_id(SysConfig.get_package_path_by_uid(id)); e.uid=id;}
+				{e=get_object_from_id(SysConfig.get_package_path_by_uid(id)); e.uid=id; }
 				//System.out.println("ID="+id);	
 			}
 			
@@ -372,12 +374,12 @@ public class Helper {
 
 		
 		
-		ss=s.split("\n");
+		ss=s.split("\r\n");
 		
 		//System.out.println("FIRST DATA="+ss[0]);
 		
 		if (true)
-		for (int i=0; i<100; i++)
+		for (int i=0; i<ss.length; i++)
 		for (int j=0; j<100; j++)
 		{
 			//System.out.println("ZBS: "+ss[i]);
@@ -406,11 +408,11 @@ public class Helper {
 		file = Gdx.files.local("data/level_data/z_tile_overlay.txt");
 		
 		s=file.readString();
-		ss=s.split("\n");
+		ss=s.split("\r\n");
 		
-		//System.out.println("FIRST DATA="+ss[0]);
+		System.out.println("Data length="+ss.length);
 		
-		for (int i=0; i<100; i++)
+		for (int i=0; i<ss.length; i++)
 		for (int j=0; j<100; j++)
 		{
 			String sub_s=ss[i].substring(j*2, j*2+2);

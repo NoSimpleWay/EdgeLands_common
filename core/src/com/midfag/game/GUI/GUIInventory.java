@@ -3,14 +3,16 @@ package com.midfag.game.GUI;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.midfag.entity.Entity;
 import com.midfag.game.GScreen;
 import com.midfag.game.GUI.buttons.Button;
 
 public class GUIInventory extends GUI {
 	
-	public List<Button> Button_list = new ArrayList<Button>();
+	//public List<Button> Button_list = new ArrayList<Button>();
 	//public GScreen G=Main.screen;
-
+	public Entity target;
+	
 	public GUIInventory()
 	{
 		//G=GScreen.get_this();

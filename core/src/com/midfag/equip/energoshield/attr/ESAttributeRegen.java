@@ -11,18 +11,18 @@ public class ESAttributeRegen extends ESAttribute {
 		name="regeneration";
 		uid="reg";
 		cost=2.0f;
-		max_level=100;
+		max_level=10000;
 	}
 	
 	@Override
 	public void calculate(Energoshield _e)
 	{
-		_e.total_regen_speed+=_e.base_regen_speed*(level*0.02f)+level*0.5f+_e.base_regen_speed*(_e.level-1);
+		_e.total_regen_speed+=_e.base_regen_speed*(level*0.025f)+level*0.15f+_e.base_regen_speed*(_e.level-1);
 	}
 	
 	@Override
 	public String get_descr() {
 		// TODO Auto-generated method stub
-		return "+"+level*2f+"% скорость регенерации +"+level*0.5f+"/сек скорость регенерации";
+		return "+"+level*2.5f+"% скорость регенерации +"+level*0.15f+"/сек скорость регенерации";
 	}
 }

@@ -96,12 +96,13 @@ public class Energoshield {
 		
 		value=total_value;
 		
+		/*
 		if (rarity==Rarity.COMMON){spr.setColor(Color.WHITE);}
 		if (rarity==Rarity.UNCOMMON){spr.setColor(Color.GREEN);}
 		if (rarity==Rarity.RARE){spr.setColor(Color.ROYAL);}
 		if (rarity==Rarity.ELITE){spr.setColor(Color.MAGENTA);}
 		if (rarity==Rarity.LEGENDARY){spr.setColor(Color.ORANGE);}
-		if (rarity==Rarity.ANOMALY){spr.setColor(Color.CYAN);}
+		if (rarity==Rarity.ANOMALY){spr.setColor(Color.CYAN);}*/
 	}
 	
 	public void update_attributes_bonus(Entity _e)
@@ -196,6 +197,11 @@ public class Energoshield {
 		}
 		
 		//value=total_value;
+	}
+	
+	public void damage_action(Entity _master, float _damage)
+	{
+		
 	}
 
 }

@@ -22,8 +22,6 @@ public class GUI {
 		for (int i=0; i<Button_list.size(); i++)
 		{
 			Button_list.get(i).draw();
-			Button_list.get(i).update(_d);
-		
 		}
 	}
 
@@ -37,9 +35,15 @@ public class GUI {
 		// TODO Auto-generated method stub
 		for (int i=0; i<Button_list.size(); i++)
 		{
-			Button_list.get(i).second_update(_d);
-			Button_list.get(i).second_draw();
-			Button_list.get(i).text_pass(GScreen.batch_static);
+			if (!Button_list.get(i).need_remove)
+			{
+				Button_list.get(i).update(_d);
+				Button_list.get(i).second_update(_d);
+				Button_list.get(i).second_draw();
+				Button_list.get(i).text_pass(GScreen.batch_static);
+			}
+			else
+			{Button_list.remove(i); i--;}
 		}
 	}
 	

@@ -303,7 +303,8 @@ public class InputHandler implements InputProcessor {
     		
     		GScreen.show_equip=!GScreen.show_equip;
     		
-    		GUI gui=new GUIInventory();
+    		GUIInventory gui=new GUIInventory();
+    		gui.target=GScreen.pl;
     		
     		if (GScreen.show_equip)
     		{
@@ -312,14 +313,14 @@ public class InputHandler implements InputProcessor {
     			
     			GScreen.main_control=false;
     			
-    			gui.Button_list.add(new ButtonEquip(530,117,-1));
-    			gui.Button_list.add(new ButtonEquip(760,117,-2));
+    			GScreen.Button_list.add(new ButtonEquip(530,117,-1,gui));
+    			gui.Button_list.add(new ButtonEquip(760,117,-2,gui));
     			
-    			gui.Button_list.add(new ButtonEquip(530,217,-5));
+    			gui.Button_list.add(new ButtonEquip(530,217,-5,gui));
     			
     			for (int i=0; i<2; i++)
     			for (int j=0; j<2; j++)
-    			{gui.Button_list.add(new ButtonEquip(170+j*220,130+275*i,-10-j-i*2));}
+    			{gui.Button_list.add(new ButtonEquip(170+j*220,130+275*i,-10-j-i*2,gui));}
     			
     			gui.Button_list.add(new ButtonRandomGenerator(30,350+47*0,EquipGenerationType.WEAPON));
     			gui.Button_list.add(new ButtonRandomGenerator(30,350+47*1,EquipGenerationType.SHIELD));
@@ -340,13 +341,14 @@ public class InputHandler implements InputProcessor {
     			for (int i=0; i<2; i++)
     			{
     				//if (GScreen.pl.inventory[i] instanceof Weapon)
-    				{gui.Button_list.add(new ButtonEquip(110+j*81,70-i*41,j+i*10));}
+    				{gui.Button_list.add(new ButtonEquip(110+j*81,70-i*41,j+i*10,gui));}
     			}
     			
-    			gui.Button_list.add(new ButtonEquip(200,250,99));
+    			gui.Button_list.add(new ButtonEquip(200,250,99,gui));
     			//gui.Button_list.add(new ButtonSkill(30,30,GScreen.pl.Skills_list.get(0),gui));
     			
 
+    			
     			
     			GScreen.GUI_list.add(gui);
     			

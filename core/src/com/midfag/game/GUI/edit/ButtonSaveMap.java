@@ -68,101 +68,101 @@ public class ButtonSaveMap extends Button {
 				for (int k=0; k<GScreen.cluster[j][i].Entity_list.size(); k++)
 				{	
 					Entity e=GScreen.cluster[j][i].Entity_list.get(k);
-					s+="###ENTITY"+"\n";
-					s+=e.uid+"\n";
+					s+="###ENTITY"+"\r\n";
+					s+=e.uid+"\r\n";
 					
-					s+="pos.x"+"\n";
-					s+=Math.round(e.pos.x)+"\n";
+					s+="pos.x"+"\r\n";
+					s+=Math.round(e.pos.x)+"\r\n";
 					
-					s+="pos.y"+"\n";
-					s+=Math.round(e.pos.y)+"\n";
+					s+="pos.y"+"\r\n";
+					s+=Math.round(e.pos.y)+"\r\n";
 					
 					if (!e.default_collision_size)
 					{
-					s+="collision_size_x"+"\n";
-					s+=Math.round(e.collision_size_x)+"\n";
+					s+="collision_size_x"+"\r\n";
+					s+=Math.round(e.collision_size_x)+"\r\n";
 					
-					s+="collision_size_y"+"\n";
-					s+=Math.round(e.collision_size_y)+"\n";
+					s+="collision_size_y"+"\r\n";
+					s+=Math.round(e.collision_size_y)+"\r\n";
 					}
 					
-					s+="y"+"\n";
-					s+=Math.round(e.z)+"\n";
+					s+="y"+"\r\n";
+					s+=Math.round(e.z)+"\r\n";
 					
-					s+="angle"+"\n";
-					s+=Math.round(e.spr.getRotation())+"\n";
+					s+="angle"+"\r\n";
+					s+=Math.round(e.spr.getRotation())+"\r\n";
 					
 					if (!e.id_for_script.equals(""))
-					{s+="script_id"+"\n";
-					s+=e.id_for_script+"\n";}
+					{s+="script_id"+"\r\n";
+					s+=e.id_for_script+"\r\n";}
 					
 					if (!e.interact_entry_point.equals(""))
-					{s+="interact_entry_point"+"\n";
-					s+=e.interact_entry_point+"\n";}
+					{s+="interact_entry_point"+"\r\n";
+					s+=e.interact_entry_point+"\r\n";}
 					
 					if (e.light_source!=null)
 					{
-						s+="LightSource"+"\n";
-						s+="LiR"+"\n";
-						s+=""+e.light_source.R+"\n";
+						s+="LightSource"+"\r\n";
+						s+="LiR"+"\r\n";
+						s+=""+e.light_source.R+"\r\n";
 						
-						s+="LiG"+"\n";
-						s+=""+e.light_source.G+"\n";
+						s+="LiG"+"\r\n";
+						s+=""+e.light_source.G+"\r\n";
 						
-						s+="LiB"+"\n";
-						s+=""+e.light_source.B+"\n";
+						s+="LiB"+"\r\n";
+						s+=""+e.light_source.B+"\r\n";
 						
-						s+="LiP"+"\n";
-						s+=""+e.light_source.light_power+"\n";
+						s+="LiP"+"\r\n";
+						s+=""+e.light_source.light_power+"\r\n";
 						
-						s+="LightReady"+"\n";
+						s+="LightReady"+"\r\n";
 					}
 					
 					for (int f=0; f<2; f++){
 					if (e.armored[f]!=null)
 					{
-							s+="ArmoredWeapon"+"\n"+f+"\n";
-							//s+="weapon_uid"+"\n";
-							s+=""+e.armored[f].uid+"\n";
+							s+="ArmoredWeapon"+"\r\n"+f+"\r\n";
+							//s+="weapon_uid"+"\r\n";
+							s+=""+e.armored[f].uid+"\r\n";
 							
-							s+="weapon_rarity"+"\n";
-							s+=""+e.armored[f].rarity.ordinal()+"\n";
+							s+="weapon_rarity"+"\r\n";
+							s+=""+e.armored[f].rarity.ordinal()+"\r\n";
 							
-							s+="weapon_level"+"\n";
-							s+=""+e.armored[f].level+"\n";
+							s+="weapon_level"+"\r\n";
+							s+=""+e.armored[f].level+"\r\n";
 							for (int attr=0; attr<e.armored[f].Attribute_list.size(); attr++)
 							{
-								s+="WeaponAttr"+"\n";
-								s+=e.armored[f].Attribute_list.get(attr).uid+"\n";
-								s+="weapon_attr_level"+"\n";//s+="WeaponAttrLevel"+"\n";
-								s+=e.armored[f].Attribute_list.get(attr).level+"\n";
-								s+="WeaponAttrReady"+"\n";
+								s+="WeaponAttr"+"\r\n";
+								s+=e.armored[f].Attribute_list.get(attr).uid+"\r\n";
+								s+="weapon_attr_level"+"\r\n";//s+="WeaponAttrLevel"+"\r\n";
+								s+=e.armored[f].Attribute_list.get(attr).level+"\r\n";
+								s+="WeaponAttrReady"+"\r\n";
 							}
-							s+="WeaponReady"+"\n";
+							s+="WeaponReady"+"\r\n";
 						}
 					}
 					
 					for (int f=0; f<4; f++){
 					if (e.armored_module[f]!=null)
 					{
-							s+="ArmoredModule"+"\n"+f+"\n";
-							//s+="weapon_uid"+"\n";
-							s+=""+e.armored_module[f].uid+"\n";
+							s+="ArmoredModule"+"\r\n"+f+"\r\n";
+							//s+="weapon_uid"+"\r\n";
+							s+=""+e.armored_module[f].uid+"\r\n";
 							
-							s+="module_rarity"+"\n";
-							s+=""+e.armored_module[f].rarity.ordinal()+"\n";
+							s+="module_rarity"+"\r\n";
+							s+=""+e.armored_module[f].rarity.ordinal()+"\r\n";
 							
-							s+="module_level"+"\n";
-							s+=""+e.armored_module[f].level+"\n";
+							s+="module_level"+"\r\n";
+							s+=""+e.armored_module[f].level+"\r\n";
 							for (int attr=0; attr<e.armored_module[f].Attribute_list.size(); attr++)
 							{
-								s+="ModuleAttr"+"\n";
-								s+=e.armored_module[f].Attribute_list.get(attr).uid+"\n";
-								s+="module_attr_level"+"\n";//s+="WeaponAttrLevel"+"\n";
-								s+=e.armored_module[f].Attribute_list.get(attr).level+"\n";
-								s+="ModuleAttrReady"+"\n";
+								s+="ModuleAttr"+"\r\n";
+								s+=e.armored_module[f].Attribute_list.get(attr).uid+"\r\n";
+								s+="module_attr_level"+"\r\n";//s+="WeaponAttrLevel"+"\r\n";
+								s+=e.armored_module[f].Attribute_list.get(attr).level+"\r\n";
+								s+="ModuleAttrReady"+"\r\n";
 							}
-							s+="ModuleReady"+"\n";
+							s+="ModuleReady"+"\r\n";
 						}
 					}
 					
@@ -170,15 +170,15 @@ public class ButtonSaveMap extends Button {
 					
 					if (e.armored_shield!=null)
 					{
-							s+="ArmoredShield"+"\n";
-							//s+="weapon_uid"+"\n";
-							s+=""+e.armored_shield.uid+"\n";
+							s+="ArmoredShield"+"\r\n";
+							//s+="weapon_uid"+"\r\n";
+							s+=""+e.armored_shield.uid+"\r\n";
 							
-							s+="shield_rarity"+"\n";
-							s+=""+e.armored_shield.rarity.ordinal()+"\n";
+							s+="shield_rarity"+"\r\n";
+							s+=""+e.armored_shield.rarity.ordinal()+"\r\n";
 							
-							s+="shield_level"+"\n";
-							s+=""+e.armored_shield.level+"\n";
+							s+="shield_level"+"\r\n";
+							s+=""+e.armored_shield.level+"\r\n";
 							
 
 							
@@ -190,25 +190,25 @@ public class ButtonSaveMap extends Button {
 							module_level*/
 							for (int attr=0; attr<e.armored_shield.Attribute_list.size(); attr++)
 							{
-								s+="ShieldAttr"+"\n";
-								s+=e.armored_shield.Attribute_list.get(attr).uid+"\n";
-								s+="shield_attr_level"+"\n";//s+="WeaponAttrLevel"+"\n";
-								s+=e.armored_shield.Attribute_list.get(attr).level+"\n";
-								s+="ShieldAttrReady"+"\n";
+								s+="ShieldAttr"+"\r\n";
+								s+=e.armored_shield.Attribute_list.get(attr).uid+"\r\n";
+								s+="shield_attr_level"+"\r\n";//s+="WeaponAttrLevel"+"\r\n";
+								s+=e.armored_shield.Attribute_list.get(attr).level+"\r\n";
+								s+="ShieldAttrReady"+"\r\n";
 							}
-							s+="ShieldReady"+"\n";
+							s+="ShieldReady"+"\r\n";
 							
-							s+="shield_value"+"\n";
-							s+=""+e.armored_shield.value+"\n";
+							s+="shield_value"+"\r\n";
+							s+=""+e.armored_shield.value+"\r\n";
 							
-							s+="shield_total_value"+"\n";
-							s+=""+e.armored_shield.total_value+"\n";
+							s+="shield_total_value"+"\r\n";
+							s+=""+e.armored_shield.total_value+"\r\n";
 						
 					}
 					
-					s+="PUT"+"\n";
+					s+="PUT"+"\r\n";
 					
-					s+="\n";
+					s+="\r\n";
 					
 					
 				}
@@ -244,7 +244,7 @@ public class ButtonSaveMap extends Button {
 				}
 				s+=ss;
 				
-				s+="\n";
+				s+="\r\n";
 			}
 			file.writeString(s, false);
 			
@@ -269,7 +269,7 @@ public class ButtonSaveMap extends Button {
 				}
 				s+=ss;
 				
-				s+="\n";
+				s+="\r\n";
 			}
 			file.writeString(s, false);
 			

@@ -3,6 +3,7 @@ package com.midfag.game.GUI.buttons;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.midfag.entity.Entity;
 import com.midfag.equip.energoshield.Energoshield;
 import com.midfag.equip.module.ModuleUnit;
 import com.midfag.equip.weapon.Weapon;
@@ -12,6 +13,8 @@ import com.midfag.game.GScreen;
 import com.midfag.game.Helper;
 import com.midfag.game.InputHandler;
 import com.midfag.game.Main;
+import com.midfag.game.GUI.GUI;
+import com.midfag.game.GUI.GUIInventory;
 
 public class ButtonEquip extends Button {
 
@@ -23,7 +26,9 @@ public class ButtonEquip extends Button {
 	
 	public int inventory_id;
 	
-	public ButtonEquip(float _x, float _y, int _id)
+	public Entity target;
+	
+	public ButtonEquip(float _x, float _y, int _id, GUIInventory _gui)
 	{
 		super (_x,_y);
 		mov=0;
@@ -32,6 +37,8 @@ public class ButtonEquip extends Button {
 		
 		
 		inventory_id=_id;
+		
+		target=_gui.target;
 		
 		update_object();
 		
@@ -46,31 +53,31 @@ public class ButtonEquip extends Button {
 		if (inventory_id>=0)
 		{
 			obj=null;
-			if (GScreen.pl.inventory[inventory_id] instanceof Weapon){obj=(Weapon)GScreen.pl.inventory[inventory_id];}
-			if (GScreen.pl.inventory[inventory_id] instanceof Energoshield){obj=(Energoshield)GScreen.pl.inventory[inventory_id];}
-			if (GScreen.pl.inventory[inventory_id] instanceof ModuleUnit){obj=(ModuleUnit)GScreen.pl.inventory[inventory_id];}
+			if (target.inventory[inventory_id] instanceof Weapon){obj=(Weapon)target.inventory[inventory_id];}
+			if (target.inventory[inventory_id] instanceof Energoshield){obj=(Energoshield)target.inventory[inventory_id];}
+			if (target.inventory[inventory_id] instanceof ModuleUnit){obj=(ModuleUnit)target.inventory[inventory_id];}
 		}
 		
 		if (inventory_id==-1)
 		{
-			obj=(Weapon)GScreen.pl.armored[0];
+			obj=(Weapon)target.armored[0];
 			
 		}
 		
 		if (inventory_id==-2)
 		{
-			obj=(Weapon)GScreen.pl.armored[1];
+			obj=(Weapon)target.armored[1];
 			
 		}
 				
 		if (inventory_id==-5)
 		{
-			obj=(Energoshield)GScreen.pl.armored_shield;
+			obj=(Energoshield)target.armored_shield;
 		}
 		
 		if ((inventory_id<=-10)&&(inventory_id>-15))
 		{
-			obj=(ModuleUnit)GScreen.pl.armored_module[Math.abs(inventory_id)-10];
+			obj=(ModuleUnit)target.armored_module[Math.abs(inventory_id)-10];
 		}
 		
 		
@@ -188,12 +195,12 @@ public class ButtonEquip extends Button {
 				if (w.total_fire_damage>0) {Main.font.setColor(Color.YELLOW); mx+=280; draw_info("Поджог: ",""+w.total_fire_damage*10f,mx); }
 				if (w.total_cold_damage>0) {Main.font.setColor(Color.CYAN); mx+=280; draw_info("Заморозка: ",""+w.total_cold_damage*10f,mx); }
 				mov+=28;
-				color_it (w.base_shoot_cooldown,w.total_shoot_cooldown/GScreen.pl.bonus_attack_speed); draw_info("Скорострельность: ",""+Math.round(1.0f/w.total_shoot_cooldown*GScreen.pl.bonus_attack_speed*10.0f)/10.0f);
+				color_it (w.base_shoot_cooldown,w.total_shoot_cooldown/target.bonus_attack_speed); draw_info("Скорострельность: ",""+Math.round(1.0f/w.total_shoot_cooldown*target.bonus_attack_speed*10.0f)/10.0f);
 				color_it (w.base_dispersion,w.total_dispersion);draw_info("Dispersion: ",""+Math.round(w.total_dispersion),1);
 				color_it (w.base_dispersion_additional,w.total_dispersion_additional);draw_info("Dispersion add: ",""+Math.round(w.total_dispersion_additional),280);
 				mov+=28;
 				color_it (w.total_ammo_size,w.base_ammo_size);draw_info("Ammo size: ",""+Math.round(w.total_ammo_size),1);
-				color_it (w.base_reload_time,w.total_reload_time/GScreen.pl.bonus_attack_speed);draw_info("Reload time: ",""+Math.round(w.total_reload_time/GScreen.pl.bonus_reload_speed*10.0f)/10f,280);
+				color_it (w.base_reload_time,w.total_reload_time/target.bonus_attack_speed);draw_info("Reload time: ",""+Math.round(w.total_reload_time/target.bonus_reload_speed*10.0f)/10f,280);
 				
 				mov=200;
 				Main.font.setColor(1.0f, 0.2f, 0.1f, 1f);
@@ -258,9 +265,9 @@ public class ButtonEquip extends Button {
 					
 					
 
-					Object swap=GScreen.pl.inventory[inventory_id];
-					GScreen.pl.inventory[inventory_id]=GScreen.pl.inventory[99];
-					GScreen.pl.inventory[99]=swap;
+					Object swap=target.inventory[inventory_id];
+					target.inventory[inventory_id]=target.inventory[99];
+					target.inventory[99]=swap;
 					
 					
 					
@@ -270,45 +277,45 @@ public class ButtonEquip extends Button {
 				else
 				{
 					
-					if ((inventory_id==-1)&&(GScreen.pl.inventory[99] instanceof Weapon))
+					if ((inventory_id==-1)&&(target.inventory[99] instanceof Weapon))
 					{
-						if (GScreen.pl.armored[0]!=null)
-						{GScreen.pl.armored[0].unequip();}
+						if (target.armored[0]!=null)
+						{target.armored[0].unequip();}
 						
-						Object swap=(Weapon)GScreen.pl.armored[0];
-						GScreen.pl.armored[0]=(Weapon)GScreen.pl.inventory[99];
-						GScreen.pl.inventory[99]=swap;
+						Object swap=(Weapon)target.armored[0];
+						target.armored[0]=(Weapon)target.inventory[99];
+						target.inventory[99]=swap;
 						
-						GScreen.pl.armored[0].equip();
+						target.armored[0].equip();
 					}
 					
-					if ((inventory_id==-2)&&(GScreen.pl.inventory[99] instanceof Weapon))
+					if ((inventory_id==-2)&&(target.inventory[99] instanceof Weapon))
 					{
-						if (GScreen.pl.armored[1]!=null)
+						if (target.armored[1]!=null)
 						{
-							GScreen.pl.armored[1].unequip();
+							target.armored[1].unequip();
 						}
 						
-						Object swap=(Weapon)GScreen.pl.armored[1];
-						GScreen.pl.armored[1]=(Weapon)GScreen.pl.inventory[99];
-						GScreen.pl.inventory[99]=swap;
+						Object swap=(Weapon)target.armored[1];
+						target.armored[1]=(Weapon)target.inventory[99];
+						target.inventory[99]=swap;
 						
-						GScreen.pl.armored[1].equip();
+						target.armored[1].equip();
 					}
 					
-					if ((inventory_id==-5)&&(GScreen.pl.inventory[99] instanceof Energoshield))
+					if ((inventory_id==-5)&&(target.inventory[99] instanceof Energoshield))
 					{
-						Object swap=(Energoshield)GScreen.pl.armored_shield;
-						GScreen.pl.armored_shield=(Energoshield)GScreen.pl.inventory[99];
-						GScreen.pl.inventory[99]=swap;
+						Object swap=(Energoshield)target.armored_shield;
+						target.armored_shield=(Energoshield)target.inventory[99];
+						target.inventory[99]=swap;
 					}
 					
-					if ((inventory_id<=-10)&&(inventory_id>-15)&&(GScreen.pl.inventory[99] instanceof ModuleUnit))
+					if ((inventory_id<=-10)&&(inventory_id>-15)&&(target.inventory[99] instanceof ModuleUnit))
 					{
 						Gdx.audio.newSound(Gdx.files.internal("data/module_put.wav")).play(0.2f);
-						Object swap=(ModuleUnit)GScreen.pl.armored_module[Math.abs(inventory_id)-10];
-						GScreen.pl.armored_module[Math.abs(inventory_id)-10]=(ModuleUnit)GScreen.pl.inventory[99];
-						GScreen.pl.inventory[99]=swap;
+						Object swap=(ModuleUnit)target.armored_module[Math.abs(inventory_id)-10];
+						target.armored_module[Math.abs(inventory_id)-10]=(ModuleUnit)target.inventory[99];
+						target.inventory[99]=swap;
 					}
 					
 					update_object();

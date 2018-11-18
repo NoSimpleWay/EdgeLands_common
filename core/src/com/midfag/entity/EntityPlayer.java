@@ -132,7 +132,7 @@ public class EntityPlayer extends Entity {
 			//foot_shadow.setOrigin(17, 12);
 			//is_player
 			
-			speed=200*15.025f;
+			speed=100*15.025f;
 			friction=150.15f;
 	
 			have_ability=true;

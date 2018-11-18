@@ -851,7 +851,7 @@ public class GUIEdit extends GUI {
 			
 			for (Entity e:selected_object_list)
 			{
-				if (prev_e!=null) {e.pos.x=prev_e.pos.x+prev_e.collision_size_x+e.collision_size_x;}
+				if (prev_e!=null) {e.pos.x=prev_e.pos.x+prev_e.collision_size_x*0.95f+e.collision_size_x*0.95f;}
 				
 				prev_e=e;
 				//new_y=0;
