@@ -36,8 +36,8 @@ public class LegendaryModuleUnitTimeStop extends ModuleUnit {
 		
 		level=1;
 		
-		base_time_slow_resist=0.5f;
-		total_time_slow_resist=0.5f;
+		base_time_slow_resist=0.1f;
+		total_time_slow_resist=0.1f;
 		
 		can_be_locked=true;
 		
@@ -65,7 +65,10 @@ public class LegendaryModuleUnitTimeStop extends ModuleUnit {
 	@Override
 	public String get_description()
 	{
-		return "Полностью останавливает время на "+total_duration+" сек"+"\n"+ "Cопротивление эффекту ("+(total_time_slow_resist*100)+"%)";
+		float resist=total_time_slow_resist*100f;
+		resist/=resist+100;
+		
+		return "Полностью останавливает время на "+total_duration+" сек"+"\n"+ "Cопротивление эффекту ("+(Math.round(resist*100f))+"%)";
 	}
 	
 	@Override
@@ -74,7 +77,11 @@ public class LegendaryModuleUnitTimeStop extends ModuleUnit {
 		duration=total_duration;
 		GScreen.screen_effect=new ScreenEffectTimeStop();
 		GScreen.screen_effect.MasterModule=this;
-		GScreen.pl.time_slow_resist=total_time_slow_resist;
+		
+		float resist=total_time_slow_resist*100f;
+		resist/=resist+100f;
+		
+		_e.time_slow_resist=resist;
 		
 		for (int i=0; i<5; i++)
 		{

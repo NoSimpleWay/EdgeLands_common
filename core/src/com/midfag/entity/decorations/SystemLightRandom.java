@@ -65,7 +65,7 @@ public class SystemLightRandom extends Entity {
 		
 		if (GScreen.show_edit)
 		{spr.setScale(_siz);
-		spr.draw(GScreen.batch);}
+		spr.draw(GScreen.batch_custom);}
 
 	}
 

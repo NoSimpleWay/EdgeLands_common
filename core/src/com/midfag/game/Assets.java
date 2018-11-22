@@ -1,5 +1,8 @@
 package com.midfag.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.SoundLoader.SoundParameter;
 import com.badlogic.gdx.audio.Music;
@@ -7,15 +10,19 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.midfag.entity.Entity;
 
 public class Assets {
 	
 
-	
+	public static List<Texture> texture_list=new ArrayList<Texture>();
+	public static List<String> texture_list_name=new ArrayList<String>();
 	
 	public static Texture panel;
 	public static Texture diod;
 	public static Texture particle;
+	
+	
 	
 	public static Texture tube;
 	public static Texture tube_carcas;
@@ -73,6 +80,9 @@ public class Assets {
 	public static Sound knock=Gdx.audio.newSound(Gdx.files.internal("data/knock.wav"));
 	public static Sound door=Gdx.audio.newSound(Gdx.files.internal("data/door.wav"));
 	public static Sound engine_start=Gdx.audio.newSound(Gdx.files.internal("data/engine_start.wav"));
+	
+	
+	public static Texture terrain_decor_400=load ("tile/terrain_decor_400");
 	
 	public static Texture raider_tank=load ("raider_tank");
 	public static Texture smiler=load ("smiler");
@@ -240,7 +250,7 @@ public class Assets {
 	public static Texture shadow=load ("shadow");
 	
 	public static Texture noise=load ("noise");
-	public static Texture normal_map=load ("normal_map");
+	public static Texture normal_map=load ("normal_map_sphere2");
 	public static Texture dissolve=load("dissolve");
 	
 	public static Texture transport_drone=load("big_drone");
@@ -281,19 +291,44 @@ public class Assets {
 	
 	public static Texture load(String _s) {
 		// TODO Auto-generated method stub
-		Texture tex;
-
-			if (Gdx.files.internal("data/"+_s+".png").exists())
-			{
-				tex = new Texture(Gdx.files.internal("data/"+_s+".png"));
+		Texture tex = null;
+		boolean already_have=false;
+			Helper.log("TEXTURE LIST SIZE="+texture_list.size());
 			
-				tex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-			return tex;
-			}
-			else
+			for (int i=0; (i<texture_list_name.size())&&(!already_have); i++)
 			{
-				Helper.log("texture ["+"data/"+_s+".png"+"] not found");
-				tex = new Texture(Gdx.files.internal("data/null.png"));
+				if (texture_list_name.get(i).equals(_s))
+				{
+					already_have=true;
+					tex=texture_list.get(i);
+					
+					Helper.log("GET FROM LIST ["+i+"] "+_s);
+				}
+			}
+			
+			if (!already_have)
+			{
+				Helper.log("LOAD FROM DISK "+_s);
+				
+				
+				
+				
+				if (Gdx.files.internal("data/"+_s+".png").exists())
+				{
+					tex = new Texture(Gdx.files.internal("data/"+_s+".png"));
+				
+					tex.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+					
+					texture_list_name.add(_s);
+					texture_list.add(tex);
+				}
+				else
+				{
+					Helper.log("texture ["+"data/"+_s+".png"+"] not found");
+					tex = new Texture(Gdx.files.internal("data/null.png"));
+				}
+				
+				
 			}
 		
 		return tex;

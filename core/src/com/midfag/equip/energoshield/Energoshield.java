@@ -3,9 +3,7 @@ package com.midfag.equip.energoshield;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
+import com.midfag.game.Localisation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.midfag.entity.Entity;
 import com.midfag.equip.energoshield.attr.ESAttribute;
@@ -49,6 +47,9 @@ public class Energoshield {
 	
 	public Rarity rarity;
 	public float attr_point_indicate;
+	
+	
+	public String red_text;
 	
 	
 	

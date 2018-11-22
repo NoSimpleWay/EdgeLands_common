@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.midfag.game.Assets;
+import com.midfag.game.Localisation;
 
 public class LegendaryEnergoshieldCup extends Energoshield {
 	
@@ -17,7 +18,10 @@ public class LegendaryEnergoshieldCup extends Energoshield {
 		base_regen_speed=50;
 		base_reflect=7f;
 		
-		name="Чаша";
+		name=Localisation.get_value_from_id("name_shield_cup");
+		
+		red_text="Наполовину пуста, или наполовину полная?";
+		
 		uid="shlegcup";
 		
 		

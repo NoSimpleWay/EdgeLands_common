@@ -62,7 +62,7 @@ public class EntityVizjun extends Entity {
 			for (int i=0; i<20; i++)
 			{
 				spr_dust.setPosition(pos.x-18+GScreen.rnd(60)-30,pos.y-18+GScreen.rnd(60)-30);
-				spr_dust.draw(GScreen.batch);
+				spr_dust.draw(GScreen.batch_custom);
 			}
 
 	}

@@ -16,7 +16,7 @@ public class ModuleAttributeExplosionFire extends ModuleAttribute {
 	{
 		cost=1;
 		
-		max_level=100;
+		max_level=1000;
 		uid="maexfi";
 		name="Волна пламени";
 	}

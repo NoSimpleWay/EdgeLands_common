@@ -150,7 +150,7 @@ public class EntityPlayer extends Entity {
 			*/
 			size=30;
 			
-			mass=300;
+			mass=1000;
 			
 			
 			
@@ -330,13 +330,13 @@ public class EntityPlayer extends Entity {
 		spr.setTexture(bottom_tex[bottom_draw]);
 		
 		spr.draw
-		(GScreen.batch);
+		(GScreen.batch_custom);
 		
 		spr.translate(10,30);
 		
 		spr.translate(-10,-25);
 		spr.setTexture(tex[draw_sprite]);
-		spr.draw(GScreen.batch);
+		spr.draw(GScreen.batch_custom);
 		spr.translate(10,25);
 		
 		

@@ -3,6 +3,7 @@ package com.midfag.equip.energoshield;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.midfag.entity.Entity;
 import com.midfag.game.Assets;
+import com.midfag.game.Localisation;
 
 public class LegendaryEnergoshieldOptimusAdaptius extends Energoshield {
 	
@@ -14,7 +15,10 @@ public class LegendaryEnergoshieldOptimusAdaptius extends Energoshield {
 		base_regen_speed=15;
 		base_reflect=4;
 		
-		name="OptimusAdaptimus";
+		name=Localisation.get_value_from_id("name_shield_optimus_adaptimus");
+		
+		red_text="От известной студии";
+		
 		uid="shoptimusadaptimus";
 		spr=new Sprite(Assets.load("icon_shield_optimus_adaptius"));
 		

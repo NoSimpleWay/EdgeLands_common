@@ -60,7 +60,7 @@ public class GScreen implements Screen {
 	public static int plposx;
 	public static int plposy;
 	
-	public static List<Texture> movie_buffer=new ArrayList<Texture>();
+	//public static List<Texture> movie_buffer=new ArrayList<Texture>();
 	
 	public static List<Entity> temp_entity_list=new ArrayList<Entity>();
 	public static float battle_music_timer=0;
@@ -113,8 +113,9 @@ public class GScreen implements Screen {
     
 	private static final int enemy_gen_count = 0;
 
-    public static CustomSpriteBatch batch;
-    public static CustomSpriteBatchTwoUV batch_uv;
+	public static SpriteBatch batch;
+    public static CustomSpriteBatch batch_custom;
+   // public static CustomSpriteBatchTwoUV batch_uv;
     public static SpriteBatch batch_static;
     public static SpriteBatch batch_illum;
 	
@@ -241,6 +242,9 @@ public class GScreen implements Screen {
 	private int movie_frame_x;
 	private int movie_frame_y;
 	private float movie_frame_time;
+	private float glass_effect=0;
+	
+	//public CustomSpriteBatchTwoUV batch_UV;
 
 	public static float sho=0f;
 
@@ -357,10 +361,7 @@ public class GScreen implements Screen {
     					
     					dst=dstx*dstx+dsty*dsty;
     					
-	    				if (dst<min){min=dst;ne=e; /*ne.temp_collision_x=temp_vector_collision_result.x; ne.temp_collision_y=temp_vector_collision_result.y;*/}
-	    				
-	    				
-	    				
+	    				if (dst<min){min=dst;ne=e; ne.temp_collision_x=temp_vector_collision_result.x; ne.temp_collision_y=temp_vector_collision_result.y;}
 	    			}
     			}
     	}
@@ -381,32 +382,39 @@ public class GScreen implements Screen {
 	
 		///
 		float dist;
-		if (_y1!=_y2)
-		{
-			dist=_target.pos.y+collision_size_y-_y1;
-			if ((_target.pos.y+collision_size_y<_y1)&&(_target.pos.y+collision_size_y>_y2)&&(Math.abs(_target.pos.x-(_x1+dist*_dx))<collision_size_x))
-			{return temp_vectorA.set(_x1+dist*_dx, _target.pos.y+collision_size_y);}
-			
+			if (_y1>_y2)
+			{
+				dist=_target.pos.y+collision_size_y-_y1;
+				if ((_target.pos.y+collision_size_y<_y1)&&(_target.pos.y+collision_size_y>_y2)&&(Math.abs(_target.pos.x-(_x1+dist*_dx))<collision_size_x))
+				{return temp_vectorA.set(_x1+dist*_dx, _target.pos.y+collision_size_y);}
+			}
 			////
 			
-			dist=_target.pos.y-collision_size_y-_y1;
-			if ((_target.pos.y-collision_size_y>_y1)&&(_target.pos.y-collision_size_y<_y2)&&(Math.abs(_target.pos.x-(_x1+dist*_dx))<collision_size_x))
-			{return temp_vectorA.set(_x1+dist*_dx, _target.pos.y-collision_size_y);}
-		}
+			if (_y1<_y2)
+			{
+				dist=_target.pos.y-collision_size_y-_y1;
+				if ((_target.pos.y-collision_size_y>_y1)&&(_target.pos.y-collision_size_y<_y2)&&(Math.abs(_target.pos.x-(_x1+dist*_dx))<collision_size_x))
+				{return temp_vectorA.set(_x1+dist*_dx, _target.pos.y-collision_size_y);}
+			}
 		////
 		
-		if (_x1!=_x2)
-		{
-			dist=_target.pos.x+collision_size_x-_x1;
-			if ((_target.pos.x+collision_size_x<_x1)&&(_target.pos.x+collision_size_x>_x2)&&(Math.abs(_target.pos.y-(_y1+dist*_dy))<collision_size_y))
-			{return temp_vectorA.set(_target.pos.x+collision_size_x, _y1+dist*_dy);}
+		
+		
+			if (_x1>_x2)
+			{
+				dist=_target.pos.x+collision_size_x-_x1;
+				if ((_target.pos.x+collision_size_x<_x1)&&(_target.pos.x+collision_size_x>=_x2)&&(Math.abs(_target.pos.y-(_y1+dist*_dy))<collision_size_y))
+				{return temp_vectorA.set(_target.pos.x+collision_size_x, _y1+dist*_dy);}
+			}
 			
 			////
-			
-			dist=_target.pos.x-collision_size_x-_x1;
-			if ((_target.pos.x-collision_size_x>_x1)&&(_target.pos.x-collision_size_x<_x2)&&(Math.abs(_target.pos.y-(_y1+dist*_dy))<collision_size_y))
-			{return temp_vectorA.set(_target.pos.x-collision_size_x, _y1+dist*_dy);}
-		}
+			if (_x1<_x2)
+			{
+				dist=_target.pos.x-collision_size_x-_x1;
+				if ((_target.pos.x-collision_size_x>=_x1)&&(_target.pos.x-collision_size_x<_x2)&&(Math.abs(_target.pos.y-(_y1+dist*_dy))<collision_size_y))
+				{return temp_vectorA.set(_target.pos.x-collision_size_x, _y1+dist*_dy);}
+			}
+		
 		return temp_vectorA.set(999999, 999999);
 	
 	}
@@ -697,8 +705,15 @@ public class GScreen implements Screen {
     	tile_texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
     	terrain_fbo.getColorBufferTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
     	
-        batch = new CustomSpriteBatch();
-        batch_uv = new CustomSpriteBatchTwoUV();
+    	//batch_UV = new CustomSpriteBatchTwoUV();
+    	
+        batch_custom = new CustomSpriteBatch();
+        batch = new SpriteBatch();
+       // batch_default.setShader(batch_default.createDefaultShader());
+        //batch_default.setShader(Main.shader_bloom);
+
+        
+        //batch_uv = new CustomSpriteBatchTwoUV();
         //batch.setShader(shader);
         
         batch_static = new SpriteBatch();
@@ -996,8 +1011,8 @@ public class GScreen implements Screen {
 	    		
 	    		en=new EntityPyra(new Vector2());
 	    		
-	    		en.pos.x=(float) (GScreen.pl.pos.x+Math.random()*1500-750);
-	    		en.pos.y=(float) (GScreen.pl.pos.y+Math.random()*1500-750);
+	    		en.pos.x=(float) (GScreen.pl.pos.x+Math.random()*3000f-1500f);
+	    		en.pos.y=(float) (GScreen.pl.pos.y+Math.random()*3000f-1500f);
 	    		
 	    		GScreen.add_entity_to_map(en);
     		}
@@ -1077,8 +1092,8 @@ public class GScreen implements Screen {
     	if (delta>0.1f){delta=0.1f;}
 
     	
-       //Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
+       Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
     	//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
@@ -1424,7 +1439,7 @@ public class GScreen implements Screen {
     				batch_illum.end();
 									add_timer("blur");
 									
-									if ((need_pixmap_update))			
+									if ((need_pixmap_update)&&(false))			
 				    				{
 											
 										//Helper.log("#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+lightmap_fbo.getColorBufferTexture().getTextureData().);
@@ -1482,20 +1497,55 @@ public class GScreen implements Screen {
     	 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
     	terrain_fbo.begin();
     	
+    	//batch_default.setShader(batch_default.createDefaultShader());
+    	
+    	
+    	
+		batch.setShader(Main.shader_default);
 		batch.begin();
-		 
+
+		//batch_default.getShader().begin();
+			
+		//batch_default.setShader(Main.shader_light);
+			
+		/*Assets.normal_map.bind(1);
+			batch_defaut.getShader().setUniformi("u_texture", 1); //passing first texture!!!
+			
+			terrain_fbo.getColorBufferTexture().bind(0);
+			Main.shader_bloom.setUniformi("u_texture2", 0); //passing first texture!!!
+		   */
+			/*Main.shader_bloom.setUniformf("x", glass_effect);
+			
+			Assets.normal_map.bind(1);
+			Main.shader_bloom.setUniformi("u_texture", 1); //passing first texture!!!
+			
+			terrain_fbo.getColorBufferTexture().bind(0);
+			Main.shader_bloom.setUniformi("u_texture2", 0); //passing first texture!!!*/
+			
 	    //Gdx.gl.glBlendEquation(GL20.GL_FUNC_ADD);
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 	      
 		batch.setColor(global_illumination);
 		
-		
-    	/*batch.draw(Assets.planet_good0, 5000-18000*243, 5000-18000*243, 36000*243,36000*243);
-    	batch.draw(Assets.planet_good1, 5000-18000*81, 5000-18000*81, 36000*81,36000*81);
-    	batch.draw(Assets.planet_good2, 5000-18000*27, 5000-18000*27, 36000*27,36000*27);
-    	batch.draw(Assets.planet_good3, 5000-18000*9, 5000-18000*9, 36000*9,36000*9);
-    	batch.draw(Assets.planet_good4, 5000-18000*3, 5000-18000*3, 36000*3,36000*3);
-    	batch.draw(Assets.planet_good5, 5000-18000, 5000-18000, 36000,36000);*/
+		//batch.setColor(Color.RED);
+    	if (camera.zoom>1400) {batch.draw(Assets.planet_good0, 5000-18000*243, 5000-18000*243, 36000*243,36000*243);}
+    	
+    	//batch.setColor(Color.ORANGE);
+    	if (camera.zoom>466) {batch.draw(Assets.planet_good1, 5000-18000*81, 5000-18000*81, 36000*81,36000*81);}
+    	
+    	//batch.setColor(Color.YELLOW);
+    	if (camera.zoom>155) {batch.draw(Assets.planet_good2, 5000-18000*27, 5000-18000*27, 36000*27,36000*27);}
+    	
+    	//batch.setColor(Color.GREEN);
+    	if (camera.zoom>51) {batch.draw(Assets.planet_good3, 5000-18000*9, 5000-18000*9, 36000*9,36000*9);}
+    	
+    	//batch.setColor(Color.BLUE);
+    	if (camera.zoom>17){batch.draw(Assets.planet_good4, 5000-18000*3, 5000-18000*3, 36000*3,36000*3);}
+    	
+    	//batch.setColor(global_illumination);
+    	batch.draw(Assets.planet_good5, 4500-18000, 4500-18000, 36000,36000);
+    	
+    	//9000p=300m
     	
     
     	int terx=(int)(camera.position.x/90f);
@@ -1584,7 +1634,7 @@ public class GScreen implements Screen {
 				        			{
 				        				
 				        				if ((path[fx][fy-1][main_path]*path[fx][fy-1][main_path]<path[fx][fy+1][main_path]*path[fx][fy+1][main_path])) {diry=-1;}
-    				        			if ((Math.abs(path[fx][fy-1][main_path])>Math.abs(path[fx][fy+1][main_path]))) {diry=1;}
+    				        			if ((path[fx][fy-1][main_path]*path[fx][fy-1][main_path]>path[fx][fy+1][main_path]*path[fx][fy+1][main_path]))  {diry=1;}
     				        			
     				        			if ((Math.abs(path[fx-1][fy][main_path])<Math.abs(path[fx+1][fy][main_path]))) {dirx=-1;}
     				        			if ((Math.abs(path[fx-1][fy][main_path])>Math.abs(path[fx+1][fy][main_path]))) {dirx=1;}
@@ -1617,8 +1667,8 @@ public class GScreen implements Screen {
 			{
 
 				float camlen=(float) Math.sqrt((camera_target.pos.x-InputHandler.posx)*(camera_target.pos.x-InputHandler.posx)+(camera_target.pos.y-camera_target.z-InputHandler.posy)*(camera_target.pos.y-camera_target.z-InputHandler.posy));
-				camlen/=4;
-				need_zoom=camlen*0.0002f+1;
+				camlen/=2;
+				need_zoom=camlen*0.02f+1;
 				//camera.zoom=camlen*0.001f+1;
 			    camera.position.add(-(camera.position.x-camera_target.pos.x+sinR(180-pl.rot)*camlen)/5, -(camera.position.y-camera_target.pos.y+cosR(180-pl.rot)*camlen)/5, 0.0f);
 			    camera.update();
@@ -1637,7 +1687,7 @@ public class GScreen implements Screen {
 			}
       	
       		batch.setProjectionMatrix(camera.combined);
-    	
+      		batch_custom.setProjectionMatrix(camera.combined);
     	
     
 
@@ -1651,6 +1701,19 @@ public class GScreen implements Screen {
 
 			batch.draw(tile_texture, j*90-45, i*90-45, tile_map_x[j][i], tile_map_y[j][i], 180, 180);
 	 	}
+    	
+    	
+    	for (int draw_y=cluster_y+cluster_draw_distance+18; draw_y>=cluster_y-cluster_draw_distance-18; draw_y--)
+	    for (int draw_x=cluster_x-cluster_draw_distance-18; draw_x<=cluster_x+cluster_draw_distance+18; draw_x++)
+    	
+	    /*
+    	for (int draw_y=15; draw_y>=15; draw_y--)
+    	for (int draw_x=15; draw_x<=15; draw_x++)
+    	*/
+	    if ((draw_x>=0)&&(draw_y>=0)&&(draw_x<30)&&(draw_y<30))
+	    {
+	    	cluster[draw_x][draw_y].draw(draw_x*cluster_size, draw_y*cluster_size);
+	    }
     	//batch.flush();
     	
 		add_timer("       draw_tile");
@@ -1709,7 +1772,7 @@ public class GScreen implements Screen {
 					mis.pos.x,mis.pos.y,											//start_point
 					mis.pos.x+mis.sx*mis.speed*delta,mis.pos.y+mis.sy*mis.speed*delta,						//end_point
 					(mis.sx)/(mis.sy),(mis.sy)/(mis.sx),	//dynamic
-					0,0															//size
+					5,5															//size
 	    		);
 		    	
 		    	if ((near_entity!=null)&&(!near_entity.need_remove))
@@ -1763,7 +1826,11 @@ public class GScreen implements Screen {
 	          	}
         	}
         	
-        	
+    	batch.end();
+    	
+    	batch_custom.setShader(Main.shader_light);
+		batch_custom.begin();	
+		Main.shader_light.begin();
           	
           	for (int draw_y=cluster_y+cluster_draw_distance; draw_y>=cluster_y-cluster_draw_distance; draw_y--)
 			{
@@ -1786,6 +1853,7 @@ public class GScreen implements Screen {
 		    	//Helper.log("Y="+draw_y+" size="+Draw_list.size());
 		    	
 		    	//try {Draw_list.sort(comparator);} catch (Exception e) {e.printStackTrace();}
+		    	//Draw_list.clear();
 		    	Draw_list.sort(comparator);
 	
 		         for (int i=0; i<Draw_list.size(); i++)
@@ -1793,9 +1861,6 @@ public class GScreen implements Screen {
 		        	Entity e=Draw_list.get(i);
 		         	e.draw_action(delta);
 		         	e.effect_draw(delta);
-		         	
-		         
-		         	
 		         } 
 		        
 		         for (int i=0; i<Draw_list.size(); i++)
@@ -1864,10 +1929,11 @@ public class GScreen implements Screen {
      	 	//  {batch.draw(shadow_texture,0,9000,9000,-9000);}
      	 	  
           	//batch.setColor(global_illumination);
-          	 //batch.draw(Assets.planet_good_overlay, -500, -500, 10000,10000);
+          	//batch.draw(Assets.planet_good_overlay, -500, -500, 10000,10000);
           	 
-         	batch.setColor(Color.WHITE);
-		batch.end();
+         	//batch.setColor(Color.WHITE);
+         	//batch_default.setShader(batch_default.createDefaultShader());
+    		batch_custom.end();	
 		
 	    	sr.begin(ShapeType.Filled);
 	    	Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -1964,13 +2030,29 @@ public class GScreen implements Screen {
     	
 		add_timer("terrain_fbo_end");
 		
-		batch_static.begin();
 		
 		
-		if (!Gdx.input.isKeyPressed(Keys.H))
-		{batch_static.setShader(Main.shader_bloom);}
-		else
-		{batch_static.setShader(Main.shader_default);}
+		 if (Gdx.input.isKeyPressed(Keys.UP)) {glass_effect+=real_delta; if (glass_effect>1) {glass_effect=1f;}}
+		 if (Gdx.input.isKeyPressed(Keys.DOWN)) {glass_effect-=real_delta; if (glass_effect<0) {glass_effect=0f;}}
+		 
+		 
+		 batch_static.setShader(Main.shader_default);
+		 batch_static.begin();
+		 
+		 /*
+			batch_static.setShader(Main.shader_bloom);
+			Main.shader_bloom.setUniformf("x", glass_effect);
+			
+			Assets.normal_map.bind(1);
+			Main.shader_bloom.setUniformi("u_texture", 1); //passing first texture!!!
+			
+			terrain_fbo.getColorBufferTexture().bind(0);
+			Main.shader_bloom.setUniformi("u_texture2", 0); //passing first texture!!!
+			*/
+		 
+
+
+		
 		
 		
 		//terrain_fbo.begin();
@@ -2022,34 +2104,7 @@ public class GScreen implements Screen {
 				
 		//terrain_fbo.end();
 				
-				if (!movie_buffer.isEmpty())
-				{
-					//Helper.log("!!!");
-					batch_static.draw(movie_buffer.get(0), 0, 0, movie_frame_x*640, movie_frame_y*360, 640, 360);
-					
-					movie_frame_time-=real_delta;
-					if (movie_frame_time<=0)
-					{	movie_frame_time=0.033f;
-						
-						movie_frame_x++;
-						
-						movie_buffer.add(new Texture(Gdx.files.internal("data/movies/intro/1.jpg")));
-						
-						if (movie_frame_x>4)
-						{
-							movie_frame_y++;
-							movie_frame_x=0;
-							if (movie_frame_y>5)
-							{
-								movie_frame_y=0;
-								movie_frame_x=0;
-								
-								
-								//movie_buffer.clear();
-							}
-						}
-					}
-				}
+
 		batch_static.end();
 		
 		
@@ -2327,16 +2382,16 @@ public class GScreen implements Screen {
 			
 			
 			
-			batch.begin();
-				batch.setColor(Color.WHITE);
+			batch_custom.begin();
+				batch_custom.setColor(Color.WHITE);
 				Main.font.setColor(Color.WHITE);
 				Main.font.getData().setScale(0.5f);
 				 	for (int i=plposy-51; i<plposy+51; i++)
 					 for (int j=plposx-51; j<plposx+51; j++)
 					 if ((i>0)&&(i<299)&&(j>0)&&(j<299)&&(path[j][i][main_path]>=0)&&(path[j][i][main_path]<1000))
-					{Main.font.draw(batch, ""+Math.round(path[j][i][main_path]), j*30+10f, i*30+15f);}
+					{Main.font.draw(batch_custom, ""+Math.round(path[j][i][main_path]), j*30+10f, i*30+15f);}
 				 Main.font.getData().setScale(1.0f);
-			batch.end();
+			batch_custom.end();
 			
 			
 		}
@@ -2634,6 +2689,7 @@ public class GScreen implements Screen {
 		{fps=Math.round(1.0f/real_delta);}
 		
 		
+		draw_shaded_text("zoom: "+camera.zoom, 5, 70, Color.GREEN,100);
 		draw_shaded_text("FPS: "+fps, 5, 40, Color.GREEN,100);
 		
 		
@@ -2979,11 +3035,11 @@ public class GScreen implements Screen {
         //InputHandler.but=-1;
     }
 
-    public static void missile_collision_action(Missile mis, Entity near_entity) {
+    public static void missile_collision_action(Missile mis, Entity _near_entity) {
 		// TODO Auto-generated method stub
-    	if (!near_entity.is_decor)
+    	if (!_near_entity.is_decor)
 		{
-			float reflect_value=near_entity.armored_shield.total_reflect;
+			float reflect_value=_near_entity.armored_shield.total_reflect;
 		
 			float reflect_chance=Math.max(0.65f, 1.0f-reflect_value/mis.damage);//=1-0=1
 		
@@ -2991,21 +3047,21 @@ public class GScreen implements Screen {
 		
 			if ((Math.random()<reflect_chance))
 			{
-				mis.hit_action(near_entity);
-				mis.another_hit_action(near_entity);
+				mis.hit_action(_near_entity);
+				mis.another_hit_action(_near_entity);
 				
-				near_entity.hit_action(mis.damage,true);
-				near_entity.burn_it(mis.fire_damage);
-				near_entity.freeze_it(mis.cold_damage);
+				_near_entity.hit_action(mis.damage,true);
+				_near_entity.burn_it(mis.fire_damage);
+				_near_entity.freeze_it(mis.cold_damage);
 			}
 		else
 		{
-			for (int k=0; k<near_entity.Skills_list.size(); k++)
+			for (int k=0; k<_near_entity.Skills_list.size(); k++)
 			{
 				
-				if (near_entity.Skills_list.get(k).learned)
+				if (_near_entity.Skills_list.get(k).learned)
 				{
-					near_entity.Skills_list.get(k).prereflect_action(mis,near_entity);
+					_near_entity.Skills_list.get(k).prereflect_action(mis,_near_entity);
 				}
 				
 			}
@@ -3015,15 +3071,15 @@ public class GScreen implements Screen {
 			
 			mis.update_vectors_state();
 			
-			mis.is_enemy=near_entity.is_enemy;
+			mis.is_enemy=_near_entity.is_enemy;
 			mis.col=Color.GREEN;
 			
-			for (int k=0; k<near_entity.Skills_list.size(); k++)
+			for (int k=0; k<_near_entity.Skills_list.size(); k++)
 			{
 				
-				if (near_entity.Skills_list.get(k).learned)
+				if (_near_entity.Skills_list.get(k).learned)
 				{
-					near_entity.Skills_list.get(k).reflect_action(mis,near_entity);
+					_near_entity.Skills_list.get(k).reflect_action(mis,_near_entity);
 				}
 				
 			}
@@ -3031,8 +3087,8 @@ public class GScreen implements Screen {
 		}
 		else
 		{
-			mis.hit_action(near_entity);
-			mis.another_hit_action(near_entity);
+			mis.hit_action(_near_entity);
+			mis.another_hit_action(_near_entity);
 		}
 	}
 
@@ -3056,7 +3112,7 @@ public class GScreen implements Screen {
     	terrain_fbo.dispose();
     	terrain_fbo = new FrameBuffer(Pixmap.Format.RGB888, scr_w, scr_h, false);
     	terrain_fbo.getColorBufferTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-    	terrain_fbo.getColorBufferTexture().setWrap(TextureWrap.MirroredRepeat, TextureWrap.MirroredRepeat);
+    	//terrain_fbo.getColorBufferTexture().setWrap(TextureWrap.MirroredRepeat, TextureWrap.MirroredRepeat);
     	
     	entity_fbo.dispose();
     	entity_fbo = new FrameBuffer(Pixmap.Format.RGBA8888, scr_w, scr_h, false);

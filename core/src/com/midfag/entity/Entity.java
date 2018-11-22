@@ -163,6 +163,8 @@ public class Entity {
 	
 	public boolean hidden=false;
 	
+	public float texture_offset_x;
+	public float texture_offset_y;
 	
 	
 	public float constant_move_x=0;
@@ -304,15 +306,15 @@ public class Entity {
 		
 		if (is_interact)
 		{
-			GScreen.batch.setColor(1,1,1,(float) ((Math.sin(TimeUtils.millis()/100))+1)/2f);
+			GScreen.batch_custom.setColor(1,1,1,(float) ((Math.sin(TimeUtils.millis()/100))+1)/2f);
 			
 			
-			GScreen.batch.draw(Assets.quest, pos.x-4, pos.y+55);
+			GScreen.batch_custom.draw(Assets.quest, pos.x-4, pos.y+55);
 			
-			Main.font_big.draw(GScreen.batch, "!"+z, pos.x, pos.y);
+			Main.font_big.draw(GScreen.batch_custom, "!"+z, pos.x, pos.y);
 			
 			if ((Math.abs(pos.x-GScreen.pl.pos.x)+Math.abs(pos.y-GScreen.pl.pos.y)<120))
-			{GScreen.batch.draw(Assets.button_e, GScreen.pl.pos.x-7+20, GScreen.pl.pos.y-7+85,40,40);}
+			{GScreen.batch_custom.draw(Assets.button_e, GScreen.pl.pos.x-7+20, GScreen.pl.pos.y-7+85,40,40);}
 
 		}
 	}
@@ -665,7 +667,7 @@ public class Entity {
 		int tncx=(int)(_x/GScreen.cluster_size);
 		int tncy=(int)(_y/GScreen.cluster_size);
 		
-		if ((tcx!=tncx)||(tcy!=tncy))
+		if (((tcx!=tncx)||(tcy!=tncy))&&(tncx>=0)&&(tncx<=29)&&(tncy>=0)&&(tncy<=29))
 		{
 				{GScreen.cluster[tcx][tcy].Entity_list.remove(this);
 				GScreen.cluster[tncx][tncy].Entity_list.add(this);}
@@ -887,9 +889,9 @@ public class Entity {
 	public boolean can_see(Entity _e)
 	{
 
-		float dx=_e.pos.x-pos.x;
-		float dy=_e.pos.y-pos.y;
-		float spd=(float) Math.sqrt(dx*dx+dy*dy);
+		//float dx=_e.pos.x-pos.x;
+		//float dy=_e.pos.y-pos.y;
+		//float spd=(float) Math.sqrt(dx*dx+dy*dy);
 		
 		Entity e=GScreen.get_collision(pos.x,pos.y,_e.pos.x,_e.pos.y,(pos.x-_e.pos.x)/(pos.y-_e.pos.y),(pos.y-_e.pos.y)/(pos.x-_e.pos.x),1,1);
 		
@@ -1025,8 +1027,8 @@ public class Entity {
 		
 		//if (Math.abs(impulse.x)<0.5f) {impulse.x=0;}
 		//if (Math.abs(impulse.y)<0.5f) {impulse.y=0;}
-		//if (impulse.x*impulse.x<1.0f) {impulse.x=0f;}
-		//if (impulse.y*impulse.y<1.0) {impulse.y=0f;}
+		//if (impulse.x*impulse.x<0.25f) {impulse.x=0f;}
+		//if (impulse.y*impulse.y<0.25f) {impulse.y=0f;}
 		
 		float mx=impulse.x*cold_rating;
 		float my=impulse.y*cold_rating;
@@ -1052,8 +1054,8 @@ public class Entity {
 			{
 				float dx=0;
 				float dy=0;
-				if (my*my<1.0f) {dx=mx;}else{dx=mx/my;}
-				if (mx*mx<1.0f) {dy=my;}else{dy=my/mx;}
+				if (my*my<0.01f) {dx=mx;}else{dx=mx/my;}
+				if (mx*mx<0.01f) {dy=my;}else{dy=my/mx;}
 				
 				///GScreen.temp_vector_collision_result.set(99999,99999);
 				
@@ -1067,95 +1069,114 @@ public class Entity {
 			}
 		}
 		
-		if (((is_player)&&(GScreen.show_edit))||(z>50))
-		{}
-		else
-		{
-			float dx=0;
-			float dy=0;
-			if (my*my<1.0f) {dx=mx;}else{dx=mx/my;}
-			if (mx*mx<1.0f) {dy=my;}else{dy=my/mx;}
-			
-			//Float.MAX_VALUE;
-			
-			near_object=GScreen.get_collision(pos.x,pos.y,pos.x+mx*_d,pos.y+my*_d,dx,dy,collision_size_x,collision_size_y);
-		}
+		//near_object=null;
 		
-
-		if (constant_move_z>0)
+		if ((mx*mx>10)||(my*my>10))
 		{
-			constant_move_z-=Math.abs(constant_speed_z*_d);
-			z+=constant_speed_z*_d;
-		}
-		else
-		{
-			constant_speed_z=0;
-		}
-		
-		if (near_object==null)
-		{
-			float cmx=0;
-			float cmy=0;
-			
-			if (constant_move_x>0)
+			if (((is_player)&&(GScreen.show_edit))||(z>50))
+			{}
+			else
 			{
-				constant_move_x-=Math.abs(constant_speed_x*_d);
-				cmx=constant_speed_x;
+				float dx=0;
+				float dy=0;
+				if (my*my<0.01f) {dx=10000f;}else{dx=mx/my;}
+				if (mx*mx<0.01f) {dy=10000f;}else{dy=my/mx;}
+				
+				//Float.MAX_VALUE;
+				
+				near_object=GScreen.get_collision(pos.x,pos.y,pos.x+mx*_d,pos.y+my*_d,dx,dy,collision_size_x,collision_size_y);
+			}
+			
+			/*System.out.println("mx="+mx*_d);
+			System.out.println("my="+my*_d);
+			System.out.println("===");*/
+			
+	
+			if (constant_move_z>0)
+			{
+				constant_move_z-=Math.abs(constant_speed_z*_d);
+				z+=constant_speed_z*_d;
 			}
 			else
 			{
-				constant_speed_x=0;
+				constant_speed_z=0;
 			}
 			
-			
-			if (constant_move_y>0)
+			if (near_object==null)
 			{
-				constant_move_y-=Math.abs(constant_speed_y*_d);
-				cmy=constant_speed_y;
+				float cmx=0;
+				float cmy=0;
+				
+				if (constant_move_x>0)
+				{
+					constant_move_x-=Math.abs(constant_speed_x*_d);
+					cmx=constant_speed_x;
+				}
+				else
+				{
+					constant_speed_x=0;
+				}
+				
+				
+				if (constant_move_y>0)
+				{
+					constant_move_y-=Math.abs(constant_speed_y*_d);
+					cmy=constant_speed_y;
+				}
+				else
+				{
+					constant_speed_y=0;
+				}
+				
+				
+				
+				move (mx+cmx,my+cmy,_d,"ENTITY UPDATE");
+				
+				//hit_action(99999);
+				
 			}
 			else
 			{
-				constant_speed_y=0;
+	
+				
+				//stuck=0.1f;
+				
+				/*impulse.x=0;
+				impulse.y=0;*/
+				
+				//reposition (near_object.temp_collision_x,near_object.temp_collision_y);
+				
+				if (near_object.mass>=10000)
+				{
+					impulse.x=0;
+					impulse.y=0;
+				}
+				else
+				{
+					float additive_impulse_x=(impulse.x-near_object.impulse.x);
+					float additive_impulse_y=(impulse.y-near_object.impulse.y);
+					
+					
+					if (Math.abs(impulse.x)>Math.abs(near_object.impulse.x))
+					{
+						near_object.impulse.x+=additive_impulse_x*mass/(mass+near_object.mass);
+						impulse.x-=additive_impulse_x*(1f-mass/(mass+near_object.mass));
+					}	
+					
+					if (Math.abs(impulse.y)>Math.abs(near_object.impulse.y))
+					{
+						near_object.impulse.y+=additive_impulse_y*mass/(mass+near_object.mass);
+						impulse.y-=additive_impulse_y*(1f-mass/(mass+near_object.mass));
+					}
+				}
+				
+				
 			}
-			
-			
-			
-			move (mx+cmx,my+cmy,_d,"ENTITY UPDATE");
-			
-			//hit_action(99999);
-			
-		}
-		else
-		{
-
-			//impulse.scl(Math.max(1f/(near_object.mass/mass+1f),0.9f));
-			stuck=0.1f;
-			random_mul_x=Math.round((float) (Math.random()*2f-1f));
-			random_mul_y=Math.round((float) (Math.random()*2f-1f));
-			
-			//near_object.add_impulse(impulse.x, impulse.y, 0.5f/(near_object.mass/mass+1f));
-			float additive_impulse_x=(impulse.x-near_object.impulse.x);
-			float additive_impulse_y=(impulse.y-near_object.impulse.y);
-			//-20-0=-20
-			
-			if (Math.abs(impulse.x)>Math.abs(near_object.impulse.x))
-			{
-				near_object.impulse.x+=additive_impulse_x*mass/(mass+near_object.mass);
-				impulse.x-=additive_impulse_x*(1f-mass/(mass+near_object.mass));
-			}	
-			
-			if (Math.abs(impulse.y)>Math.abs(near_object.impulse.y))
-			{
-				near_object.impulse.y+=additive_impulse_y*mass/(mass+near_object.mass);
-				impulse.y-=additive_impulse_y*(1f-mass/(mass+near_object.mass));
-			}
-			
-			//reposition (near_object.temp_collision_x,near_object.temp_collision_y);
 		}
 		
-		/*Main.font.draw(GScreen.batch, "mx="+mx, pos.x, pos.y);
-		Main.font.draw(GScreen.batch, "my="+my, pos.x, pos.y-15);*/
-
+		
+		
+		
 		look_cooldown-=_d;
 		if (impulse.x>0) {impulse.x-=friction*_d*(1f+impulse.x/64f); if (impulse.x<0) {impulse.x=0;}}
 		else
@@ -1286,12 +1307,12 @@ public class Entity {
 
 	public void draw_hp()
 	{
-		GScreen.batch.setColor(Color.DARK_GRAY);
-		GScreen.batch.draw(GScreen.rect_white, pos.x-15, pos.y-40, 30,10);
+		GScreen.batch_custom.setColor(Color.DARK_GRAY);
+		GScreen.batch_custom.draw(GScreen.rect_white, pos.x-15, pos.y-40, 30,10);
 		
-		GScreen.batch.setColor(Color.GREEN);
-		GScreen.batch.draw(GScreen.rect_white, pos.x-15, pos.y-40, 30f*armored_shield.value/armored_shield.total_value,10);
-		GScreen.batch.setColor(Color.WHITE);
+		GScreen.batch_custom.setColor(Color.GREEN);
+		GScreen.batch_custom.draw(GScreen.rect_white, pos.x-15, pos.y-40, 30f*armored_shield.value/armored_shield.total_value,10);
+		GScreen.batch_custom.setColor(Color.WHITE);
 	}
 	
 	public void update_color_state()
@@ -1374,19 +1395,15 @@ public class Entity {
 		if (!is_decor)
 		{draw_hp();}
 
-		Color temp_color=spr.getColor();
+		//Color temp_color=spr.getColor();
 
-		if (light_source==null)
-		{spr.setColor(color_total_R,color_total_G,color_total_B,color_total_A);}
-		else
-		{spr.setColor(1,1,1,1f);}
+		GScreen.batch_custom.setColor(color_total_R,color_total_G,color_total_B,color_total_A);
+		if (main_tex!=null)
+		{GScreen.batch_custom.draw(main_tex, pos.x, pos.y);}
 		
 		//if (selected) {spr.setColor(0f, 1f, 0f, 0.9f);}
 		
-		spr.setScale(_siz);
-		spr.draw(GScreen.batch);
-
-		GScreen.batch.setColor(Color.WHITE);
+		
 	}
 	
 	
@@ -1404,10 +1421,10 @@ public class Entity {
 		 */
 		
 		spr.setColor(mask_multiplier,1,1,1);
-		spr.draw(GScreen.batch);
+		spr.draw(GScreen.batch_custom);
 		//spr.setColor(1,1,1,1);
 
-		GScreen.batch.setColor(Color.WHITE);
+		GScreen.batch_custom.setColor(Color.WHITE);
 	}
 	
 	public void fill_path()

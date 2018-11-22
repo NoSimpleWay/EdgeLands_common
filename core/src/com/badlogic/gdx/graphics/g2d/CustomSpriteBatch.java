@@ -29,13 +29,15 @@ import com.badlogic.gdx.math.Affine2;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.utils.NumberUtils;
+import com.midfag.game.Assets;
+import com.midfag.game.GScreen;
 import com.midfag.game.Helper;
 
 /** Draws batched quads using indices.
  * @see Batch
  * @author mzechner
  * @author Nathan Sweet */
-public class CustomSpriteBatch implements Batch {
+public class CustomSpriteBatch extends SpriteBatch implements Batch {
 	/** @deprecated Do not use, this field is for testing only and is likely to be removed. Sets the {@link VertexDataType} to be
 	 *             used when gles 3 is not available, defaults to {@link VertexDataType#VertexArray}. */
 	@Deprecated public static VertexDataType defaultVertexDataType = VertexDataType.VertexArray;
@@ -106,11 +108,12 @@ public class CustomSpriteBatch implements Batch {
 		mesh = new Mesh(vertexDataType, false, size * 4, size * 6,
 			new VertexAttribute(Usage.Position, 2, ShaderProgram.POSITION_ATTRIBUTE),
 			new VertexAttribute(Usage.ColorPacked, 4, ShaderProgram.COLOR_ATTRIBUTE),
-			new VertexAttribute(Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE + "0"));
+			new VertexAttribute(Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE + "0"),
+			new VertexAttribute(Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE + "1"));
 
 		projectionMatrix.setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-		vertices = new float[size * Sprite.SPRITE_SIZE];
+		vertices = new float[size * 28];
 
 		int len = size * 6;
 		short[] indices = new short[len];
@@ -132,40 +135,7 @@ public class CustomSpriteBatch implements Batch {
 			shader = defaultShader;
 	}
 
-	/** Returns a new instance of the default shader used by SpriteBatch for GL2 when no shader is specified. */
-	static public ShaderProgram createDefaultShader () {
-		String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
-			+ "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" //
-			+ "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
-			+ "uniform mat4 u_projTrans;\n" //
-			+ "varying vec4 v_color;\n" //
-			+ "varying vec2 v_texCoords;\n" //
-			+ "\n" //
-			+ "void main()\n" //
-			+ "{\n" //
-			+ "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" //
-			+ "   v_color.a = v_color.a * (255.0/254.0);\n" //
-			+ "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
-			+ "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
-			+ "}\n";
-		String fragmentShader = "#ifdef GL_ES\n" //
-			+ "#define LOWP lowp\n" //
-			+ "precision mediump float;\n" //
-			+ "#else\n" //
-			+ "#define LOWP \n" //
-			+ "#endif\n" //
-			+ "varying LOWP vec4 v_color;\n" //
-			+ "varying vec2 v_texCoords;\n" //
-			+ "uniform sampler2D u_texture;\n" //
-			+ "void main()\n"//
-			+ "{\n" //
-			+ "  gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n" //
-			+ "}";
-
-		ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
-		if (shader.isCompiled() == false) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
-		return shader;
-	}
+	
 
 	@Override
 	public void begin () {
@@ -468,25 +438,33 @@ public class CustomSpriteBatch implements Batch {
 		vertices[idx + 2] = color;
 		vertices[idx + 3] = u;
 		vertices[idx + 4] = v;
+		vertices[idx + 5] = x/9000f-0.001f;
+		vertices[idx + 6] = y/9000f;
 
-		vertices[idx + 5] = x;
-		vertices[idx + 6] = fy2;
-		vertices[idx + 7] = color;
-		vertices[idx + 8] = u;
-		vertices[idx + 9] = v2;
+		vertices[idx + 7] = x;
+		vertices[idx + 8] = fy2;
+		vertices[idx + 9] = color;
+		vertices[idx + 10] = u;
+		vertices[idx + 11] = v2;
+		vertices[idx + 12] = x/9000f-0.001f;
+		vertices[idx + 13] = y/9000f+0.0001f;
 
-		vertices[idx + 10] = fx2;
-		vertices[idx + 11] = fy2;
-		vertices[idx + 12] = color;
-		vertices[idx + 13] = u2;
-		vertices[idx + 14] = v2;
+		vertices[idx + 14] = fx2;
+		vertices[idx + 15] = fy2;
+		vertices[idx + 16] = color;
+		vertices[idx + 17] = u2;
+		vertices[idx + 18] = v2;
+		vertices[idx + 19] = x/9000f+0.001f;
+		vertices[idx + 20] = y/9000f+0.0001f;
 
-		vertices[idx + 15] = fx2;
-		vertices[idx + 16] = y;
-		vertices[idx + 17] = color;
-		vertices[idx + 18] = u2;
-		vertices[idx + 19] = v;
-		this.idx = idx + 20;
+		vertices[idx + 21] = fx2;
+		vertices[idx + 22] = y;
+		vertices[idx + 23] = color;
+		vertices[idx + 24] = u2;
+		vertices[idx + 25] = v;
+		vertices[idx + 26] = x/9000f+0.001f;
+		vertices[idx + 27] = y/9000f;
+		this.idx = idx + 28;
 	}
 
 	@Override
@@ -510,30 +488,43 @@ public class CustomSpriteBatch implements Batch {
 		vertices[idx + 2] = color;
 		vertices[idx + 3] = u;
 		vertices[idx + 4] = v;
-
-		vertices[idx + 5] = x;
-		vertices[idx + 6] = fy2;
-		vertices[idx + 7] = color;
-		vertices[idx + 8] = u;
-		vertices[idx + 9] = v2;
-
-		vertices[idx + 10] = fx2;
-		vertices[idx + 11] = fy2;
-		vertices[idx + 12] = color;
-		vertices[idx + 13] = u2;
-		vertices[idx + 14] = v2;
-
-		vertices[idx + 15] = fx2;
-		vertices[idx + 16] = y;
-		vertices[idx + 17] = color;
-		vertices[idx + 18] = u2;
-		vertices[idx + 19] = v;
-		this.idx = idx + 20;
+		vertices[idx + 5] = u;
+		vertices[idx + 6] = v;
+		
+		vertices[idx + 7] = x;
+		vertices[idx + 8] = fy2;
+		vertices[idx + 9] = color;
+		vertices[idx + 10] = u;
+		vertices[idx + 11] = v2;
+		vertices[idx + 12] = u;
+		vertices[idx + 13] = v2;
+		
+		vertices[idx + 14] = fx2;
+		vertices[idx + 15] = fy2;
+		vertices[idx + 16] = color;
+		vertices[idx + 17] = u2;
+		vertices[idx + 18] = v2;
+		vertices[idx + 19] = u2;
+		vertices[idx + 20] = v2;
+		
+		vertices[idx + 21] = fx2;
+		vertices[idx + 22] = y;
+		vertices[idx + 23] = color;
+		vertices[idx + 24] = u2;
+		vertices[idx + 25] = v;
+		vertices[idx + 26] = u2;
+		vertices[idx + 27] = v;
+		
+		this.idx = idx + 28;
 	}
 
 	@Override
 	public void draw (Texture texture, float x, float y) {
 		draw(texture, x, y, texture.getWidth(), texture.getHeight());
+	}
+	
+	public void draw_with_light (Texture texture, float x, float y, float _size_x) {
+		draw_with_light(texture, x, y, texture.getWidth(), texture.getHeight(), _size_x);
 	}
 
 	@Override
@@ -565,25 +556,91 @@ public class CustomSpriteBatch implements Batch {
 		vertices[idx + 2] = color;
 		vertices[idx + 3] = u;
 		vertices[idx + 4] = v;
+			vertices[idx + 5] = x/9000f-0.01f;
+			vertices[idx + 6] = y/9000f;
 
-		vertices[idx + 5] = x;
-		vertices[idx + 6] = fy2;
-		vertices[idx + 7] = color;
-		vertices[idx + 8] = u;
-		vertices[idx + 9] = v2;
+		vertices[idx + 7] = x;
+		vertices[idx + 8] = fy2;
+		vertices[idx + 9] = color;
+		vertices[idx + 10] = u;
+		vertices[idx + 11] = v2;
+			vertices[idx + 12] = x/9000f-0.01f;
+			vertices[idx + 13] = y/9000f+0.001f;
 
-		vertices[idx + 10] = fx2;
-		vertices[idx + 11] = fy2;
-		vertices[idx + 12] = color;
-		vertices[idx + 13] = u2;
-		vertices[idx + 14] = v2;
+		vertices[idx + 14] = fx2;
+		vertices[idx + 15] = fy2;
+		vertices[idx + 16] = color;
+		vertices[idx + 17] = u2;
+		vertices[idx + 18] = v2;
+			vertices[idx + 19] = x/9000f+0.01f;
+			vertices[idx + 20] = y/9000f+0.001f;
 
-		vertices[idx + 15] = fx2;
-		vertices[idx + 16] = y;
-		vertices[idx + 17] = color;
-		vertices[idx + 18] = u2;
-		vertices[idx + 19] = v;
-		this.idx = idx + 20;
+		vertices[idx + 21] = fx2;
+		vertices[idx + 22] = y;
+		vertices[idx + 23] = color;
+		vertices[idx + 24] = u2;
+		vertices[idx + 25] = v;
+			vertices[idx + 26] = x/9000f+0.01f;
+			vertices[idx + 27] = y/9000f;
+		this.idx = idx + 28;
+	}
+
+	
+	public void draw_with_light (Texture texture, float x, float y, float width, float height, float _size_x) {
+		if (!drawing) throw new IllegalStateException("SpriteBatch.begin must be called before draw.");
+
+		float[] vertices = this.vertices;
+
+		if (texture != lastTexture)
+			switchTexture(texture);
+		else if (idx == vertices.length) //
+			{
+				//Helper.log("FLUSH "+idx);
+				//flush();
+				
+			}
+
+		final float fx2 = x + width;
+		final float fy2 = y + height;
+		final float u = 0;
+		final float v = 1;
+		final float u2 = 1;
+		final float v2 = 0;
+
+		float color = this.color;
+		int idx = this.idx;
+		vertices[idx] = x;
+		vertices[idx + 1] = y;
+		vertices[idx + 2] = color;
+		vertices[idx + 3] = u;
+		vertices[idx + 4] = v;
+			vertices[idx + 5] = x/9000f;
+			vertices[idx + 6] = y/9000f;
+
+		vertices[idx + 7] = x;
+		vertices[idx + 8] = fy2;
+		vertices[idx + 9] = color;
+		vertices[idx + 10] = u;
+		vertices[idx + 11] = v2;
+			vertices[idx + 12] = x/9000f;
+			vertices[idx + 13] = y/9000f+0.001f;
+
+		vertices[idx + 14] = fx2;
+		vertices[idx + 15] = fy2;
+		vertices[idx + 16] = color;
+		vertices[idx + 17] = u2;
+		vertices[idx + 18] = v2;
+			vertices[idx + 19] = x/9000f+_size_x/9000f;
+			vertices[idx + 20] = y/9000f+0.001f;
+
+		vertices[idx + 21] = fx2;
+		vertices[idx + 22] = y;
+		vertices[idx + 23] = color;
+		vertices[idx + 24] = u2;
+		vertices[idx + 25] = v;
+			vertices[idx + 26] = x/9000f+_size_x/9000f;
+			vertices[idx + 27] = y/9000f;
+		this.idx = idx + 28;
 	}
 	
 	public void draw4 (Texture texture, float x, float y, float width, float height, float c1, float c2, float c3, float c4) {
@@ -1037,11 +1094,17 @@ public class CustomSpriteBatch implements Batch {
 		if (idx == 0) return;
 
 		
-		int spritesInBatch = idx / 20;
+		int spritesInBatch = idx / 28;
 		//if (spritesInBatch > maxSpritesInBatch) maxSpritesInBatch = spritesInBatch;
 		int count = spritesInBatch * 6;
+		
+		
+		GScreen.lightmap_texture.bind(1);
+		getShader().setUniformi("u_texture", 1); //passing first texture!!!
 
-		lastTexture.bind();
+		lastTexture.bind(0);
+		
+		
 		Mesh mesh = this.mesh;
 		mesh.setVertices(vertices, 0, idx);
 		mesh.getIndicesBuffer().position(0);

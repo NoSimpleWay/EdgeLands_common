@@ -101,7 +101,7 @@ public class EntityTurret extends Entity {
 		spr.translate(-25,-80);
 		spr.setSize(100, 200);
 		spr.setTexture(Assets.shadow);
-		spr.draw(GScreen.batch);
+		spr.draw(GScreen.batch_custom);
 		spr.translate(25,80);
 		
 		spr.setSize(100, 100);
@@ -109,7 +109,7 @@ public class EntityTurret extends Entity {
 		spr.translate(-5,-30);
 		
 		spr.setTexture(Assets.turret_body[bottom_draw]);
-		spr.draw(GScreen.batch);
+		spr.draw(GScreen.batch_custom);
 		spr.translate(5,30);
 		draw_hp();
 		

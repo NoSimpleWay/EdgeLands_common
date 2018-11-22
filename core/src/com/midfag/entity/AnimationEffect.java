@@ -41,15 +41,15 @@ public class AnimationEffect {
 		
 
 		
-		GScreen.batch.setColor(1, 1, 1, alpha*timer/base_timer);
-		GScreen.batch.draw(tex[frame],v.x+offset_x,v.y+offset_y,size_x,size_y);
+		GScreen.batch_custom.setColor(1, 1, 1, alpha*timer/base_timer);
+		GScreen.batch_custom.draw(tex[frame],v.x+offset_x,v.y+offset_y,size_x,size_y);
 		
-		Main.font_big.draw(GScreen.batch, ""+alpha, v.x, v.y);
+		Main.font_big.draw(GScreen.batch_custom, ""+alpha, v.x, v.y);
 		
 		if (frame<max_frame)
 		{
-			GScreen.batch.setColor(1, 1, 1, alpha*(1-timer/base_timer));
-			GScreen.batch.draw(tex[frame+1],v.x+offset_x,v.y+offset_y,size_x,size_y);
+			GScreen.batch_custom.setColor(1, 1, 1, alpha*(1-timer/base_timer));
+			GScreen.batch_custom.draw(tex[frame+1],v.x+offset_x,v.y+offset_y,size_x,size_y);
 		}
 		
 		

@@ -65,7 +65,7 @@ public class ScreenEffectTimeStop extends ScreenEffect {
 		
 			
 		
-		shader=GScreen.batch.getShader();
+		shader=GScreen.batch_custom.getShader();
 		GScreen.batch_static.setShader(Main.shader_bloom);
 	}
 	

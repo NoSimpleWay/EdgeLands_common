@@ -290,13 +290,13 @@ public class GUIEdit extends GUI {
 		
 
 		
-		GScreen.batch.begin();
+		GScreen.batch_custom.begin();
 			if (pattern_edit)
-				{GScreen.batch.draw(Assets.point_start,(int)(InputHandler.posx/30)*30,(int)(InputHandler.posy/30)*30);}
+				{GScreen.batch_custom.draw(Assets.point_start,(int)(InputHandler.posx/30)*30,(int)(InputHandler.posy/30)*30);}
 			
 			if (indicate_pattern!=null)
 			{
-				GScreen.batch.setColor(1, 1.0f, 1.0f, 0.5f);
+				GScreen.batch_custom.setColor(1, 1.0f, 1.0f, 0.5f);
 				
 				for (int i=0; i<indicate_pattern.size_y; i++)
 				for (int j=0; j<indicate_pattern.size_x; j++)
@@ -307,7 +307,7 @@ public class GUIEdit extends GUI {
 						int tx=indicate_pattern.layer_main[j][i]-ty*8;
 					
 					
-						GScreen.batch.draw 
+						GScreen.batch_custom.draw 
 							(
 							GScreen.tile_texture,
 							(int)(InputHandler.posx/30f)*30f+j*30f-15f,
@@ -331,7 +331,7 @@ public class GUIEdit extends GUI {
 							int tx=indicate_pattern.layer_top[j][i]-ty*8;
 						
 						
-							GScreen.batch.draw 
+							GScreen.batch_custom.draw 
 								(
 								GScreen.tile_texture,
 								(int)(InputHandler.posx/30f)*30f+j*30f-15f,
@@ -370,16 +370,16 @@ public class GUIEdit extends GUI {
 					GScreen.batch.draw(GScreen.tile[indicate_pattern.layer_top[j][i]],(int)(InputHandler.posx/30)*30+j*30-15,(int)(InputHandler.posy/30)*30+i*30-15);
 				}*/
 				
-				GScreen.batch.setColor(1, 1, 1, 1);
+				GScreen.batch_custom.setColor(1, 1, 1, 1);
 			}
 			
-			GScreen.batch.draw(Assets.point_start,(int)(pattern_first_point.x/30f)*30f,(int)(pattern_first_point.y/30.0f)*30f);
+			GScreen.batch_custom.draw(Assets.point_start,(int)(pattern_first_point.x/30f)*30f,(int)(pattern_first_point.y/30.0f)*30f);
 			
 			//GScreen.batch.draw(Assets.point_start,(pattern_first_point.x+InputHandler.posx)/2f-15,(pattern_first_point.y+InputHandler.posy)/2f-15);
 			if (pattern_first_point.x>0)
-			{GScreen.batch.draw(Assets.rama,pattern_first_point.x,pattern_first_point.y,InputHandler.posx-pattern_first_point.x,InputHandler.posy-pattern_first_point.y);}
+			{GScreen.batch_custom.draw(Assets.rama,pattern_first_point.x,pattern_first_point.y,InputHandler.posx-pattern_first_point.x,InputHandler.posy-pattern_first_point.y);}
 			
-		GScreen.batch.end();
+		GScreen.batch_custom.end();
 		
 		boolean have_button_overlap=false;
 		
@@ -438,6 +438,10 @@ public class GUIEdit extends GUI {
 						en.pos.y=yy+array_y*i;
 						
 						en.uid=indicate_entity.uid;
+						en.main_tex=indicate_entity.main_tex;
+						
+						en.texture_offset_x=indicate_entity.texture_offset_x;
+						en.texture_offset_y=indicate_entity.texture_offset_y;
 						
 						en.spr.setRotation(indicate_entity.spr.getRotation());
 						//en.init("gui edit");
@@ -816,7 +820,7 @@ public class GUIEdit extends GUI {
 		}
 				
 		if (indicate_entity!=null)
-		{GScreen.batch.begin();
+		{GScreen.batch_custom.begin();
 			for (int i=0; i<array_count; i++)
 			{
 				indicate_entity.spr.setPosition(xx-indicate_entity.spr.getOriginX()+array_x*i, yy-indicate_entity.spr.getOriginY()+array_y*i);
@@ -825,14 +829,14 @@ public class GUIEdit extends GUI {
 				indicate_entity.pos.set(xx+array_x*i,yy+array_y*i);
 				indicate_entity.draw_action(_d);
 			}
-		GScreen.batch.end();
+		GScreen.batch_custom.end();
 		
 		}
 		
 		if (rama_started)
-		{GScreen.batch.begin();
-			GScreen.batch.draw(Assets.rama,rama_x1,rama_y1,rama_x2-rama_x1,rama_y2-rama_y1);
-		GScreen.batch.end();}
+		{GScreen.batch_custom.begin();
+			GScreen.batch_custom.draw(Assets.rama,rama_x1,rama_y1,rama_x2-rama_x1,rama_y2-rama_y1);
+		GScreen.batch_custom.end();}
 		
 	}
 

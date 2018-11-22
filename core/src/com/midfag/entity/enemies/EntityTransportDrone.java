@@ -118,12 +118,12 @@ public class EntityTransportDrone extends Entity {
 		//GL20.glBlendFunc(GL_ONE, GL_ONE); 02.07.2017 06:07:36
 
 		
-		GScreen.batch.draw(Assets.transport_drone_shadow, pos.x-581, pos.y);
+		GScreen.batch_custom.draw(Assets.transport_drone_shadow, pos.x-581, pos.y);
 		for (int i=0; i<3; i++)
 		if (container[i])
-		{GScreen.batch.draw(Assets.dron_container, pos.x-581+391*i, pos.y+z-105);}
+		{GScreen.batch_custom.draw(Assets.dron_container, pos.x-581+391*i, pos.y+z-105);}
 		
-		GScreen.batch.draw(Assets.transport_drone, pos.x-581, pos.y+z);
+		GScreen.batch_custom.draw(Assets.transport_drone, pos.x-581, pos.y+z);
 		
 		
 		

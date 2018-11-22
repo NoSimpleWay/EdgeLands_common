@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.midfag.game.Assets;
+import com.midfag.game.Localisation;
 
 public class EnergoshieldStone extends Energoshield {
 	
@@ -15,7 +16,7 @@ public class EnergoshieldStone extends Energoshield {
 		base_regen_speed=8;
 		base_reflect=2f;
 		
-		name="Stone shield";
+		name=Localisation.get_value_from_id("name_shield_stone");
 		uid="shstone";
 		
 		spr=new Sprite(Assets.load("icon_shield_stone"));

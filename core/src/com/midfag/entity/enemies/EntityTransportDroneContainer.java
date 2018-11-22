@@ -137,7 +137,7 @@ public class EntityTransportDroneContainer extends Entity {
 		if (container[i])
 		{GScreen.batch.draw(Assets.dron_container, pos.x-581+391*i, pos.y+z-105);}*/
 		
-		GScreen.batch.draw(Assets.dron_container, pos.x-182, pos.y+z);
+		GScreen.batch_custom.draw(Assets.dron_container, pos.x-182, pos.y+z);
 		
 		
 		

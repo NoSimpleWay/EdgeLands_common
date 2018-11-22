@@ -88,17 +88,17 @@ public class EntityHuman extends Entity {
 		if (anim_state==3){as=2;}
     	
 		//if (dir==0){}
-		if (selected){GScreen.batch.setColor(Color.GREEN);}
-		if (!selected){GScreen.batch.setColor(leg_color);}
-		GScreen.batch.draw(Assets.human_pants[dir+as*4], pos.x-25+mov, pos.y-2);
+		if (selected){GScreen.batch_custom.setColor(Color.GREEN);}
+		if (!selected){GScreen.batch_custom.setColor(leg_color);}
+		GScreen.batch_custom.draw(Assets.human_pants[dir+as*4], pos.x-25+mov, pos.y-2);
 		
-		if (!selected)GScreen.batch.setColor(body_color);
-		GScreen.batch.draw(Assets.human_body[dir+as*4], pos.x-25+mov, pos.y);
+		if (!selected)GScreen.batch_custom.setColor(body_color);
+		GScreen.batch_custom.draw(Assets.human_body[dir+as*4], pos.x-25+mov, pos.y);
 		
-		if (!selected)GScreen.batch.setColor(head_color);
-		GScreen.batch.draw(Assets.human_head[dir], pos.x-25+mov, pos.y);
+		if (!selected)GScreen.batch_custom.setColor(head_color);
+		GScreen.batch_custom.draw(Assets.human_head[dir], pos.x-25+mov, pos.y);
 		
-		GScreen.batch.setColor(Color.WHITE);
+		GScreen.batch_custom.setColor(Color.WHITE);
 	}
 
 }

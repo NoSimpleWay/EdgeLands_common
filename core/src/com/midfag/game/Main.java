@@ -26,6 +26,10 @@ public class Main extends Game {
     public static ShaderProgram shader_default;
     public static ShaderProgram shader_dissolve;
     public static ShaderProgram shader_time_slow;
+    public static ShaderProgram shader_optic;
+    
+    public static ShaderProgram shader_light;
+    
     public static ShaderProgram shader;
     
     //public static ShaderProgram shader_default;
@@ -69,23 +73,32 @@ public class Main extends Game {
 	        ShaderProgram.pedantic = false;
 	       
 	        
+	        shader_light=new ShaderProgram(Gdx.files.internal("data/shader_light.vert"),(Gdx.files.internal("data/shader_light.frag")));
+			if (!shader_light.isCompiled()) {System.err.println(shader_light.getLog()); shader_light=GScreen.batch_custom.getShader();}
+	        
 			shader=new ShaderProgram(Gdx.files.internal("data/d.vert"),(Gdx.files.internal("data/d.frag")));
-			if (!shader.isCompiled()) {System.err.println(shader.getLog()); shader=GScreen.batch.getShader();}
+			if (!shader.isCompiled()) {System.err.println(shader.getLog()); shader=GScreen.batch_custom.getShader();}
 		
 	        shader_time_slow=new ShaderProgram(Gdx.files.internal("data/d.vert"),(Gdx.files.internal("data/time_slow.frag")));
-			if (!shader_time_slow.isCompiled()) {System.err.println(shader_time_slow.getLog()); shader_time_slow=GScreen.batch.getShader();}
-	        
-			shader_dissolve=new ShaderProgram(Gdx.files.internal("data/d.vert"),(Gdx.files.internal("data/dissolve.frag")));
-			if (!shader_dissolve.isCompiled()) {System.err.println(shader_dissolve.getLog()); shader_dissolve=GScreen.batch.getShader();}
+			if (!shader_time_slow.isCompiled()) {System.err.println(shader_time_slow.getLog()); shader_time_slow=GScreen.batch_custom.getShader();}
+	       
+			//shader_optic=new ShaderProgram(Gdx.files.internal("data/d.vert"),(Gdx.files.internal("data/optic.frag")));
+			//if (!shader_optic.isCompiled()) {System.err.println(shader_optic.getLog()); shader_optic=GScreen.batch.getShader();}
 			
-			shader_bloom=new ShaderProgram(Gdx.files.internal("data/d.vert"),(Gdx.files.internal("data/shader_bloom.frag")));
-			if (!shader_bloom.isCompiled()) {System.err.println(shader_bloom.getLog()); shader_bloom=GScreen.batch.getShader();}
+			shader_dissolve=new ShaderProgram(Gdx.files.internal("data/d.vert"),(Gdx.files.internal("data/dissolve.frag")));
+			if (!shader_dissolve.isCompiled()) {System.err.println(shader_dissolve.getLog()); shader_dissolve=GScreen.batch_custom.getShader();}
+			
+			shader_bloom=new ShaderProgram(Gdx.files.internal("data/d_new.vert"),(Gdx.files.internal("data/shader_bloom.frag")));
+			if (!shader_bloom.isCompiled()) {System.err.println(shader_bloom.getLog()); shader_bloom=GScreen.batch_custom.getShader();}
 			
 			shader_lightmap=new ShaderProgram(Gdx.files.internal("data/d.vert"),(Gdx.files.internal("data/lightmap.frag")));
-			if (!shader_lightmap.isCompiled()) {System.err.println(shader_lightmap.getLog()); shader_lightmap=GScreen.batch.getShader();}
+			if (!shader_lightmap.isCompiled()) {System.err.println(shader_lightmap.getLog()); shader_lightmap=GScreen.batch_custom.getShader();}
 			
 			shader_lightmap_offset=new ShaderProgram(Gdx.files.internal("data/d.vert"),(Gdx.files.internal("data/lightmap_offset.frag")));
-			if (!shader_lightmap.isCompiled()) {System.err.println(shader_lightmap_offset.getLog()); shader_lightmap_offset=GScreen.batch.getShader();}
+			if (!shader_lightmap.isCompiled()) {System.err.println(shader_lightmap_offset.getLog()); shader_lightmap_offset=GScreen.batch_custom.getShader();}
+			
+			shader_default=new ShaderProgram(Gdx.files.internal("data/def.vert"),(Gdx.files.internal("data/def.frag")));
+			if (!shader_default.isCompiled()) {System.err.println(shader_default.getLog()); shader_default=GScreen.batch_custom.getShader();}
         
         Texture texture = new Texture(Gdx.files.internal("data/fonts/big.png"));
         texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);// true enables mipmaps
@@ -96,7 +109,8 @@ public class Main extends Game {
         font = new BitmapFont(Gdx.files.internal("data/rus.fnt"), new TextureRegion(texture), false);
         
         this.setScreen(new GScreen(this));
-        shader_default=GScreen.batch.getShader();
+        
+       //shader_default=GScreen.batch_illum.createDefaultShader();
         
         /*
         Class clazz = DecorBarrel.class;
@@ -126,7 +140,7 @@ public class Main extends Game {
     }
 
     public void dispose() {
-    	GScreen.batch.dispose();
+    	GScreen.batch_custom.dispose();
         font.dispose();
     }
 

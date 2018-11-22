@@ -13,7 +13,7 @@ public class ModuleAttributeMoreTimeSlowResist extends ModuleAttribute {
 	{
 		cost=10;
 		
-		max_level=5;
+		max_level=500;
 		uid="matsr";
 		name="Сопротивление времени";
 	}

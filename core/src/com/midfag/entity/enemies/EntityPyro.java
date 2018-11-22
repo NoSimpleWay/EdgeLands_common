@@ -56,7 +56,7 @@ public class EntityPyro extends Entity {
 		offset.y=10;
 		can_rotate=false;
 		
-		friction=0.25f;
+		friction=50f;
 		speed*=1f;
 	}
 	
@@ -121,17 +121,17 @@ public class EntityPyro extends Entity {
 		spr.translate(-25,-110);
 		spr.setSize(100, 200);
 		spr.setTexture(Assets.shadow);
-		spr.draw(GScreen.batch);
+		spr.draw(GScreen.batch_custom);
 		spr.translate(25,110);
 		
 		spr.setSize(100, 100);
 		
 		spr.setTexture(Assets.pyra_body[draw_sprite]);
-		spr.draw(GScreen.batch);
+		spr.draw(GScreen.batch_custom);
 		
 		spr.translateY(-10);
 		spr.setTexture(Assets.pyra_head[bottom_draw]);
-		spr.draw(GScreen.batch);
+		spr.draw(GScreen.batch_custom);
 		spr.translateY(10);
 		
 		draw_hp();

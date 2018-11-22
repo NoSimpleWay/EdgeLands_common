@@ -60,7 +60,7 @@ public class EntityWheel extends Entity {
 		mass=100;
 		
 		speed/=4;
-		friction=0.01f;
+		friction=50f;
 	}
 	
 	@Override
@@ -164,18 +164,18 @@ public class EntityWheel extends Entity {
 		spr.translate(-5,-50);
 		spr.setSize(100, 200);
 		spr.setTexture(Assets.shadow);
-		spr.draw(GScreen.batch);
+		spr.draw(GScreen.batch_custom);
 		spr.translate(5,50);
 		
 		spr.setSize(100, 100);
 		
 		spr.setColor(Color.BLACK);
 		spr.setTexture(Assets.wheel_body[bottom_draw]);
-		spr.draw(GScreen.batch);
+		spr.draw(GScreen.batch_custom);
 		
 		spr.setColor(Color.WHITE);
 		spr.setTexture(Assets.wheel_body[bottom_draw]);
-		spr.draw(GScreen.batch);
+		spr.draw(GScreen.batch_custom);
 		
 		
 	}

@@ -60,15 +60,15 @@ public class EntityRaiderTank extends Entity {
 		offset.y=10;
 		can_rotate=false;
 		
-		friction=0.05f;
+		friction=50f;
 		speed/=0.2f;
 	}
 	
 	@Override
 	public void bottom_draw(float _d)
 	{
-		GScreen.batch.setColor(1,1,1,.25f);
-		GScreen.batch.draw(Assets.shadow, pos.x-75, pos.y-40,150,100);
+		GScreen.batch_custom.setColor(1,1,1,.25f);
+		GScreen.batch_custom.draw(Assets.shadow, pos.x-75, pos.y-40,150,100);
 	}
 	
 	@Override
@@ -143,13 +143,13 @@ public class EntityRaiderTank extends Entity {
 		
 		float cold_rating=1.0f-buff_cold/(buff_cold+100.0f);
 		
-		GScreen.batch.setColor(color_total_R*cold_rating,color_total_G*cold_rating,color_total_B,1f);
+		GScreen.batch_custom.setColor(color_total_R*cold_rating,color_total_G*cold_rating,color_total_B,1f);
 		
 		int wi=(int)(bottom_draw/6f);
 		int he=bottom_draw-wi*6;
 		//{GScreen.batch.draw	(main_tex, pos.x-45, pos.y,	   0,	   90,     90,90);}
 		
-		GScreen.batch.draw	(main_tex, pos.x-75, pos.y-10f, he*150, wi*150, 150, 150);
+		GScreen.batch_custom.draw	(main_tex, pos.x-75, pos.y-10f, he*150, wi*150, 150, 150);
 		
 		draw_hp();
 		

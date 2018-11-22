@@ -76,7 +76,7 @@ public class EntitySpawnTower extends Entity {
 		can_rotate=false;
 		
 		mass=10000;
-		friction=0.01f;
+		friction=10f;
 		speed=0.0f;
 	}
 	
@@ -131,8 +131,8 @@ public class EntitySpawnTower extends Entity {
 	public void bottom_draw (float _d)
 	{
 		float cold_rating=1.0f-buff_cold/(buff_cold+100.0f);
-		GScreen.batch.setColor(color_total_R*cold_rating,color_total_G*cold_rating,color_total_B,1f);
-		GScreen.batch.draw(Assets.spawn_tower_bottom, pos.x-150, pos.y-80);
+		GScreen.batch_custom.setColor(color_total_R*cold_rating,color_total_G*cold_rating,color_total_B,1f);
+		GScreen.batch_custom.draw(Assets.spawn_tower_bottom, pos.x-150, pos.y-80);
 	}
 	
 	@Override
@@ -143,10 +143,10 @@ public class EntitySpawnTower extends Entity {
 
 		float cold_rating=1.0f-buff_cold/(buff_cold+100.0f);
 		
-		GScreen.batch.setColor(color_total_R*cold_rating,color_total_G*cold_rating,color_total_B,1f);
-		GScreen.batch.draw(main_tex, pos.x-150, pos.y-80);
-		GScreen.batch.setColor(Color.WHITE);
-		GScreen.batch.draw(Assets.spawn_tower_light, pos.x-150, pos.y-80);
+		GScreen.batch_custom.setColor(color_total_R*cold_rating,color_total_G*cold_rating,color_total_B,1f);
+		GScreen.batch_custom.draw(main_tex, pos.x-150, pos.y-80);
+		GScreen.batch_custom.setColor(Color.WHITE);
+		GScreen.batch_custom.draw(Assets.spawn_tower_light, pos.x-150, pos.y-80);
 		  
 
 		

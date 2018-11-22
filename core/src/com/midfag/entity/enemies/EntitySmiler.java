@@ -71,7 +71,7 @@ public class EntitySmiler extends Entity {
 		offset.y=10;
 		can_rotate=false;
 		
-		friction=0.07f;
+		friction=50f;
 		speed*=10f;
 		
 		mass=50;
@@ -125,14 +125,14 @@ public class EntitySmiler extends Entity {
 		
 		float cold_rating=1.0f-buff_cold/(buff_cold+100.0f);
 		
-		GScreen.batch.setColor(color_total_R*cold_rating,color_total_G*cold_rating,color_total_B,1f);
+		GScreen.batch_custom.setColor(color_total_R*cold_rating,color_total_G*cold_rating,color_total_B,1f);
 		
 		//spr.setSize(90, 90);
 		
 		if (catch_target==null)
-		{GScreen.batch.draw(main_tex,pos.x-45,pos.y,1440-90-bottom_draw*90,90*animation,90,90);}
+		{GScreen.batch_custom.draw(main_tex,pos.x-45,pos.y,1440-90-bottom_draw*90,90*animation,90,90);}
 		else
-		{GScreen.batch.draw(main_tex,(float) (pos.x-45+Math.random()*8f-4f),(float)(pos.y+Math.random()*8f-4f),1440-90-bottom_draw*90,90*animation,90,90);}
+		{GScreen.batch_custom.draw(main_tex,(float) (pos.x-45+Math.random()*8f-4f),(float)(pos.y+Math.random()*8f-4f),1440-90-bottom_draw*90,90*animation,90,90);}
 		//spr.draw(GScreen.batch);
 		
 		draw_hp();

@@ -66,8 +66,26 @@ public class SysConfig {
 					ssd_entity.uid=string_array[i];
 					EntityRegisterer.add(ssd_entity);
 					Helper.log ("Happy birthday, SSD "+ssd_entity.uid);
+				}
+				//
+				if (string_array[i].toLowerCase().equals("texture"))
+				{
+					i++;
+					ssd_entity.main_tex=Assets.load(string_array[i]);
 					
-					
+					Helper.log ("Damn, texture |"+string_array[i]+"| looking good!");
+				}
+				//
+				if (string_array[i].toLowerCase().equals("offset_x"))
+				{
+					i++;
+					ssd_entity.texture_offset_x=Integer.parseInt(string_array[i]);
+				}
+				
+				if (string_array[i].toLowerCase().equals("offset_y"))
+				{
+					i++;
+					ssd_entity.texture_offset_y=Integer.parseInt(string_array[i]);
 				}
 				
 				if (string_array[i].toLowerCase().equals("x"))
@@ -120,6 +138,8 @@ public class SysConfig {
 		ModuleRegisterer.add(new ModuleUnitTurret());
 		ModuleRegisterer.add(new ModuleUnitHeal());
 		ModuleRegisterer.add(new ModuleUnitOverload());
+		
+		ModuleRegisterer.add(new ModuleUnitRefresher());
 	}
 	
 	public static void RegisterModuleAttribute()

@@ -60,13 +60,11 @@ public class SystemCollision extends Entity {
 		{
 			spr.setColor(color_total_R,color_total_G,color_total_B,1);
 			spr.setScale(1);
-			spr.draw(GScreen.batch);
+			spr.draw(GScreen.batch_custom);
 			
 			
-			GScreen.batch.setColor(Color.WHITE);
-			GScreen.batch.draw(Assets.rama, pos.x-collision_size_x, pos.y-collision_size_y, collision_size_x*2f, collision_size_y*2f);
-			
-			
+			GScreen.batch_custom.setColor(Color.WHITE);
+			GScreen.batch_custom.draw(Assets.rama, pos.x-collision_size_x, pos.y-collision_size_y, collision_size_x*2f, collision_size_y*2f);
 		}
 	}
 	

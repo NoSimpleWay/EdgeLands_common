@@ -65,7 +65,9 @@ public class ModuleUnit {
 	
 	public void update(Entity _e, float _d)
 	{
-		
+		cooldown-=_d;
+		if (cooldown<=0)
+		{cooldown=0;}
 	}
 	
 	public void use(Entity _e)
@@ -249,6 +251,9 @@ public class ModuleUnit {
 			Attribute_list.get(i).calculate(this);
 		}
 		
+		post_update_stats();
+		
+		
 		color=Color.WHITE;
 		/*
 		if (rarity==Rarity.COMMON){color=Color.WHITE;}
@@ -260,6 +265,11 @@ public class ModuleUnit {
 
 	}
 	
+
+	public void post_update_stats() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	public void additional_update_stats() {
 		// TODO Auto-generated method stub

@@ -108,7 +108,8 @@ public class CustomSpriteBatchTwoUV implements Batch {
 			new VertexAttribute(Usage.Position, 2, ShaderProgram.POSITION_ATTRIBUTE),
 			new VertexAttribute(Usage.ColorPacked, 4, ShaderProgram.COLOR_ATTRIBUTE),
 			new VertexAttribute(Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE + "0"),
-			new VertexAttribute(Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE + "1")
+			new VertexAttribute(Usage.TextureCoordinates, 2, ShaderProgram.TEXCOORD_ATTRIBUTE + "z")
+
 			);
 
 		projectionMatrix.setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -140,15 +141,18 @@ public class CustomSpriteBatchTwoUV implements Batch {
 		String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
 			+ "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" //
 			+ "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
+			+ "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "z;\n" //
 			+ "uniform mat4 u_projTrans;\n" //
 			+ "varying vec4 v_color;\n" //
 			+ "varying vec2 v_texCoords;\n" //
+			+ "varying vec2 v_texCoords1;\n" //
 			+ "\n" //
 			+ "void main()\n" //
 			+ "{\n" //
 			+ "   v_color = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" //
 			+ "   v_color.a = v_color.a * (255.0/254.0);\n" //
 			+ "   v_texCoords = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" //
+			+ "   v_texCoords1 = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "z;\n" //
 			+ "   gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" //
 			+ "}\n";
 		String fragmentShader = "#ifdef GL_ES\n" //
@@ -158,13 +162,21 @@ public class CustomSpriteBatchTwoUV implements Batch {
 			+ "#define LOWP \n" //
 			+ "#endif\n" //
 			+ "varying LOWP vec4 v_color;\n" //
+			
 			+ "varying vec2 v_texCoords;\n" //
+			+ "varying vec2 v_texCoords1;\n" //
+			
 			+ "uniform sampler2D u_texture;\n" //
+			+ "uniform sampler2D u_texture1;\n" //
 			+ "void main()\n"//
 			+ "{\n" //
-			+ "  gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n" //
+			+ "  gl_FragColor = v_color * texture2D(u_texture1, v_texCoords);\n" //
 			+ "}";
-
+		
+		Helper.log("00000000000000000000000000000");
+		Helper.log(vertexShader);
+		Helper.log("00000000000000000000000000000");
+		
 		ShaderProgram shader = new ShaderProgram(vertexShader, fragmentShader);
 		if (shader.isCompiled() == false) throw new IllegalArgumentException("Error compiling shader: " + shader.getLog());
 		return shader;
@@ -581,8 +593,8 @@ public class CustomSpriteBatchTwoUV implements Batch {
 			switchTexture(texture);
 		else if (idx == vertices.length) //
 			{
-				//Helper.log("FLUSH "+idx);
-				//flush();
+				Helper.log("FLUSH "+idx);
+				flush();
 				
 			}
 
@@ -1050,7 +1062,7 @@ public class CustomSpriteBatchTwoUV implements Batch {
 		vertices[idx + 25] = v4;
 		vertices[idx + 26] = u1;
 		vertices[idx + 27] = v1;
-		this.idx = idx + 20;
+		this.idx = idx + 28;
 	}
 
 	@Override
@@ -1088,25 +1100,33 @@ public class CustomSpriteBatchTwoUV implements Batch {
 		vertices[idx + 2] = color;
 		vertices[idx + 3] = u;
 		vertices[idx + 4] = v;
+		vertices[idx + 5] = u;
+		vertices[idx + 6] = v;
 
-		vertices[idx + 5] = x2;
-		vertices[idx + 6] = y2;
-		vertices[idx + 7] = color;
-		vertices[idx + 8] = u;
-		vertices[idx + 9] = v2;
+		vertices[idx + 7] = x2;
+		vertices[idx + 8] = y2;
+		vertices[idx + 9] = color;
+		vertices[idx + 10] = u;
+		vertices[idx + 11] = v2;
+		vertices[idx + 12] = u;
+		vertices[idx + 13] = v2;
 
-		vertices[idx + 10] = x3;
-		vertices[idx + 11] = y3;
-		vertices[idx + 12] = color;
-		vertices[idx + 13] = u2;
-		vertices[idx + 14] = v2;
+		vertices[idx + 14] = x3;
+		vertices[idx + 15] = y3;
+		vertices[idx + 16] = color;
+		vertices[idx + 17] = u2;
+		vertices[idx + 18] = v2;
+		vertices[idx + 19] = u2;
+		vertices[idx + 20] = v2;
 
-		vertices[idx + 15] = x4;
-		vertices[idx + 16] = y4;
-		vertices[idx + 17] = color;
-		vertices[idx + 18] = u2;
-		vertices[idx + 19] = v;
-		this.idx = idx + 20;
+		vertices[idx + 21] = x4;
+		vertices[idx + 22] = y4;
+		vertices[idx + 23] = color;
+		vertices[idx + 24] = u2;
+		vertices[idx + 25] = v;
+		vertices[idx + 26] = u2;
+		vertices[idx + 27] = v;
+		this.idx = idx + 28;
 	}
 
 	@Override

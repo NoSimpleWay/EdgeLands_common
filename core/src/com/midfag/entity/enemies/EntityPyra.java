@@ -120,17 +120,17 @@ public class EntityPyra extends Entity {
 		float cold_rating=1.0f-buff_cold/(buff_cold+100.0f);
 		
 		
-		GScreen.batch.setColor(1,1,1,0.1f);
-		GScreen.batch.draw(Assets.shadow,pos.x-25f,pos.y-25f,50,50);
+		GScreen.batch_custom.setColor(1,1,1,0.1f);
+		GScreen.batch_custom.draw(Assets.shadow,pos.x-25f,pos.y-25f,50,50);
 		
 		spr.setSize(100, 100);
 		spr.setColor(color_total_R*cold_rating,color_total_G*cold_rating,color_total_B,1f);
 		spr.setTexture(Assets.pyra_body[draw_sprite]);
-		spr.draw(GScreen.batch);
+		spr.draw(GScreen.batch_custom);
 		
 		spr.translateY(-10);
 		spr.setTexture(Assets.pyra_head[bottom_draw]);
-		spr.draw(GScreen.batch);
+		spr.draw(GScreen.batch_custom);
 		spr.translateY(10);
 		
 		draw_hp();

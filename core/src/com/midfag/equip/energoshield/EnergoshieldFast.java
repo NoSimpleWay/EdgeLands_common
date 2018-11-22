@@ -1,9 +1,10 @@
 package com.midfag.equip.energoshield;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
+
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.midfag.game.Assets;
+import com.midfag.game.Localisation;
+
 
 public class EnergoshieldFast extends Energoshield {
 	
@@ -17,7 +18,7 @@ public class EnergoshieldFast extends Energoshield {
 		base_regen_speed=22;
 		base_reflect=3f;
 		
-		name="Fast shield";
+		name=Localisation.get_value_from_id("name_shield_fast");
 		uid="shfast";
 		
 		

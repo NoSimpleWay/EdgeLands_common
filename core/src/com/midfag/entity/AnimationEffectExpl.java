@@ -35,22 +35,22 @@ public class AnimationEffectExpl extends AnimationEffect {
 	public void do_animation(float _d)
 	{
 		
-		GScreen.batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
+		GScreen.batch_custom.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
 		
 		float c=timer/(base_timer*1.0f);
 		
-		GScreen.batch.setColor(c, c, c, 1);
-		GScreen.batch.draw(tex[frame],v.x+offset_x,v.y+offset_y,size_x,size_y);
+		GScreen.batch_custom.setColor(c, c, c, 1);
+		GScreen.batch_custom.draw(tex[frame],v.x+offset_x,v.y+offset_y,size_x,size_y);
 		
 		c=1-c;
 		
 		if (frame<max_frame)
 		{
-			GScreen.batch.setColor(c, c, c, 1);
-			GScreen.batch.draw(tex[frame+1],v.x+offset_x,v.y+offset_y,size_x,size_y);
+			GScreen.batch_custom.setColor(c, c, c, 1);
+			GScreen.batch_custom.draw(tex[frame+1],v.x+offset_x,v.y+offset_y,size_x,size_y);
 		}
 		
-		GScreen.batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		GScreen.batch_custom.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		
 		
 		timer-=_d;
