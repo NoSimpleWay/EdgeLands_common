@@ -204,6 +204,7 @@ public class Entity {
 	public boolean default_collision_size=true;
 	public float temp_collision_x;
 	public float temp_collision_y;
+	public String texture_path="";
 	
 	public void use_module(int _id)
 	{
@@ -273,6 +274,7 @@ public class Entity {
 				armored[1].ammo=(int) armored[1].total_ammo_size;
 			}	
 		}
+		
 	}
 	
 	

@@ -111,12 +111,16 @@ public class Helper {
 				
 				log ("UID="+id+" | ID="+SysConfig.get_package_path_by_uid(id));
 				
+				Entity entity_from_list=SysConfig.get_entity_from_list(id);
+				
+				
+				
 
 				
 				if (SysConfig.get_package_path_by_uid(id).equals(""))
 				{e=null;}
 				else
-				{e=get_object_from_id(SysConfig.get_package_path_by_uid(id)); e.uid=id; }
+				{e=get_object_from_id(SysConfig.get_package_path_by_uid(id)); e.uid=id; e.main_tex=entity_from_list.main_tex;}
 				//System.out.println("ID="+id);	
 			}
 			

@@ -284,7 +284,10 @@ public class InputHandler implements InputProcessor {
     	
     	if (key==Keys.J)
     	{
-    		GScreen.show_debug=!GScreen.show_debug;
+    		if (!Gdx.input.isKeyPressed(Keys.SHIFT_LEFT))
+    		{GScreen.show_debug=!GScreen.show_debug;}
+    		else
+    		{GScreen.show_debug_fields_info=!GScreen.show_debug_fields_info;}
     	}
     	
     	if (key==Keys.I)

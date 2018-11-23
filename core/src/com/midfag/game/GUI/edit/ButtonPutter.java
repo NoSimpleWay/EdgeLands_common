@@ -57,7 +57,27 @@ public class ButtonPutter extends Button {
 		edit_spr.draw(GScreen.batch_static);*/
 		
 		if ((entity_id+gui.id_offset<entity_list.size())&&(entity_list.get(entity_id+gui.id_offset).icon!=null))
-		{GScreen.batch_static.draw(entity_list.get(entity_id+gui.id_offset).icon, pos.x-20,pos.y-20);}
+		{
+			float sx;
+			float sy;
+			
+			Texture ic=entity_list.get(entity_id+gui.id_offset).icon;
+			
+			if(ic.getWidth()>ic.getHeight())
+			{
+				sx=40f;
+				sy=40f/ic.getWidth()*ic.getHeight();
+			}
+			else
+			{
+				sy=40f;
+				
+				//x=20	y=80
+				sx=40f/ic.getHeight()*ic.getWidth();
+			}
+			
+			GScreen.batch_static.draw(ic, pos.x-20,pos.y-20,sx,sy);
+		}
 		
 		//Main.font.draw(GScreen.batch_static, ""+gui.id_offset, pos.x, pos.y);
 	}

@@ -32,6 +32,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.BufferUtils;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
 import com.midfag.entity.Entity;
 import com.midfag.entity.Player;
 //import com.midfag.entity.Entity.MySpriteComparator;
@@ -205,6 +206,7 @@ public class GScreen implements Screen {
     public static boolean show_equip=false;
     public static boolean show_skills_wheel=false;
     public static boolean show_edit=false;
+    public static boolean show_debug_fields_info=false;
     
     public static boolean main_control=true;
     
@@ -459,8 +461,11 @@ public class GScreen implements Screen {
 		if (show_debug)
 		if (debug_cooldown<=0)
 		{
+			
+			float tim=0;
+			if (!Timer.isEmpty()) {/*Helper.log("Timer_list say "+_s);*/tim=Math.round(TimeUtils.timeSinceNanos(saved_timer)/10000f)/100f;}
+			
 			Timer.add(_s);
-			float tim=Math.round(TimeUtils.timeSinceNanos(saved_timer)/10000f)/100f;
 			Timer_value.add(tim);
 			
 			boolean founded=false;
@@ -1551,13 +1556,17 @@ public class GScreen implements Screen {
     	int terx=(int)(camera.position.x/90f);
     	int tery=(int)(camera.position.y/90f);
     	
-    	int terrain_draw_distance=Math.round(camera.zoom*(scr_w/160f));
+    	int terrain_draw_distance_x=Math.round(camera.zoom*(scr_w/180f));
+    	int terrain_draw_distance_y=Math.round(camera.zoom*(scr_h/180f));
     	
-    	int terrain_x_left=terx-terrain_draw_distance; if (terrain_x_left<0) {terrain_x_left=0;}
-    	int terrain_x_right=terx+terrain_draw_distance; if (terrain_x_right>99) {terrain_x_right=99;}
+    	//terrain_draw_distance_x=16;
+    	//terrain_draw_distance_y=1;
     	
-    	int terrain_y_down=tery-terrain_draw_distance; if (terrain_y_down<0) {terrain_y_down=0;}
-    	int terrain_y_up=tery+terrain_draw_distance; if (terrain_y_up>99) {terrain_y_up=99;}
+    	int terrain_x_left=terx-terrain_draw_distance_x; if (terrain_x_left<0) {terrain_x_left=0;}
+    	int terrain_x_right=terx+terrain_draw_distance_x; if (terrain_x_right>99) {terrain_x_right=99;}
+    	
+    	int terrain_y_down=tery-terrain_draw_distance_y; if (terrain_y_down<0) {terrain_y_down=0;}
+    	int terrain_y_up=tery+terrain_draw_distance_y; if (terrain_y_up>99) {terrain_y_up=99;}
 
     	//batch.setColor(global_illumination);
     	
@@ -1703,20 +1712,20 @@ public class GScreen implements Screen {
 	 	}
     	
     	
-    	for (int draw_y=cluster_y+cluster_draw_distance+18; draw_y>=cluster_y-cluster_draw_distance-18; draw_y--)
-	    for (int draw_x=cluster_x-cluster_draw_distance-18; draw_x<=cluster_x+cluster_draw_distance+18; draw_x++)
+    	//for (int draw_y=cluster_y+cluster_draw_distance; draw_y>=cluster_y-cluster_draw_distance; draw_y--)
+	   // for (int draw_x=cluster_x-cluster_draw_distance; draw_x<=cluster_x+cluster_draw_distance; draw_x++)
     	
 	    /*
     	for (int draw_y=15; draw_y>=15; draw_y--)
     	for (int draw_x=15; draw_x<=15; draw_x++)
     	*/
-	    if ((draw_x>=0)&&(draw_y>=0)&&(draw_x<30)&&(draw_y<30))
-	    {
-	    	cluster[draw_x][draw_y].draw(draw_x*cluster_size, draw_y*cluster_size);
-	    }
+	   // if ((draw_x>=0)&&(draw_y>=0)&&(draw_x<30)&&(draw_y<30))
+	   // {
+	   // 	cluster[draw_x][draw_y].draw(draw_x*cluster_size, draw_y*cluster_size);
+	   // }
     	//batch.flush();
     	
-		add_timer("       draw_tile");
+		
 		
 			
 
@@ -1743,7 +1752,7 @@ public class GScreen implements Screen {
 		
 		
 		
-		add_timer("missile_trail");
+		//add_timer("missile_trail");
 		
 		
 
@@ -1827,6 +1836,8 @@ public class GScreen implements Screen {
         	}
         	
     	batch.end();
+    	
+    	add_timer("       draw_tile");
     	
     	batch_custom.setShader(Main.shader_light);
 		batch_custom.begin();	
@@ -2382,16 +2393,16 @@ public class GScreen implements Screen {
 			
 			
 			
-			batch_custom.begin();
-				batch_custom.setColor(Color.WHITE);
+			batch.begin();
+			batch.setColor(Color.WHITE);
 				Main.font.setColor(Color.WHITE);
 				Main.font.getData().setScale(0.5f);
 				 	for (int i=plposy-51; i<plposy+51; i++)
 					 for (int j=plposx-51; j<plposx+51; j++)
 					 if ((i>0)&&(i<299)&&(j>0)&&(j<299)&&(path[j][i][main_path]>=0)&&(path[j][i][main_path]<1000))
-					{Main.font.draw(batch_custom, ""+Math.round(path[j][i][main_path]), j*30+10f, i*30+15f);}
+					{Main.font.draw(batch, ""+Math.round(path[j][i][main_path]), j*30+10f, i*30+15f);}
 				 Main.font.getData().setScale(1.0f);
-			batch_custom.end();
+				 batch.end();
 			
 			
 		}
@@ -2652,8 +2663,8 @@ public class GScreen implements Screen {
 				
 			
 			
-			Main.font.draw(batch_static, "WARM: "+pl.armored_shield.warm, 17, 170);
-			Main.font.draw(batch_static, "dx: "+InputHandler.dx, 17, 240);
+			//Main.font.draw(batch_static, "WARM: "+pl.armored_shield.warm, 17, 170);
+			//Main.font.draw(batch_static, "dx: "+InputHandler.dx, 17, 240);
 			
 			float warm_indicate=pl.armored_shield.warm/5f*Assets.panel.getWidth()*0.9f;
 			
@@ -2689,7 +2700,26 @@ public class GScreen implements Screen {
 		{fps=Math.round(1.0f/real_delta);}
 		
 		
-		draw_shaded_text("zoom: "+camera.zoom, 5, 70, Color.GREEN,100);
+		
+		//draw_shaded_text("zoom: "+camera.zoom, 5, 70, Color.GREEN,100);
+		
+		if (show_debug_fields_info)
+		{
+			batch_static.setColor(1.0f,1.0f,1.0f, 0.8f);
+			batch_static.draw(Assets.text_bg_blue, 0, 0, 300, 700);
+			
+			batch_static.setColor(Color.WHITE);
+			
+			Main.font.draw(batch_static, "terrain DD x="+terrain_draw_distance_x,7,70); Main.font.draw(batch_static, "terrain DD y="+terrain_draw_distance_y,157,70);
+			
+			Main.font.setColor(Color.WHITE);
+			Main.font.draw(batch_static, "layouts count: "+layouts.size(), 7, 90);
+			
+			Main.font.draw(batch_static, "battle music: "+battle_music_timer, 7, 110);
+			
+			Main.font.draw(batch_static, "enemy see us: "+enemy_see_player, 7, 130);
+		}
+		
 		draw_shaded_text("FPS: "+fps, 5, 40, Color.GREEN,100);
 		
 		
@@ -2701,14 +2731,7 @@ public class GScreen implements Screen {
 			WD.get(WD_active).draw(real_delta);
 		}
 		
-		Main.font.setColor(Color.WHITE);
-		Main.font.draw(batch_static, "layouts count: "+layouts.size(), 0, 60);
-		
-		Main.font.setColor(Color.WHITE);
-		Main.font.draw(batch_static, "battle music: "+battle_music_timer, 0, 90);
-		
-		Main.font.setColor(Color.WHITE);
-		Main.font.draw(batch_static, "enemy see us: "+enemy_see_player, 0, 120);
+
 		
 		Main.font.setColor(Color.WHITE);
 		//Main.font.draw(batch_static, "draw distance: "+draw_distance, 16, 60);

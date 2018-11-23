@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.midfag.entity.Entity;
 import com.midfag.game.Assets;
 import com.midfag.game.GScreen;
+import com.midfag.game.Helper;
 import com.midfag.game.Enums.EntityType;
 
 public class SSD extends Entity {
@@ -19,6 +20,7 @@ public SSD(Vector2 _v) {
 		is_AI=false;
 		//foot.setSize(30, 6);
 		
+		have_collision=false;
 		
 
 		//spr.setOrigin(80.0f, 10f);
@@ -27,7 +29,13 @@ public SSD(Vector2 _v) {
 		// TODO Auto-generated constructor stub
 		
 		type=EntityType.SYSTEM;
-		main_tex=Assets.rect_white;
+		//main_tex=Assets.rect_white;
+		
+		if (!texture_path.equals(""))
+		{
+			Helper.log("Main texture path is |"+texture_path+"|");
+			main_tex=Assets.load(texture_path);
+		}
 
 	}
 	

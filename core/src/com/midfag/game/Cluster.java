@@ -37,15 +37,24 @@ public class Cluster {
 	{	//GScreen.batch.draw	(Assets.terrain_decor_400, 					_x-75, 	_x-10f,	 0*150, 		0*150, 150, 150);
 		//GScreen.batch.draw	(Assets.terrain_decor_400, 	_x+ld400x, 	_y+ld400y, 	variant, 0,		 800, 800);
 		//GScreen.batch.draw	(Assets.terrain_decor_400, 	_x+ld800x, 	_y+ld800y, 	variant, 0,		 1600, 1600);
-		GScreen.batch.setColor(1,1,1,0.2f);
-		GScreen.batch.draw	(Assets.terrain_decor_400, _x-200+ld400x, _y-200+ld400y, 400, 400, 0.333f*variant, 0, 0.333f*variant+0.333f, 1);
 		
-		GScreen.batch.setColor(1,1,1,0.07f);
-		if ((_x % 3 ==0)&&(_y % 3 ==0))
-		GScreen.batch.draw	(Assets.terrain_decor_400, _x-400+ld800x, _y-400+ld800y, 800, 800, 0.333f*variant2, 0, 0.333f*variant2+0.333f, 1);
+		if ((_x % 3 ==0)&&(_y % 3 ==0))//140
+		{
+			//GScreen.batch.setColor(1,1,1,0.2f);
+			//GScreen.batch.draw	(Assets.terrain_decor_400, _x-200+ld400x, _y-200+ld400y, 400, 400, 0.333f*variant, 0, 0.333f*variant+0.333f, 1);
+		}
 		
-		GScreen.batch.setColor(1,1,1,0.07f);
-		if ((_x % 6 ==0)&&(_y % 6 ==0))
-		GScreen.batch.draw	(Assets.terrain_decor_400, _x-800+ld1600x, _y-800+ld1600y, 1600, 1600, 0.333f*variant3, 0, 0.333f*variant3+0.333f, 1);
+		if ((_x % 6 ==0)&&(_y % 6 ==0))//127
+		{
+			//GScreen.batch.setColor(1,1,1,0.07f);
+			//GScreen.batch.draw	(Assets.terrain_decor_400, _x-400+ld800x, _y-400+ld800y, 800, 800, 0.333f*variant2, 0, 0.333f*variant2+0.333f, 1);
+		}
+		
+		if ((_x % 12 ==0)&&(_y % 12 ==0))//189
+		{
+			//GScreen.batch.setColor(1,1,1,0.07f);
+			
+			//GScreen.batch.draw	(Assets.terrain_decor_400, _x-800+ld1600x, _y-800+ld1600y, 1600, 1600, 0.333f*variant3, 0, 0.333f*variant3+0.333f, 1);
+		}
 	}
 }

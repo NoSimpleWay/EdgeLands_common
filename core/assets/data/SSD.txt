@@ -2,10 +2,10 @@ SSD
 angar
 
 path_x
-0
+-1
 
 path_y
-0
+-1
 
 texture
 angar_final_post

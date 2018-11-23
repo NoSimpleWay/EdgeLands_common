@@ -225,6 +225,9 @@ public class GUIEdit extends GUI {
 			indicate_entity=Helper.get_object_from_id(selected_object.id);
 			indicate_entity.z=selected_object.z;
 			
+			indicate_entity.texture_path=selected_object.texture_path;
+			indicate_entity.main_tex=selected_object.main_tex;
+			
 			indicate_entity.collision_size_x=selected_object.collision_size_x;
 			indicate_entity.collision_size_y=selected_object.collision_size_y;
 			
@@ -439,6 +442,8 @@ public class GUIEdit extends GUI {
 						
 						en.uid=indicate_entity.uid;
 						en.main_tex=indicate_entity.main_tex;
+						
+						en.texture_path=indicate_entity.texture_path;
 						
 						en.texture_offset_x=indicate_entity.texture_offset_x;
 						en.texture_offset_y=indicate_entity.texture_offset_y;

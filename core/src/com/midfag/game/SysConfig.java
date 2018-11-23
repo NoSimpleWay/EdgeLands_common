@@ -71,7 +71,9 @@ public class SysConfig {
 				if (string_array[i].toLowerCase().equals("texture"))
 				{
 					i++;
+					ssd_entity.texture_path=string_array[i];
 					ssd_entity.main_tex=Assets.load(string_array[i]);
+					ssd_entity.icon=ssd_entity.main_tex;
 					
 					Helper.log ("Damn, texture |"+string_array[i]+"| looking good!");
 				}
@@ -281,6 +283,18 @@ public class SysConfig {
 				}
 			}
 		}
+	}
+	
+	public static Entity get_entity_from_list(String _uid)
+	{
+		for (int i=0; i<EntityRegisterer.size(); i++)
+		{
+			if (_uid.equals(EntityRegisterer.get(i).uid))
+			{
+				return EntityRegisterer.get(i);
+			}
+		}
+		return null;
 	}
 	
 	public static String get_package_path_by_uid(String _uid)
