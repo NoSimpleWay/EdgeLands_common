@@ -40,6 +40,9 @@ public class Assets {
 	public static Sound shoot01;
 	public static Sound shoot02;
 	public static Sound shoot04=Gdx.audio.newSound(Gdx.files.internal("data/shoot04.wav"));
+	
+	public static Sound shoot_raider_turret=Gdx.audio.newSound(Gdx.files.internal("data/sound/shoot/raider_turret_cannon.wav"));
+	
 	public static Sound shoot_fire=Gdx.audio.newSound(Gdx.files.internal("data/fire.wav"));
 	
 	public static Music battle_music_00=Gdx.audio.newMusic(Gdx.files.internal("data/battle_00.wav"));

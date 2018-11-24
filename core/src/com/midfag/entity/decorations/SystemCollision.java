@@ -58,7 +58,7 @@ public class SystemCollision extends Entity {
 	{
 		if (GScreen.show_edit)
 		{
-			spr.setColor(color_total_R,color_total_G,color_total_B,1);
+			spr.setColor(total_illum_R,total_illum_G,total_illum_B,1);
 			spr.setScale(1);
 			spr.draw(GScreen.batch_custom);
 			

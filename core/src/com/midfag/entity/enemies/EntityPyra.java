@@ -28,7 +28,7 @@ public class EntityPyra extends Entity {
 	{
 		super (_v);
 		
-		spr.setTexture(Assets.pyra_body[0]);
+		//spr.setTexture(Assets.pyra_body[0]);
 		pos=_v;
 		
 		id=this.getClass().getName();
@@ -123,15 +123,13 @@ public class EntityPyra extends Entity {
 		GScreen.batch_custom.setColor(1,1,1,0.1f);
 		GScreen.batch_custom.draw(Assets.shadow,pos.x-25f,pos.y-25f,50,50);
 		
-		spr.setSize(100, 100);
-		spr.setColor(color_total_R*cold_rating,color_total_G*cold_rating,color_total_B,1f);
-		spr.setTexture(Assets.pyra_body[draw_sprite]);
-		spr.draw(GScreen.batch_custom);
 		
-		spr.translateY(-10);
-		spr.setTexture(Assets.pyra_head[bottom_draw]);
-		spr.draw(GScreen.batch_custom);
-		spr.translateY(10);
+		GScreen.batch_custom.setColor(Color.WHITE);
+		
+		GScreen.batch_custom.draw_with_light(Assets.pyra_body[draw_sprite], pos.x-Assets.pyra_body[draw_sprite].getWidth()/2f, pos.y,Assets.pyra_body[draw_sprite].getWidth());
+		GScreen.batch_custom.draw_with_light(Assets.pyra_head[bottom_draw], pos.x-Assets.pyra_head[bottom_draw].getWidth()/2f, pos.y,Assets.pyra_head[bottom_draw].getWidth());
+		//spr.draw(GScreen.batch_custom);
+		
 		
 		draw_hp();
 		

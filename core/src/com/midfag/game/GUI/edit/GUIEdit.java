@@ -162,6 +162,7 @@ public class GUIEdit extends GUI {
 			{
 				float modx=1;
 				float mody=1;
+				
 				if (InputHandler.posx<selected_object.pos.x){modx=-1;}
 				if (InputHandler.posy<selected_object.pos.y){mody=-1;}
 				
@@ -170,6 +171,16 @@ public class GUIEdit extends GUI {
 				
 				selected_object.default_collision_size=false;
 				
+				selected_object.path_x=Math.round(selected_object.collision_size_x/30f);
+				selected_object.path_y=Math.round(selected_object.collision_size_y/30f);
+				
+				selected_object.change_position_dependies();
+				
+				/*for (int i=(int) (selected_object.pos.x/30)-30; i<(int) (selected_object.pos.x/30)+30; i++)
+				for (int j=(int) (selected_object.pos.y/30)-30; j<(int) (selected_object.pos.y/30)+30; j++)
+				{
+					GScreen.path[j][i][GScreen.main_path]=-700;
+				}*/
 			}
 			
 			if (!selected_object_list.isEmpty())
@@ -958,11 +969,11 @@ public class GUIEdit extends GUI {
 		// TODO Auto-generated method stub
 		float highlight_color=(float) (Math.sin(TimeUtils.millis()/50)+1f)/2f;
 		
-		_e.color_total_R=1f-highlight_color/2f;
-		_e.color_total_G=1f-highlight_color/2f;
-		_e.color_total_B=1f-highlight_color/2f;
+		_e.total_illum_R=1f-highlight_color/2f;
+		_e.total_illum_G=1f-highlight_color/2f;
+		_e.total_illum_B=1f-highlight_color/2f;
 		
-		_e.color_total_A=1f-highlight_color/3f;
+		_e.total_alpha=1f-highlight_color/3f;
 		//if (selected_object.color_total_A>1) {selected_object.color_total_A=1f;}
 		
 	}

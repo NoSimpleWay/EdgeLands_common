@@ -117,7 +117,7 @@ public class EntityPyro extends Entity {
 		
 		float cold_rating=1.0f-buff_cold/(buff_cold+100.0f);
 		
-		spr.setColor(1,1,color_total_B*0.1f,1f);
+		spr.setColor(1,1,total_illum_B*0.1f,1f);
 		spr.translate(-25,-110);
 		spr.setSize(100, 200);
 		spr.setTexture(Assets.shadow);

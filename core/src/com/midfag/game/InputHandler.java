@@ -440,14 +440,14 @@ public class InputHandler implements InputProcessor {
     	{
     		if(amount>0)
     		{
-    			GScreen.camera.zoom+=0.05f;
-    			GScreen.camera.zoom*=1.05f;
+    			GScreen.need_zoom+=0.05f;
+    			GScreen.need_zoom*=1.05f;
     		}
     		
     		if(amount<0)
     		{
     			
-    			GScreen.camera.zoom*=0.95f;
+    			GScreen.need_zoom*=0.95f;
     		}
     		
     		

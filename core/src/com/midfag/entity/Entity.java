@@ -74,9 +74,9 @@ public class Entity {
 	public float dynamic_multiplier_G;
 	public float dynamic_multiplier_B;
 	
-	public float color_total_R=1f;
-	public float color_total_G=1f;
-	public float color_total_B=1f;
+	public float total_illum_R=0f;
+	public float total_illum_G=0f;
+	public float total_illum_B=0f;
 	
 	List<List<String>> list = new ArrayList<List<String>>();
 	//public List<Entity> entity_list = new ArrayList<Entity>();
@@ -199,12 +199,13 @@ public class Entity {
 	public float stuck=0f;
 	public boolean need_remove=false;
 	public boolean have_module=false;
-	public float color_total_A=1;
+	public float total_alpha=1;
 	
 	public boolean default_collision_size=true;
 	public float temp_collision_x;
 	public float temp_collision_y;
 	public String texture_path="";
+	public float shoot_anim=0.000f;
 	
 	public void use_module(int _id)
 	{
@@ -566,92 +567,12 @@ public class Entity {
 				if (
 						(pcx!=npcx)||(pcy!=npcy)
 						||
-						(
-							(
-									(z+constant_speed_z*_d>=30)
-									&&
-									(z<31)
-							)
-						)
+						(((z+constant_speed_z*_d>=30)&&(z<31)))
 						||
-						(
-							(
-									(z+constant_speed_z*_d<=30)
-									&&
-									(z>29)
-							)
-						)
+						(((z+constant_speed_z*_d<=30)&&(z>29)))
 					)
 				{
-					{
-						
-						if (light_source!=null)
-						{
-							light_source.update_light_position(pos.x,pos.y);
-						}
-						else
-						{
-							update_dynamic_color_state();
-							update_color_state();
-						}
-						
-					    if (path_x>=0)
-					    {
-					    	Helper.log("UPDATE POSITION!");
-					    	int cluster_x=(int)(pos.x/GScreen.cluster_size);
-						    int cluster_y=(int)(pos.y/GScreen.cluster_size);
-						    
-						    int psx=(int)(pos.x/30.0f);
-						    int psy=(int)(pos.y/30.0f);
-						    
-							for (int i=psy-30; i<psy+30; i++)
-							for (int j=psx-30; j<psx+30; j++)
-							if ((j>=0)&&(j<300)&&(i>=0)&&(i<300))
-							{
-								if (GScreen.path[j][i][0]<0){GScreen.path[j][i][0]=300;}
-								if (GScreen.path[j][i][1]<0){GScreen.path[j][i][1]=300;}
-							}
-							
-							
-							for (int x=cluster_x-4; x<=cluster_x+4; x++)
-						    for (int y=cluster_y-4; y<=cluster_y+4; y++)
-						    if ((x>=0)&&(y>=0)&&(x<30)&&(y<30))
-						    for (int i=0; i<GScreen.cluster[x][y].Entity_list.size();i++)
-						    {
-						        	Entity e=GScreen.cluster[x][y].Entity_list.get(i);
-						        	
-							    	if ((!e.hidden))
-							    	{
-							    		e.generate_path();
-							    	}
-						    }
-							
-							GScreen.need_shadow_update=true;
-							
-							GScreen.need_light_update=true;
-							GScreen.need_static_light_update=true;
-							GScreen.need_pixmap_update=true;
-							
-
-							//if (light_source!=null){GScreen.need_light_update=true; GScreen.need_dynamic_light_update=true;}
-					    }
-					    
-						if (light_source!=null)
-						{
-							GScreen.need_light_update=true;
-							GScreen.need_static_light_update=true;
-							GScreen.need_pixmap_update=true;
-						}
-
-					    
-					   
-					    //if ((light_source!=null)&&(!light_source.is_static)){GScreen.need_dynamic_light_update=true;}
-					    
-
-					    
-						
-						
-					}
+					change_position_dependies();
 				}
 				
 
@@ -659,6 +580,82 @@ public class Entity {
 		
 		//if (need_change_cluster)
 		//{Helper.log("PRE PHANGE CLUSTER[2] cx="+cx+" cy="+cy+" ncx="+ncx+" ncy="+ncy);}
+	}
+
+	public void change_position_dependies() {
+		{
+			
+			/*
+			if (light_source!=null)
+			{
+				light_source.update_light_position(pos.x,pos.y);
+			}
+			else
+			{
+				
+			}
+			*/
+			
+			update_dynamic_color_state();
+			update_color_state();
+			
+		    if (path_x>=0)
+		    {
+		    	Helper.log("UPDATE POSITION!");
+		    	int cluster_x=(int)(pos.x/GScreen.cluster_size);
+			    int cluster_y=(int)(pos.y/GScreen.cluster_size);
+			    
+			    int psx=(int)(pos.x/30.0f);
+			    int psy=(int)(pos.y/30.0f);
+			    
+				for (int i=psy-10; i<psy+10; i++)
+				for (int j=psx-10; j<psx+10; j++)
+				if ((j>=0)&&(j<300)&&(i>=0)&&(i<300))
+				{
+					if (GScreen.path[j][i][0]<0){GScreen.path[j][i][0]=300;}
+					if (GScreen.path[j][i][1]<0){GScreen.path[j][i][1]=300;}
+				}
+				
+				
+				for (int x=cluster_x-1; x<=cluster_x+1; x++)
+			    for (int y=cluster_y-1; y<=cluster_y+1; y++)
+			    if ((x>=0)&&(y>=0)&&(x<30)&&(y<30))
+			    for (int i=0; i<GScreen.cluster[x][y].Entity_list.size();i++)
+			    {
+			        	Entity e=GScreen.cluster[x][y].Entity_list.get(i);
+			        	
+				    	if ((!e.hidden))
+				    	{
+				    		e.generate_path();
+				    	}
+			    }
+				
+				GScreen.need_shadow_update=true;
+				
+				GScreen.need_light_update=true;
+				GScreen.need_static_light_update=true;
+				//GScreen.need_pixmap_update=true;
+				
+
+				//if (light_source!=null){GScreen.need_light_update=true; GScreen.need_dynamic_light_update=true;}
+		    }
+		    
+			if (light_source!=null)
+			{
+				GScreen.need_light_update=true;
+				GScreen.need_static_light_update=true;
+				GScreen.need_pixmap_update=true;
+			}
+
+		    
+		   
+		    //if ((light_source!=null)&&(!light_source.is_static)){GScreen.need_dynamic_light_update=true;}
+		    
+
+		    
+			
+			
+		}
 	}
 	
 	public void reposition(float _x, float _y)
@@ -813,6 +810,8 @@ public class Entity {
 		{
 			//System.out.println("try shoot");
 			//assert armored_weapon!=null;
+			shoot_anim=0.02f;
+			
 			if (armored[_i].need_warm<=0)
 			{armored[_i].cd=armored[_i].total_shoot_cooldown;}
 			else
@@ -843,12 +842,12 @@ public class Entity {
 			
 			if (is_AI)
 			{
-				if (pos.dst(GScreen.pl.pos)<800)
-				{armored[_i].get_shoot_sound().play((1f-pos.dst(GScreen.pl.pos)/800.0f)*0.15f);}
+				if (pos.dst(GScreen.pl.pos)<1800)
+				{armored[_i].get_shoot_sound().play((1f-pos.dst(GScreen.pl.pos)/1800.0f)*armored[_i].shoot_volume);}
 			}
 			else
 			{
-				{armored[_i].get_shoot_sound().play(0.15f);}
+				{armored[_i].get_shoot_sound().play(armored[_i].shoot_volume);}
 			}
 		
 			
@@ -905,6 +904,7 @@ public class Entity {
 	
 	public void update(float _d)
 	{
+			if (shoot_anim>0) {shoot_anim-=_d;}
 			
 			update_calls++;
 
@@ -1319,61 +1319,68 @@ public class Entity {
 	
 	public void update_color_state()
 	{
-		color_multiplier_R=0;
-    	color_multiplier_G=0;
-    	color_multiplier_B=0;
-    	
-    	int summ=0;
-    	long pxm=0;
-    	
-		
-    	if (GScreen.pixmap!=null)
-    	{
-	    	for (int a=1; a<=2; a++)
-	    	for (int b=-2; b<=2; b++)
-	    	{
-	    		//pxm=GScreen.illumination_fbo.getColorBufferTexture().pix
-	    		pxm=GScreen.pixmap.getPixel((int)(pos.x/30)+b, (int)(pos.y/30)-a);
-	    		
-	    		color_multiplier_R+=((pxm >> 24) & 0xFF)/2550f;
-	    		color_multiplier_G+=((pxm >> 16) & 0xFF)/2550f;
-	    		color_multiplier_B+=((pxm >> 8) & 0xFF)/2550f;
-	    		
-		    	
-	    		/*color_multiplier_R+=GScreen.light_mask_R[(int)(pos.x/30)-b][(int)(pos.y/30f)-a]/15f;
-	    		color_multiplier_G+=GScreen.light_mask_G[(int)(pos.x/30)-b][(int)(pos.y/30f)-a]/15f;
-	    		color_multiplier_B+=GScreen.light_mask_B[(int)(pos.x/30)-b][(int)(pos.y/30f)-a]/15f;
-	    		*/
-	    		//color_multiplier_R+=GScreen.illumination_fbo.getColorBufferTexture().;
-	    		
-	    	}
+		total_illum_R=0f;
+		total_illum_G=0f;
+		total_illum_B=0f;
+		total_alpha=1f;
+		if (false)
+		{
+			color_multiplier_R=0;
+	    	color_multiplier_G=0;
+	    	color_multiplier_B=0;
 	    	
-	    	/*dynamic_multiplier_R=1f/(1f+GScreen.path[(int)(pos.x/30)][(int)(pos.y/30-1)]/5f);
-			dynamic_multiplier_G=dynamic_multiplier_R;
-			dynamic_multiplier_B=dynamic_multiplier_R;*/
+	    	int summ=0;
+	    	long pxm=0;
+	    	
 			
-	    	color_total_R=color_multiplier_R+dynamic_multiplier_R; if (color_total_R>1) {color_total_R=1;}
-	    	color_total_G=color_multiplier_G+dynamic_multiplier_G; if (color_total_G>1) {color_total_G=1;}
-	    	color_total_B=color_multiplier_B+dynamic_multiplier_B; if (color_total_B>1) {color_total_B=1;}
-	    	color_total_A=1f;
-	    	/*if (selected)
+	    	if (GScreen.pixmap!=null)
 	    	{
-	    		color_total_R=1;
-	    		color_total_G=1;
-	    		color_total_B=1;
-	    	}*/
-	    		/*
-	    		float red = ((pxm >> 24) & 0xFF)/255f;
-	    		float green = ((pxm >>16 ) & 0xFF)/255f;
-	    		float blue = ((pxm>>8) & 0xFF)/255f;
-						Helper.log(">> "+red+" >> "+green+" >> "+blue);
-	    	
-	    		*/
-						/*
-	    	color_multiplier_R=Math.min(1, color_multiplier_R);
-	    	color_multiplier_G=Math.min(1, color_multiplier_G);
-	    	color_multiplier_B=Math.min(1, color_multiplier_B);*/
-    	}
+		    	for (int a=1; a<=2; a++)
+		    	for (int b=-2; b<=2; b++)
+		    	{
+		    		//pxm=GScreen.illumination_fbo.getColorBufferTexture().pix
+		    		pxm=GScreen.pixmap.getPixel((int)(pos.x/30)+b, (int)(pos.y/30)-a);
+		    		
+		    		color_multiplier_R+=((pxm >> 24) & 0xFF)/2550f;
+		    		color_multiplier_G+=((pxm >> 16) & 0xFF)/2550f;
+		    		color_multiplier_B+=((pxm >> 8) & 0xFF)/2550f;
+		    		
+			    	
+		    		/*color_multiplier_R+=GScreen.light_mask_R[(int)(pos.x/30)-b][(int)(pos.y/30f)-a]/15f;
+		    		color_multiplier_G+=GScreen.light_mask_G[(int)(pos.x/30)-b][(int)(pos.y/30f)-a]/15f;
+		    		color_multiplier_B+=GScreen.light_mask_B[(int)(pos.x/30)-b][(int)(pos.y/30f)-a]/15f;
+		    		*/
+		    		//color_multiplier_R+=GScreen.illumination_fbo.getColorBufferTexture().;
+		    		
+		    	}
+		    	
+		    	/*dynamic_multiplier_R=1f/(1f+GScreen.path[(int)(pos.x/30)][(int)(pos.y/30-1)]/5f);
+				dynamic_multiplier_G=dynamic_multiplier_R;
+				dynamic_multiplier_B=dynamic_multiplier_R;*/
+				
+		    	total_illum_R=color_multiplier_R+dynamic_multiplier_R; if (total_illum_R>1) {total_illum_R=1;}
+		    	total_illum_G=color_multiplier_G+dynamic_multiplier_G; if (total_illum_G>1) {total_illum_G=1;}
+		    	total_illum_B=color_multiplier_B+dynamic_multiplier_B; if (total_illum_B>1) {total_illum_B=1;}
+		    	total_alpha=1f;
+		    	/*if (selected)
+		    	{
+		    		color_total_R=1;
+		    		color_total_G=1;
+		    		color_total_B=1;
+		    	}*/
+		    		/*
+		    		float red = ((pxm >> 24) & 0xFF)/255f;
+		    		float green = ((pxm >>16 ) & 0xFF)/255f;
+		    		float blue = ((pxm>>8) & 0xFF)/255f;
+							Helper.log(">> "+red+" >> "+green+" >> "+blue);
+		    	
+		    		*/
+							/*
+		    	color_multiplier_R=Math.min(1, color_multiplier_R);
+		    	color_multiplier_G=Math.min(1, color_multiplier_G);
+		    	color_multiplier_B=Math.min(1, color_multiplier_B);*/
+	    	}
+		}
     	
     	
 	}
@@ -1399,7 +1406,7 @@ public class Entity {
 
 		//Color temp_color=spr.getColor();
 
-		GScreen.batch_custom.setColor(color_total_R,color_total_G,color_total_B,color_total_A);
+		GScreen.batch_custom.setColor(total_illum_R,total_illum_G,total_illum_B,total_alpha);
 		if (main_tex!=null)
 		{GScreen.batch_custom.draw(main_tex, pos.x, pos.y);}
 		
@@ -1451,11 +1458,12 @@ public class Entity {
 		dynamic_multiplier_G=dynamic_multiplier_R;
 		dynamic_multiplier_B=dynamic_multiplier_R;*/
 		
-		
-    	color_total_R=color_multiplier_R+dynamic_multiplier_R; if (color_total_R>1) {color_total_R=1;} 
-    	color_total_G=color_multiplier_G+dynamic_multiplier_G; if (color_total_G>1) {color_total_G=1;}
-    	color_total_B=color_multiplier_B+dynamic_multiplier_B; if (color_total_B>1) {color_total_B=1;}	
-		
+		if (false)
+		{
+    	total_illum_R=color_multiplier_R+dynamic_multiplier_R; if (total_illum_R>1) {total_illum_R=1;} 
+    	total_illum_G=color_multiplier_G+dynamic_multiplier_G; if (total_illum_G>1) {total_illum_G=1;}
+    	total_illum_B=color_multiplier_B+dynamic_multiplier_B; if (total_illum_B>1) {total_illum_B=1;}	
+		}
 	}
 
 	public void default_interact_action(float delta) {

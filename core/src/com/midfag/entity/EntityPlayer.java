@@ -292,7 +292,7 @@ public class EntityPlayer extends Entity {
 	public void draw_action(float _d) {
 		
 		float cold_rating=1.0f-buff_cold/(buff_cold+100.0f);
-		spr.setColor(cold_rating*color_total_R, cold_rating*color_total_G, color_total_B, 1);
+		spr.setColor(cold_rating*total_illum_R, cold_rating*total_illum_G, total_illum_B, 1);
 		
 		if (rotate_cooldown<=0)
 		{

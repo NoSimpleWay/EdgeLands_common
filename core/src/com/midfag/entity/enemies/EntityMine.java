@@ -76,8 +76,8 @@ public class EntityMine extends Entity {
 	@Override
 	public void bottom_draw(float _d)
 	{
-		GScreen.batch_custom.setColor(1,1,1,.25f);
-		GScreen.batch_custom.draw(Assets.shadow, pos.x-25.0f, pos.y-25.0f,50,50);
+		//GScreen.batch_custom.setColor(1,1,1,.25f);
+		//GScreen.batch_custom.draw(Assets.shadow, pos.x-25.0f, pos.y-25.0f,50,50);
 	}
 	
 	@Override
@@ -89,7 +89,7 @@ public class EntityMine extends Entity {
 		
 		if (fall_anim>3)
 		{
-		GScreen.batch_custom.setColor(color_total_R*cold_rating,color_total_G*cold_rating,color_total_B,1f);
+		GScreen.batch_custom.setColor(total_illum_R*cold_rating,total_illum_G*cold_rating,total_illum_B,1f);
 		GScreen.batch_custom.draw	(main_tex, pos.x-40, pos.y-50, 80*explosion_anim, 0, 80, 100);
 		}
 		else

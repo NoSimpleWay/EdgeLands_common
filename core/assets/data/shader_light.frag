@@ -14,11 +14,6 @@ uniform bool need;
 
 void main()
 {
-  if (!need)
-  {
-	gl_FragColor = v_color * texture2D(u_texture2, v_texCoords) * texture2D(u_texture, v_texCoords_new);
-	//gl_FragColor.rgb+=texture2D(u_texture, v_texCoords_new).rgb/2;
-  }
-  else
-  {gl_FragColor = v_color * texture2D(u_texture2, v_texCoords);}
+	gl_FragColor.rgb = texture2D(u_texture2, v_texCoords).rgb * texture2D(u_texture, v_texCoords_new).rgb+texture2D(u_texture2, v_texCoords).rgb*v_color.rgb;
+	gl_FragColor.a = v_color.a * texture2D(u_texture2, v_texCoords).a;
 }

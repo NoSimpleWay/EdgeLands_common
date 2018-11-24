@@ -89,6 +89,8 @@ public class Weapon {
 	public float fire_multiplier=0f;
 	public float attr_point_indicate;
 	
+	public float shoot_volume=0.15f;
+	
 	
 	
 		public Weapon()

@@ -467,8 +467,7 @@ public class CustomSpriteBatch extends SpriteBatch implements Batch {
 		this.idx = idx + 28;
 	}
 
-	@Override
-	public void draw (Texture texture, float x, float y, float width, float height, float u, float v, float u2, float v2) {
+	public void draw_with_light_atlas (Texture texture, float x, float y, float width, float height, float u, float v, float u2, float v2, float _size_x) {
 		if (!drawing) throw new IllegalStateException("SpriteBatch.begin must be called before draw.");
 
 		float[] vertices = this.vertices;
@@ -488,32 +487,32 @@ public class CustomSpriteBatch extends SpriteBatch implements Batch {
 		vertices[idx + 2] = color;
 		vertices[idx + 3] = u;
 		vertices[idx + 4] = v;
-		vertices[idx + 5] = u;
-		vertices[idx + 6] = v;
+			vertices[idx + 5] = x/9000f;
+			vertices[idx + 6] = y/9000f;
 		
 		vertices[idx + 7] = x;
 		vertices[idx + 8] = fy2;
 		vertices[idx + 9] = color;
 		vertices[idx + 10] = u;
 		vertices[idx + 11] = v2;
-		vertices[idx + 12] = u;
-		vertices[idx + 13] = v2;
+			vertices[idx + 12] = x/9000f;
+			vertices[idx + 13] = y/9000f+0.001f;
 		
 		vertices[idx + 14] = fx2;
 		vertices[idx + 15] = fy2;
 		vertices[idx + 16] = color;
 		vertices[idx + 17] = u2;
 		vertices[idx + 18] = v2;
-		vertices[idx + 19] = u2;
-		vertices[idx + 20] = v2;
+			vertices[idx + 19] = x/9000f+_size_x/9000f;
+			vertices[idx + 20] = y/9000f+0.001f;
 		
 		vertices[idx + 21] = fx2;
 		vertices[idx + 22] = y;
 		vertices[idx + 23] = color;
 		vertices[idx + 24] = u2;
 		vertices[idx + 25] = v;
-		vertices[idx + 26] = u2;
-		vertices[idx + 27] = v;
+			vertices[idx + 26] = x/9000f+_size_x/9000f;
+			vertices[idx + 27] = y/9000f;
 		
 		this.idx = idx + 28;
 	}

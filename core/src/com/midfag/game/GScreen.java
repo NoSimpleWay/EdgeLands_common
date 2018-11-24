@@ -251,7 +251,7 @@ public class GScreen implements Screen {
 	public static float sho=0f;
 
 
-	public static boolean camera_auto_zoom=false;
+	public static boolean camera_auto_zoom=true;
 
 	public static float wave_time;
 
@@ -291,8 +291,8 @@ public class GScreen implements Screen {
 
 	public static boolean need_static_light_update=true;
 
-	public static int lightmap_blur_pass=32;
-	public static int lightmap_spread_pass=1;
+	public static int lightmap_blur_pass=16;
+	public static int lightmap_spread_pass=4;
 
 	public static boolean chunk_info;
 
@@ -384,10 +384,18 @@ public class GScreen implements Screen {
 	
 		///
 		float dist;
+		
+			if (_x1==_x2)
+			{
+				//dist=_target.pos.y+collision_size_y-_y1;
+				if ((_target.pos.y+collision_size_y<=_y1)&&(_target.pos.y+collision_size_y>=_y2)&&(_x1>=_target.pos.x-collision_size_x)&&(_x1<=_target.pos.x+collision_size_x))
+				{return temp_vectorA.set(_x1, _target.pos.y+collision_size_y);}
+			}
+		
 			if (_y1>_y2)
 			{
 				dist=_target.pos.y+collision_size_y-_y1;
-				if ((_target.pos.y+collision_size_y<_y1)&&(_target.pos.y+collision_size_y>_y2)&&(Math.abs(_target.pos.x-(_x1+dist*_dx))<collision_size_x))
+				if ((_target.pos.y+collision_size_y<=_y1)&&(_target.pos.y+collision_size_y>=_y2)&&(Math.abs(_target.pos.x-(_x1+dist*_dx))<=collision_size_x))
 				{return temp_vectorA.set(_x1+dist*_dx, _target.pos.y+collision_size_y);}
 			}
 			////
@@ -395,17 +403,22 @@ public class GScreen implements Screen {
 			if (_y1<_y2)
 			{
 				dist=_target.pos.y-collision_size_y-_y1;
-				if ((_target.pos.y-collision_size_y>_y1)&&(_target.pos.y-collision_size_y<_y2)&&(Math.abs(_target.pos.x-(_x1+dist*_dx))<collision_size_x))
+				if ((_target.pos.y-collision_size_y>=_y1)&&(_target.pos.y-collision_size_y<=_y2)&&(Math.abs(_target.pos.x-(_x1+dist*_dx))<=collision_size_x))
 				{return temp_vectorA.set(_x1+dist*_dx, _target.pos.y-collision_size_y);}
 			}
+		//
+			
+		//
+			
+			
+			
 		////
-		
 		
 		
 			if (_x1>_x2)
 			{
 				dist=_target.pos.x+collision_size_x-_x1;
-				if ((_target.pos.x+collision_size_x<_x1)&&(_target.pos.x+collision_size_x>=_x2)&&(Math.abs(_target.pos.y-(_y1+dist*_dy))<collision_size_y))
+				if ((_target.pos.x+collision_size_x<=_x1)&&(_target.pos.x+collision_size_x>=_x2)&&(Math.abs(_target.pos.y-(_y1+dist*_dy))<=collision_size_y))
 				{return temp_vectorA.set(_target.pos.x+collision_size_x, _y1+dist*_dy);}
 			}
 			
@@ -413,7 +426,7 @@ public class GScreen implements Screen {
 			if (_x1<_x2)
 			{
 				dist=_target.pos.x-collision_size_x-_x1;
-				if ((_target.pos.x-collision_size_x>=_x1)&&(_target.pos.x-collision_size_x<_x2)&&(Math.abs(_target.pos.y-(_y1+dist*_dy))<collision_size_y))
+				if ((_target.pos.x-collision_size_x>=_x1)&&(_target.pos.x-collision_size_x<=_x2)&&(Math.abs(_target.pos.y-(_y1+dist*_dy))<=collision_size_y))
 				{return temp_vectorA.set(_target.pos.x-collision_size_x, _y1+dist*_dy);}
 			}
 		
@@ -1214,7 +1227,7 @@ public class GScreen implements Screen {
 	    if (need_light_update)
 		{
     		
-    		need_light_update=false;
+    		//need_light_update=false;
 			//add_timer("shadow_update");
 			
 			batch_illum.enableBlending();
@@ -1472,7 +1485,7 @@ public class GScreen implements Screen {
     	
 	    if (need_static_light_update)
 	    {
-	    	//need_static_light_update=false;
+	    	need_static_light_update=false;
 	    	
 	    	for (int y=cluster_y+cluster_draw_distance; y>=cluster_y-cluster_draw_distance; y--)
 	    	for (int x=cluster_x-cluster_draw_distance; x<=cluster_x+cluster_draw_distance; x++)
@@ -2942,7 +2955,7 @@ public class GScreen implements Screen {
 		/*camera.position.x=Math.round(camera.position.x);
 		camera.position.y=Math.round(camera.position.y);*/
 		
-		if ((InputHandler.keyF_release)&&(Gdx.input.isKeyPressed(Keys.NUM_1)))
+		if ((InputHandler.keyF_release)&&(Gdx.input.isKeyPressed(Keys.HOME)))
 		{
 			InputHandler.keyF_release=false;
 			camera_auto_zoom=!camera_auto_zoom;

@@ -125,7 +125,7 @@ public class EntitySmiler extends Entity {
 		
 		float cold_rating=1.0f-buff_cold/(buff_cold+100.0f);
 		
-		GScreen.batch_custom.setColor(color_total_R*cold_rating,color_total_G*cold_rating,color_total_B,1f);
+		GScreen.batch_custom.setColor(total_illum_R*cold_rating,total_illum_G*cold_rating,total_illum_B,1f);
 		
 		//spr.setSize(90, 90);
 		
