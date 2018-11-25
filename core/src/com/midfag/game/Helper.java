@@ -120,7 +120,21 @@ public class Helper {
 				if (SysConfig.get_package_path_by_uid(id).equals(""))
 				{e=null;}
 				else
-				{e=get_object_from_id(SysConfig.get_package_path_by_uid(id)); e.uid=id; e.main_tex=entity_from_list.main_tex;}
+				{
+					e=get_object_from_id(SysConfig.get_package_path_by_uid(id));
+					e.uid=id;
+					e.main_tex=entity_from_list.main_tex;
+					e.have_collision=entity_from_list.have_collision;
+					
+					e.collision_size_x=entity_from_list.collision_size_x;
+					e.collision_size_y=entity_from_list.collision_size_y;
+					
+					e.path_x=entity_from_list.path_x;
+					e.path_y=entity_from_list.path_y;
+					
+					e.texture_offset_x=entity_from_list.texture_offset_x;
+					e.texture_offset_y=entity_from_list.texture_offset_y;
+				}
 				//System.out.println("ID="+id);	
 			}
 			

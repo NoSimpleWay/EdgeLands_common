@@ -438,7 +438,7 @@ public class CustomSpriteBatch extends SpriteBatch implements Batch {
 		vertices[idx + 2] = color;
 		vertices[idx + 3] = u;
 		vertices[idx + 4] = v;
-		vertices[idx + 5] = x/9000f-0.001f;
+		vertices[idx + 5] = x/9000f;
 		vertices[idx + 6] = y/9000f;
 
 		vertices[idx + 7] = x;
@@ -446,7 +446,7 @@ public class CustomSpriteBatch extends SpriteBatch implements Batch {
 		vertices[idx + 9] = color;
 		vertices[idx + 10] = u;
 		vertices[idx + 11] = v2;
-		vertices[idx + 12] = x/9000f-0.001f;
+		vertices[idx + 12] = x/9000f;
 		vertices[idx + 13] = y/9000f+0.0001f;
 
 		vertices[idx + 14] = fx2;
@@ -454,7 +454,7 @@ public class CustomSpriteBatch extends SpriteBatch implements Batch {
 		vertices[idx + 16] = color;
 		vertices[idx + 17] = u2;
 		vertices[idx + 18] = v2;
-		vertices[idx + 19] = x/9000f+0.001f;
+		vertices[idx + 19] = x/9000f+srcWidth/9000f;
 		vertices[idx + 20] = y/9000f+0.0001f;
 
 		vertices[idx + 21] = fx2;
@@ -462,7 +462,7 @@ public class CustomSpriteBatch extends SpriteBatch implements Batch {
 		vertices[idx + 23] = color;
 		vertices[idx + 24] = u2;
 		vertices[idx + 25] = v;
-		vertices[idx + 26] = x/9000f+0.001f;
+		vertices[idx + 26] = x/9000f+srcWidth/9000f;
 		vertices[idx + 27] = y/9000f;
 		this.idx = idx + 28;
 	}
@@ -555,7 +555,7 @@ public class CustomSpriteBatch extends SpriteBatch implements Batch {
 		vertices[idx + 2] = color;
 		vertices[idx + 3] = u;
 		vertices[idx + 4] = v;
-			vertices[idx + 5] = x/9000f-0.01f;
+			vertices[idx + 5] = x/9000f;
 			vertices[idx + 6] = y/9000f;
 
 		vertices[idx + 7] = x;
@@ -563,7 +563,7 @@ public class CustomSpriteBatch extends SpriteBatch implements Batch {
 		vertices[idx + 9] = color;
 		vertices[idx + 10] = u;
 		vertices[idx + 11] = v2;
-			vertices[idx + 12] = x/9000f-0.01f;
+			vertices[idx + 12] = x/9000f;
 			vertices[idx + 13] = y/9000f+0.001f;
 
 		vertices[idx + 14] = fx2;
@@ -571,7 +571,7 @@ public class CustomSpriteBatch extends SpriteBatch implements Batch {
 		vertices[idx + 16] = color;
 		vertices[idx + 17] = u2;
 		vertices[idx + 18] = v2;
-			vertices[idx + 19] = x/9000f+0.01f;
+			vertices[idx + 19] = x/9000f+width/9000f;
 			vertices[idx + 20] = y/9000f+0.001f;
 
 		vertices[idx + 21] = fx2;
@@ -579,7 +579,7 @@ public class CustomSpriteBatch extends SpriteBatch implements Batch {
 		vertices[idx + 23] = color;
 		vertices[idx + 24] = u2;
 		vertices[idx + 25] = v;
-			vertices[idx + 26] = x/9000f+0.01f;
+			vertices[idx + 26] = x/9000f+width/9000f;
 			vertices[idx + 27] = y/9000f;
 		this.idx = idx + 28;
 	}

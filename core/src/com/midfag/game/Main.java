@@ -47,6 +47,7 @@ public class Main extends Game {
     public void create() {
 
 
+    	System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
     	
         Assets.load_assets();
         SysConfig.RegisterSSD();
@@ -109,6 +110,8 @@ public class Main extends Game {
         font = new BitmapFont(Gdx.files.internal("data/rus.fnt"), new TextureRegion(texture), false);
         
         this.setScreen(new GScreen(this));
+        
+        
         
        //shader_default=GScreen.batch_illum.createDefaultShader();
         

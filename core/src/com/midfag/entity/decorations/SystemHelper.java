@@ -48,13 +48,6 @@ public class SystemHelper extends Entity {
 		//DO NOTHING
 	}
 	
-	@Override
-	public void draw_action(float _d, float _siz) {
-		
-		if (GScreen.show_edit)
-		{spr.setScale(_siz);
-		spr.draw(GScreen.batch_custom);}
 
-	}
 
 }

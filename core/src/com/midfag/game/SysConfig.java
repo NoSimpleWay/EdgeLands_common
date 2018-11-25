@@ -112,9 +112,10 @@ public class SysConfig {
 				{
 					i++;
 					ssd_entity.path_y=Integer.parseInt(string_array[i]);
+					ssd_entity.have_collision=true;
 				}
 				
-				if (string_array[i].toLowerCase().equals("collision_x"))
+				if (string_array[i].toLowerCase().equals("collision_size_x"))
 				{
 					i++;
 					ssd_entity.collision_size_x=Integer.parseInt(string_array[i]);
@@ -122,10 +123,11 @@ public class SysConfig {
 					Helper.log ("have collision");
 				}
 				
-				if (string_array[i].toLowerCase().equals("collision_y"))
+				if (string_array[i].toLowerCase().equals("collision_size_y"))
 				{
 					i++;
 					ssd_entity.collision_size_y=Integer.parseInt(string_array[i]);
+					ssd_entity.have_collision=true;
 				}
 			}
 		}

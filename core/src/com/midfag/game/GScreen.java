@@ -303,9 +303,10 @@ public class GScreen implements Screen {
 	public class MySpriteComparator implements Comparator<Entity> {
 		@Override
 		public int compare (Entity sprite1, Entity sprite2) {
-			if (sprite2==null) {Helper.log("ERROR! ENTITY 2 IS NULL!");}
-			if (sprite1==null) {Helper.log("ERROR! ENTITY 1s IS NULL!");}
+			/*if (sprite2==null) {Helper.log("ERROR! ENTITY 2 IS NULL!");}
+			if (sprite1==null) {Helper.log("ERROR! ENTITY 1s IS NULL!");}*/
 			return (sprite2.pos.y - sprite1.pos.y) > 0 ? 1 : -1;
+			//return 0;
 			//if (sprite2.pos.y = sprite1.pos.y)
 			//return sprite1;
 		}
@@ -385,12 +386,7 @@ public class GScreen implements Screen {
 		///
 		float dist;
 		
-			if (_x1==_x2)
-			{
-				//dist=_target.pos.y+collision_size_y-_y1;
-				if ((_target.pos.y+collision_size_y<=_y1)&&(_target.pos.y+collision_size_y>=_y2)&&(_x1>=_target.pos.x-collision_size_x)&&(_x1<=_target.pos.x+collision_size_x))
-				{return temp_vectorA.set(_x1, _target.pos.y+collision_size_y);}
-			}
+
 		
 			if (_y1>_y2)
 			{
@@ -406,15 +402,7 @@ public class GScreen implements Screen {
 				if ((_target.pos.y-collision_size_y>=_y1)&&(_target.pos.y-collision_size_y<=_y2)&&(Math.abs(_target.pos.x-(_x1+dist*_dx))<=collision_size_x))
 				{return temp_vectorA.set(_x1+dist*_dx, _target.pos.y-collision_size_y);}
 			}
-		//
-			
-		//
-			
-			
-			
-		////
-		
-		
+
 			if (_x1>_x2)
 			{
 				dist=_target.pos.x+collision_size_x-_x1;
@@ -428,6 +416,13 @@ public class GScreen implements Screen {
 				dist=_target.pos.x-collision_size_x-_x1;
 				if ((_target.pos.x-collision_size_x>=_x1)&&(_target.pos.x-collision_size_x<=_x2)&&(Math.abs(_target.pos.y-(_y1+dist*_dy))<=collision_size_y))
 				{return temp_vectorA.set(_target.pos.x-collision_size_x, _y1+dist*_dy);}
+			}
+			
+			if (_x1==_x2)
+			{
+				//dist=_target.pos.y+collision_size_y-_y1;
+				if ((_target.pos.y+collision_size_y<=_y1)&&(_target.pos.y+collision_size_y>=_y2)&&(_x1>=_target.pos.x-collision_size_x)&&(_x1<=_target.pos.x+collision_size_x))
+				{return temp_vectorA.set(_x1, _target.pos.y+collision_size_y);}
 			}
 		
 		return temp_vectorA.set(999999, 999999);
@@ -962,10 +957,23 @@ public class GScreen implements Screen {
     }
 
 
-    public void draw_shaded_text(String _s, float _x, float _y, Color _col, float _size)
+    public static void draw_shaded_text(String _s, float _x, float _y, Color _col, float _size)
     {
     	batch_static.setColor(0.5f,0.5f,0.5f,0.5f);
     	batch_static.draw (Assets.rect_white,_x-5, _y-15, _size, 20);
+    	
+    	batch_static.setColor(Color.WHITE);
+    	Main.font.setColor(Color.BLACK);
+    	Main.font.draw(batch_static, _s, _x+1, _y-1);
+    	
+    	Main.font.setColor(_col);
+    	Main.font.draw(batch_static, _s, _x, _y);
+    }
+    
+    public static void draw_shaded_text_entity(String _s, float _x, float _y, Color _col, float _size)
+    {
+    	batch.setColor(0.5f,0.5f,0.5f,0.5f);
+    	batch.draw (Assets.rect_white,_x-5, _y-15, _size, 20);
     	
     	Main.font.setColor(Color.BLACK);
     	Main.font.draw(batch_static, _s, _x+1, _y-1);
@@ -1224,10 +1232,10 @@ public class GScreen implements Screen {
 	    
 
 	    
-	    if (need_light_update)
+	    //if (need_light_update)
 		{
     		
-    		//need_light_update=false;
+    		need_light_update=false;
 			//add_timer("shadow_update");
 			
 			batch_illum.enableBlending();
@@ -1390,13 +1398,15 @@ public class GScreen implements Screen {
 		    				
 		    				//batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);
 		    				
-		    				batch_illum.setColor(blur_opacity,blur_opacity,blur_opacity,1f);
+		    				/*batch_illum.setColor(blur_opacity,blur_opacity,blur_opacity,1f);
 		    				batch_illum.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
 		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);
+		    				*/
 		    				
 		    				/*batch_illum.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
     	    				batch_illum.setColor(0.1f,0.1f,0.1f,1f);
 		    				batch_illum.draw(lightmap_texture, 0, 300*light_map_size, 300*light_map_size, -300*light_map_size);*/
+		    				
 		    				
 		    				
 		    				if (i<=lightmap_blur_pass)
@@ -1418,6 +1428,7 @@ public class GScreen implements Screen {
 					        		
 					        		
 					        	}
+					        
 		    				
 		    				if (i+1<lightmap_blur_pass)
 		    				{
@@ -1689,8 +1700,8 @@ public class GScreen implements Screen {
 			{
 
 				float camlen=(float) Math.sqrt((camera_target.pos.x-InputHandler.posx)*(camera_target.pos.x-InputHandler.posx)+(camera_target.pos.y-camera_target.z-InputHandler.posy)*(camera_target.pos.y-camera_target.z-InputHandler.posy));
-				camlen/=2;
-				need_zoom=camlen*0.02f+1;
+				camlen/=4f;
+				//need_zoom=camlen*0.02f+1;
 				//camera.zoom=camlen*0.001f+1;
 			    camera.position.add(-(camera.position.x-camera_target.pos.x+sinR(180-pl.rot)*camlen)/5, -(camera.position.y-camera_target.pos.y+cosR(180-pl.rot)*camlen)/5, 0.0f);
 			    camera.update();
@@ -1700,11 +1711,9 @@ public class GScreen implements Screen {
 			{
 				
 				
-				camera.position.x=pl.pos.x;
-				camera.position.y=pl.pos.y;
-				//else
-				//{camera.position.add(-(camera.position.x-camera_target.pos.x)/camspeed, -(camera.position.y-camera_target.z-camera_target.pos.y)/camspeed, 0.0f);}
-				
+				//camera.position.x=pl.pos.x;
+				//camera.position.y=pl.pos.y;
+				camera.position.add(-(camera.position.x-camera_target.pos.x)/20f, -(camera.position.y-camera_target.z-camera_target.pos.y)/20f, 0.0f);
 				camera.update();
 			}
       	
@@ -1725,17 +1734,17 @@ public class GScreen implements Screen {
 	 	}
     	
     	
-    	//for (int draw_y=cluster_y+cluster_draw_distance; draw_y>=cluster_y-cluster_draw_distance; draw_y--)
-	   // for (int draw_x=cluster_x-cluster_draw_distance; draw_x<=cluster_x+cluster_draw_distance; draw_x++)
+    	for (int draw_y=cluster_y+cluster_draw_distance; draw_y>=cluster_y-cluster_draw_distance; draw_y--)
+	    for (int draw_x=cluster_x-cluster_draw_distance; draw_x<=cluster_x+cluster_draw_distance; draw_x++)
     	
 	    /*
     	for (int draw_y=15; draw_y>=15; draw_y--)
     	for (int draw_x=15; draw_x<=15; draw_x++)
     	*/
-	   // if ((draw_x>=0)&&(draw_y>=0)&&(draw_x<30)&&(draw_y<30))
-	   // {
-	   // 	cluster[draw_x][draw_y].draw(draw_x*cluster_size, draw_y*cluster_size);
-	   // }
+	    if ((draw_x>=0)&&(draw_y>=0)&&(draw_x<30)&&(draw_y<30))
+	   {
+	    	cluster[draw_x][draw_y].draw(draw_x*cluster_size, draw_y*cluster_size);
+	   }
     	//batch.flush();
     	
 		
@@ -2360,8 +2369,8 @@ public class GScreen implements Screen {
 		
 	   //for (int k=0; k<3; k++)
 		
-		 for (int i=plposy-81; i<plposy+81; i++)
-		 for (int j=plposx-81; j<plposx+81; j++)
+		 for (int i=plposy-41; i<plposy+41; i++)
+		 for (int j=plposx-41; j<plposx+41; j++)
 		 		if ((i>0)&&(i<299)&&(j>0)&&(j<299))
 		 		{
 		 		
@@ -2379,6 +2388,10 @@ public class GScreen implements Screen {
 			 						{sr.setColor(path_cell_color,0,0,0.5f);}
 			 		 			}
 			 		 			
+			 					if (path[j][i][current_path]==5)
+			 		 			{
+			 		 	 			sr.setColor(0,0,1,0.75f);
+			 		 			}
 			 					
 			 					if (path[j][i][current_path]==0)
 			 		 			{
@@ -2406,6 +2419,7 @@ public class GScreen implements Screen {
 			
 			
 			
+			/*
 			batch.begin();
 			batch.setColor(Color.WHITE);
 				Main.font.setColor(Color.WHITE);
@@ -2416,7 +2430,7 @@ public class GScreen implements Screen {
 					{Main.font.draw(batch, ""+Math.round(path[j][i][main_path]), j*30+10f, i*30+15f);}
 				 Main.font.getData().setScale(1.0f);
 				 batch.end();
-			
+			*/
 			
 		}
       	
@@ -2546,11 +2560,24 @@ public class GScreen implements Screen {
 					path_calculate_mode++;
 					if (path_calculate_mode==1)
 					{
-						plposx=(int)(pl.pos.x/path_cell);
-					    plposy=(int)(pl.pos.y/path_cell);
+						
+						 if ((enemy_see_player)||(show_edit))
+						{
+							plposx=(int)(pl.pos.x/path_cell);
+							plposy=(int)(pl.pos.y/path_cell);
+						}
+						/* else
+						 {
+							 plposx=(int)(Math.random()*300);
+							 plposy=(int)(Math.random()*300);
+						 }*/
+						 
+					   
+					    	if (path[plposx][plposy][background_path]>=0)
+					    	{path[plposx][plposy][background_path]=5;}
+						
 					    
-						if (path[plposx][plposy][background_path]>=0)
-						{path[plposx][plposy][background_path]=5;}
+					    
 					}
 
 					if (path_calculate_mode>4)
@@ -2714,7 +2741,7 @@ public class GScreen implements Screen {
 		
 		
 		
-		//draw_shaded_text("zoom: "+camera.zoom, 5, 70, Color.GREEN,100);
+		
 		
 		if (show_debug_fields_info)
 		{
@@ -2731,6 +2758,8 @@ public class GScreen implements Screen {
 			Main.font.draw(batch_static, "battle music: "+battle_music_timer, 7, 110);
 			
 			Main.font.draw(batch_static, "enemy see us: "+enemy_see_player, 7, 130);
+			
+			draw_shaded_text("zoom: "+camera.zoom, 7, 150, Color.GREEN,150);
 		}
 		
 		draw_shaded_text("FPS: "+fps, 5, 40, Color.GREEN,100);
@@ -2752,26 +2781,7 @@ public class GScreen implements Screen {
 		
 
 		
-		if ((Gdx.input.isButtonPressed(1))&&(!show_edit))
-		//if (InputHandler.but==1)
-		{
-
-			float camlen=(float) Math.sqrt((camera_target.pos.x-InputHandler.posx)*(camera_target.pos.x-InputHandler.posx)+(camera_target.pos.y-camera_target.z-InputHandler.posy)*(camera_target.pos.y-camera_target.z-InputHandler.posy));
-			camlen/=4;
-			need_zoom=camlen*0.0002f+1;
-			//camera.zoom=camlen*0.001f+1;
-		    camera.position.add(-(camera.position.x-camera_target.pos.x+sinR(180-pl.rot)*camlen)/5, -(camera.position.y-camera_target.pos.y+cosR(180-pl.rot)*camlen)/5, 0.0f);
-		    camera.update();
-			
-		}
-		else
-		{
-			float camspeed=2;
-			if (!main_control){camspeed=5;}
-			
-			camera.position.add(-(camera.position.x-camera_target.pos.x)/camspeed, -(camera.position.y-camera_target.z-camera_target.pos.y)/camspeed, 0.0f);
-			camera.update();
-		}
+		
 			
 			int pos=0;
 			
@@ -2904,14 +2914,14 @@ public class GScreen implements Screen {
 		}
 			add_timer("04 "+batch_static.renderCalls);
 			
-			 batch_static.begin();
+			 
 				for (int i=0; i<GUI_list.size(); i++)
 					{GUI_list.get(i).update(real_delta);}
 				
 				for (int i=0; i<GUI_list.size(); i++)
 					{GUI_list.get(i).update2(real_delta);}
 				
-			batch_static.end();
+			
 			
 			
 			 

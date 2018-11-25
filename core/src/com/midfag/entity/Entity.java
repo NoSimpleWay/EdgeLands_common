@@ -602,20 +602,20 @@ public class Entity {
 		    if (path_x>=0)
 		    {
 		    	Helper.log("UPDATE POSITION!");
+		    	
 		    	int cluster_x=(int)(pos.x/GScreen.cluster_size);
 			    int cluster_y=(int)(pos.y/GScreen.cluster_size);
 			    
 			    int psx=(int)(pos.x/30.0f);
 			    int psy=(int)(pos.y/30.0f);
 			    
-				for (int i=psy-10; i<psy+10; i++)
-				for (int j=psx-10; j<psx+10; j++)
+				for (int i=psy-path_y-1; i<=psy+path_y+1; i++)
+				for (int j=psx-path_x-1; j<=psx+path_x+1; j++)
 				if ((j>=0)&&(j<300)&&(i>=0)&&(i<300))
 				{
 					if (GScreen.path[j][i][0]<0){GScreen.path[j][i][0]=300;}
 					if (GScreen.path[j][i][1]<0){GScreen.path[j][i][1]=300;}
 				}
-				
 				
 				for (int x=cluster_x-1; x<=cluster_x+1; x++)
 			    for (int y=cluster_y-1; y<=cluster_y+1; y++)
@@ -749,7 +749,7 @@ public class Entity {
 		
 	}
 	
-	public void shoot(float _d, int _i)
+	public void try_shoot(float _d, int _i)
 	{
 		
 		//For
@@ -810,7 +810,7 @@ public class Entity {
 		{
 			//System.out.println("try shoot");
 			//assert armored_weapon!=null;
-			shoot_anim=0.02f;
+			shoot_anim=0.2f;
 			
 			if (armored[_i].need_warm<=0)
 			{armored[_i].cd=armored[_i].total_shoot_cooldown;}
@@ -1241,10 +1241,10 @@ public class Entity {
 		    	if (go_shoot)
 		    	{
 		    		if (armored[0]!=null)
-		    		{shoot(_d,0);}
+		    		{try_shoot(_d,0);}
 		    		
 		    		if (armored[1]!=null)
-		    		{shoot(_d,1);}
+		    		{try_shoot(_d,1);}
 		    	}
 	    	}
 		}
@@ -1254,10 +1254,10 @@ public class Entity {
 			if ((InputHandler.but==0)&&(armored_shield!=null)&&(armored_shield.value>0)&&(GScreen.main_control))
 			{
 	    		if (armored[0]!=null)
-	    		{shoot(_d,0);}
+	    		{try_shoot(_d,0);}
 	    		
 	    		if (armored[1]!=null)
-	    		{shoot(_d,1);}
+	    		{try_shoot(_d,1);}
 			}
 			else
 			{
@@ -1295,11 +1295,11 @@ public class Entity {
 	public void add_impulse(float _x, float _y, float _d) {
 		// TODO Auto-generated method stub
 		
-		if ((impulse.x>0)&(_x<0)) {impulse.x*=0.95f;}
-		if ((impulse.x<0)&(_x>0)) {impulse.x*=0.95f;}
+		if ((impulse.x>0)&(_x<0)) {impulse.x*=Math.pow(0.1f,_d);}
+		if ((impulse.x<0)&(_x>0)) {impulse.x*=Math.pow(0.1f,_d);}
 		
-		if ((impulse.y>0)&(_y<0)) {impulse.x*=0.95f;}
-		if ((impulse.y<0)&(_y>0)) {impulse.x*=0.95f;}
+		if ((impulse.y>0)&(_y<0)) {impulse.y*=Math.pow(0.1f,_d);}
+		if ((impulse.y<0)&(_y>0)) {impulse.y*=Math.pow(0.1f,_d);}
 		
 		impulse.x+=_x*_d;//\
 		impulse.y+=_y*_d;
@@ -1310,10 +1310,10 @@ public class Entity {
 	public void draw_hp()
 	{
 		GScreen.batch_custom.setColor(Color.DARK_GRAY);
-		GScreen.batch_custom.draw(GScreen.rect_white, pos.x-15, pos.y-40, 30,10);
+		GScreen.batch_custom.draw(GScreen.rect_white, pos.x-35, pos.y-40, 70,5);
 		
 		GScreen.batch_custom.setColor(Color.GREEN);
-		GScreen.batch_custom.draw(GScreen.rect_white, pos.x-15, pos.y-40, 30f*armored_shield.value/armored_shield.total_value,10);
+		GScreen.batch_custom.draw(GScreen.rect_white, pos.x-35, pos.y-40, 70f*armored_shield.value/armored_shield.total_value,5);
 		GScreen.batch_custom.setColor(Color.WHITE);
 	}
 	
@@ -1388,9 +1388,14 @@ public class Entity {
 	public void draw_action(float _d)
 	{
 
+		if (!is_decor)
+		{draw_hp();}
+
+		GScreen.batch_custom.setColor(total_illum_R,total_illum_G,total_illum_B,total_alpha);
+		if (main_tex!=null)
+		{GScreen.batch_custom.draw(main_tex, pos.x-main_tex.getWidth()/2f+texture_offset_x, pos.y-main_tex.getHeight()/2f+texture_offset_y+z);}
 		
-		draw_action(_d, 1f);
-		//Main.font.draw(GScreen.batch, ""+constant_move_y, pos.x, pos.y);
+		
 	}
 	
 	public float get_cold_rating()
@@ -1398,22 +1403,7 @@ public class Entity {
 		return 1-buff_cold/(buff_cold+100);
 	}
 	
-	public void draw_action(float _d, float _siz) {
 
-		
-		if (!is_decor)
-		{draw_hp();}
-
-		//Color temp_color=spr.getColor();
-
-		GScreen.batch_custom.setColor(total_illum_R,total_illum_G,total_illum_B,total_alpha);
-		if (main_tex!=null)
-		{GScreen.batch_custom.draw(main_tex, pos.x, pos.y);}
-		
-		//if (selected) {spr.setColor(0f, 1f, 0f, 0.9f);}
-		
-		
-	}
 	
 	
 	public void draw_offset_mask(float _d) {

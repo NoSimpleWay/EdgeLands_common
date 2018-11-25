@@ -86,30 +86,16 @@ public class EntityPlayer extends Entity {
 		id=this.getClass().getName();
 		uid="016132fe";
 		
+		main_tex=Assets.load("mech_new");
+		
+		have_collision=true;
+		default_collision_size=true;
+		collision_size_x=30;
+		collision_size_y=30;
+		
 		if (_v!=null)
 		{
-			for (int i=0; i<16; i++)
 		
-			{
-				if (i<10)
-				{tex[i]= Assets.load("mech/mech00"+i);}
-				else
-				{tex[i]=Assets.load("mech/mech0"+i);}
-				
-				
-				tex[i].setFilter(TextureFilter.Linear, TextureFilter.Linear);
-			}
-			
-			for (int i=0; i<16; i++)
-			{
-				if (i<10)
-				{bottom_tex[i]=Assets.load("mech/bot0"+i);}
-				else
-				{bottom_tex[i]=Assets.load("mech/bot"+i);}
-				
-				bottom_tex[i].setFilter(TextureFilter.Linear, TextureFilter.Linear);
-			}
-			
 	
 			
 			is_AI=false;
@@ -137,8 +123,7 @@ public class EntityPlayer extends Entity {
 	
 			have_ability=true;
 			
-			collision_size_x=30;
-			collision_size_y=30;
+
 			
 			/*
 			light_source=new LightSource();
@@ -318,27 +303,14 @@ public class EntityPlayer extends Entity {
 		else
 		{
 			rotate_cooldown-=_d;
+		}		
+
+		//{GScreen.batch.draw	(main_tex, pos.x-45, pos.y,	   0,	   90,     90,90);}
+		GScreen.batch_custom.setColor(total_illum_R,total_illum_G,total_illum_B,1f);
+		if (main_tex!=null)
+		{
+			{GScreen.batch_custom.draw_with_light_atlas(main_tex, pos.x-64, pos.y-32,128,128,0.0625f*draw_sprite,1f,0.0625f*draw_sprite+0.0625f,0,128);}
 		}
-		spr.translate(-5,-80);
-		spr.setSize(100, 200);
-		//spr.setTexture(Assets.shadow);
-		//spr.draw(GScreen.batch);
-		spr.translate(5,80);
-		
-		spr.setSize(100, 100);
-		spr.translate(-10,-30);
-		spr.setTexture(bottom_tex[bottom_draw]);
-		
-		spr.draw
-		(GScreen.batch_custom);
-		
-		spr.translate(10,30);
-		
-		spr.translate(-10,-25);
-		spr.setTexture(tex[draw_sprite]);
-		spr.draw(GScreen.batch_custom);
-		spr.translate(10,25);
-		
 		
 
 	}

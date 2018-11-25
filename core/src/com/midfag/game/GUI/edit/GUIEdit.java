@@ -137,6 +137,10 @@ public class GUIEdit extends GUI {
 	@Override
 	public void sub_update(float _d) 
 	{
+		if (!GScreen.show_edit)
+		{
+			clear_selection();
+		}
 		
 		if (selected_object!=null)
 		{
@@ -156,6 +160,11 @@ public class GUIEdit extends GUI {
 		
 		//open property editor
 		
+		if (InputHandler.key==Keys.ESCAPE)
+		{
+			clear_selection();
+		}
+		
 		if (Gdx.input.isKeyPressed(Keys.B))
 		{
 			if (selected_object!=null)
@@ -169,6 +178,7 @@ public class GUIEdit extends GUI {
 				selected_object.collision_size_x+=InputHandler.dx*GScreen.camera.zoom*modx;
 				selected_object.collision_size_y+=InputHandler.dy*GScreen.camera.zoom*mody;
 				
+				selected_object.have_collision=true;
 				selected_object.default_collision_size=false;
 				
 				selected_object.path_x=Math.round(selected_object.collision_size_x/30f);
@@ -181,6 +191,15 @@ public class GUIEdit extends GUI {
 				{
 					GScreen.path[j][i][GScreen.main_path]=-700;
 				}*/
+				
+				GScreen.batch_static.begin();
+					GScreen.draw_shaded_text("x="+selected_object.collision_size_x,InputHandler.realx, InputHandler.realy-15,Color.GRAY,100);
+					GScreen.draw_shaded_text("y="+selected_object.collision_size_y,InputHandler.realx+2, InputHandler.realy-35,Color.GRAY,100);
+					
+					GScreen.draw_shaded_text("px="+selected_object.path_x,InputHandler.realx+5, InputHandler.realy-75,Color.GRAY,100);
+					GScreen.draw_shaded_text("py="+selected_object.path_y,InputHandler.realx+7, InputHandler.realy-95,Color.GRAY,100);
+				GScreen.batch_static.end();
+				//Main.font.draw(GScreen.batch_static, , selected_object.pos.x, selected_object.pos.x);
 			}
 			
 			if (!selected_object_list.isEmpty())
@@ -239,8 +258,20 @@ public class GUIEdit extends GUI {
 			indicate_entity.texture_path=selected_object.texture_path;
 			indicate_entity.main_tex=selected_object.main_tex;
 			
+			indicate_entity.have_collision=selected_object.have_collision;
 			indicate_entity.collision_size_x=selected_object.collision_size_x;
 			indicate_entity.collision_size_y=selected_object.collision_size_y;
+			
+			indicate_entity.path_x=selected_object.path_x;
+			indicate_entity.path_y=selected_object.path_y;
+			
+			indicate_entity.collision_size_x=selected_object.collision_size_x;
+			indicate_entity.collision_size_y=selected_object.collision_size_y;
+			
+			indicate_entity.texture_offset_x=selected_object.texture_offset_x;
+			indicate_entity.texture_offset_y=selected_object.texture_offset_y;
+			
+			
 			
 			if (selected_object.light_source!=null)
 			{
@@ -371,7 +402,7 @@ public class GUIEdit extends GUI {
 							);
 					
 					indicate_pattern.elist.get(i).spr.setColor(1, 1, 1, 0.5f);
-					indicate_pattern.elist.get(i).draw_action(_d,1);
+					indicate_pattern.elist.get(i).draw_action(_d);
 					indicate_pattern.elist.get(i).spr.setColor(1, 1, 1, 1.0f);
 
 				}
@@ -442,6 +473,7 @@ public class GUIEdit extends GUI {
 						
 						en.have_collision=indicate_entity.have_collision;
 
+						
 						en.collision_size_x=indicate_entity.collision_size_x;
 						en.collision_size_y=indicate_entity.collision_size_y;
 						
@@ -602,7 +634,7 @@ public class GUIEdit extends GUI {
 			//if (InputHandler.realx<850)
 			{
 				if (!top_layer) {Main.font.setColor(0.5f, 0.5f, 0.5f, 0.5f);}else{Main.font.setColor(0.25f, 1.0f, 0.5f, 1.0f);}
-				Main.font.draw(GScreen.batch_static, "TOP LAYER: ", 170, 530);
+				//Main.font.draw(GScreen.batch_static, "TOP LAYER: ", 170, 530);
 			}
 			
 			if (
@@ -965,6 +997,22 @@ public class GUIEdit extends GUI {
 		}
 	}
 
+	private void clear_selection()
+	{
+		if (selected_object!=null)
+		{
+			selected_object.update_color_state();
+			selected_object = null;
+		}
+		
+		for (Entity e:selected_object_list)
+		{
+			e.update_color_state();
+		}
+		
+		selected_object_list.clear();
+	}
+	
 	private void highight_selected_object(Entity _e) {
 		// TODO Auto-generated method stub
 		float highlight_color=(float) (Math.sin(TimeUtils.millis()/50)+1f)/2f;

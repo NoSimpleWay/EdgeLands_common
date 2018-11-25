@@ -21,7 +21,7 @@ public class SystemLight extends Entity {
 		Helper.log("package path "+id);
 		type=EntityType.SYSTEM;
 		
-		spr.setTexture(Assets.light);
+		main_tex=Assets.light;
 		icon=Assets.light;
 		
 		spr.setSize(spr.getTexture().getWidth(), spr.getTexture().getHeight());
@@ -59,11 +59,12 @@ public class SystemLight extends Entity {
 	}
 	
 	@Override
-	public void draw_action(float _d, float _siz) {
+	public void draw_action(float _d) {
 		
 		if (GScreen.show_edit)
-		{spr.setScale(_siz);
-		spr.draw(GScreen.batch_custom);}
+		{
+			GScreen.batch_custom.draw(main_tex, pos.x-main_tex.getWidth()/2f, pos.y-main_tex.getHeight()/2f);
+		}
 
 	}
 

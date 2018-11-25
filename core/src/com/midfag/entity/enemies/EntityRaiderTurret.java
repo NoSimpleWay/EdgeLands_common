@@ -4,6 +4,7 @@ package com.midfag.entity.enemies;
 
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.midfag.entity.Entity;
 
@@ -113,17 +114,21 @@ public class EntityRaiderTurret extends Entity {
 		//GScreen.batch_custom.draw(Assets.shadow,pos.x-25f,pos.y-25f,50,50);
 		
 		
-		GScreen.batch_custom.setColor(Color.BLACK);
-
+		GScreen.batch_custom.setColor(total_illum_R,total_illum_G,total_illum_B,total_alpha);
 		
+		GScreen.batch_custom.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		{GScreen.batch_custom.draw_with_light_atlas(main_tex, pos.x-64, pos.y-64,128,128,0.0625f*bottom_draw,0.5f,0.0625f*bottom_draw+0.0625f,0,128);}
 		
 		GScreen.batch_custom.setColor(Color.WHITE);
 		if (shoot_anim>0)
-		{{GScreen.batch_custom.draw_with_light_atlas(main_tex, pos.x-64, pos.y-64,128,128,0.0625f*bottom_draw,1f,0.0625f*bottom_draw+0.0625f,0.5f,128);}}
+		{
+			GScreen.batch_custom.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
+			{GScreen.batch_custom.draw_with_light_atlas(main_tex, pos.x-64, pos.y-64,128,128,0.0625f*bottom_draw,1f,0.0625f*bottom_draw+0.0625f,0.5f,128);}
+		}
 		//GScreen.batch_custom.draw_with_light(Assets.pyra_head[bottom_draw], pos.x-Assets.pyra_head[bottom_draw].getWidth()/2f, pos.y,Assets.pyra_head[bottom_draw].getWidth());
 		//spr.draw(GScreen.batch_custom);
 		
+		GScreen.batch_custom.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		
 		draw_hp();
 		

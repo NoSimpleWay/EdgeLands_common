@@ -124,7 +124,7 @@ public class EntityPyra extends Entity {
 		GScreen.batch_custom.draw(Assets.shadow,pos.x-25f,pos.y-25f,50,50);
 		
 		
-		GScreen.batch_custom.setColor(Color.WHITE);
+		GScreen.batch_custom.setColor(Color.BLACK);
 		
 		GScreen.batch_custom.draw_with_light(Assets.pyra_body[draw_sprite], pos.x-Assets.pyra_body[draw_sprite].getWidth()/2f, pos.y,Assets.pyra_body[draw_sprite].getWidth());
 		GScreen.batch_custom.draw_with_light(Assets.pyra_head[bottom_draw], pos.x-Assets.pyra_head[bottom_draw].getWidth()/2f, pos.y,Assets.pyra_head[bottom_draw].getWidth());

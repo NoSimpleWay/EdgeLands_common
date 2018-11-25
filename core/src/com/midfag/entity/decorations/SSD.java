@@ -19,10 +19,13 @@ public SSD(Vector2 _v) {
 		
 		is_player=false;
 		is_AI=false;
+		is_decor=true;
 		//foot.setSize(30, 6);
 		
 		have_collision=false;
 		
+		mass=10000;
+		friction=100;
 
 		//spr.setOrigin(80.0f, 10f);
 		
@@ -41,17 +44,7 @@ public SSD(Vector2 _v) {
 	}
 	
 
-	@Override
-	public void draw_action(float _d)
-	{
-		if (main_tex!=null)
-		{
-			//Helper.log("Color_total_A "+color_total_A);
-			
-			GScreen.batch_custom.setColor(total_illum_R,total_illum_G,total_illum_B,total_alpha);
-			GScreen.batch_custom.draw_with_light(main_tex, pos.x+texture_offset_x-main_tex.getWidth()/2f, pos.y+texture_offset_y-main_tex.getHeight()/2f,main_tex.getWidth());
-		}
-	}	
+
 	
 	
 

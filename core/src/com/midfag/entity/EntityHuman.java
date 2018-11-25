@@ -49,7 +49,7 @@ public class EntityHuman extends Entity {
 	
 	
 	@Override
-	public void draw_action(float _d, float _siz) {
+	public void draw_action(float _d) {
 		// TODO Auto-generated method stub
 		
 		if (!GScreen.show_edit)

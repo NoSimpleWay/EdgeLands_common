@@ -24,9 +24,10 @@ public class SystemCollision extends Entity {
 		type=EntityType.SYSTEM;
 		
 		spr.setTexture(Assets.helper_wall);
+		main_tex=Assets.helper_wall;
 		icon=Assets.helper_wall;
-		spr.setSize(spr.getTexture().getWidth(), spr.getTexture().getHeight());
-		spr.setOrigin(spr.getTexture().getWidth()/2f, 00f);
+		
+
 
 		is_AI=false;
 		is_decor=true;
@@ -69,10 +70,12 @@ public class SystemCollision extends Entity {
 	}
 	
 	@Override
-	public void draw_action(float _d, float _siz) {
+	public void draw_action(float _d) {
 		
-
-
+		if (GScreen.show_edit)
+		{
+			GScreen.batch_custom.draw(main_tex, pos.x-main_tex.getWidth()/2f, pos.y-main_tex.getHeight()/2f);
+		}
 	}
 
 }
