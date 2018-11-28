@@ -19,4 +19,10 @@ public class WeaponAttributeAccuracy extends WeaponAttribute {
 		//float bonus=1-level/(level+10);
 		_w.total_dispersion=_w.base_dispersion*(1f-(level*1.5f)/(level*1.5f+10f));
 	}
+	
+	@Override
+	public String get_descr() {
+		// TODO Auto-generated method stub
+		return "меткость +"+((level*1.5f)/(level*1.5f+10f))*100f+" ед.";
+	}
 }

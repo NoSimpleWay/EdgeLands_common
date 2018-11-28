@@ -26,11 +26,10 @@ import com.midfag.game.GUI.ButtonLayout;
 import com.midfag.game.GUI.GUI;
 import com.midfag.game.GUI.GUIInventory;
 import com.midfag.game.GUI.GUISkillsWheel;
-import com.midfag.game.GUI.buttons.ButtonChangeQuality;
-import com.midfag.game.GUI.buttons.ButtonEquip;
-import com.midfag.game.GUI.buttons.ButtonRandomGenerator;
 import com.midfag.game.GUI.buttons.ButtonVertical;
-
+import com.midfag.game.GUI.buttons.inventory.ButtonChangeQuality;
+import com.midfag.game.GUI.buttons.inventory.ButtonEquip;
+import com.midfag.game.GUI.buttons.inventory.ButtonRandomGenerator;
 import com.midfag.game.GUI.buttons.ButtonSkill;
 import com.midfag.game.GUI.edit.ButtonChangeMode;
 import com.midfag.game.GUI.edit.ButtonChunkInfo;

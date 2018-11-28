@@ -11,6 +11,8 @@ public class WeaponAttribute {
 	public float level;
 	public float max_level;
 	
+	public int density;
+	
 	public boolean need_remove=false;
 	
 	public String name;
@@ -28,5 +30,10 @@ public class WeaponAttribute {
 	public void update(float _d, Entity pl, Weapon _w)
 	{
 		
+	}
+
+	public String get_descr() {
+		// TODO Auto-generated method stub
+		return name+" ["+level+"]";
 	}
 }

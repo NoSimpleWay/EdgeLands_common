@@ -9,7 +9,7 @@ public class WeaponAttributeColdDamage extends WeaponAttribute {
 		max_level=100;
 		cost=1;
 		
-		name="fire damage";
+		name="cold damage";
 		uid="attr_cold_damage";
 	}
 	

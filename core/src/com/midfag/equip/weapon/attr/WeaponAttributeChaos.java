@@ -15,7 +15,7 @@ public class WeaponAttributeChaos extends WeaponAttribute {
 		max_level=1;
 		cost=100;
 		
-		name="accuracy";
+		name="chaos";
 		uid="attr_chaos";
 		
 		

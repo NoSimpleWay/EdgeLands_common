@@ -228,8 +228,7 @@ public class EntitySmiler extends Entity {
 				push_cooldown=5f;
 				push_time=1.0f;
 				rotate_cooldown=push_time;
-			}
-					
+			}		
 		}
 		
 
@@ -247,16 +246,13 @@ public class EntitySmiler extends Entity {
 				{
 					catch_target=near_object;
 					
-					
 					sx=30f*GScreen.sinR(360f-rot);
 					sy=30f*GScreen.cosR(360f-rot);
 					catch_x=-sx;
 					catch_y=-sy;
 					
-					
 					Assets.smiler_saw_play=true;
-					Assets.smiler_saw.play();
-					
+					Assets.smiler_saw.play(0.22f);
 				}
 				
 				Helper.log("CATCH:"+near_object);
@@ -267,6 +263,8 @@ public class EntitySmiler extends Entity {
 				
 				Assets.crash.play(0.2f);
 			}
+			
+			
 		}
 	}
 	

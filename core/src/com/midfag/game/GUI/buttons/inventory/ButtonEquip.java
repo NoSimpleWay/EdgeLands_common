@@ -1,6 +1,7 @@
-package com.midfag.game.GUI.buttons;
+package com.midfag.game.GUI.buttons.inventory;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.midfag.entity.Entity;
@@ -15,6 +16,7 @@ import com.midfag.game.InputHandler;
 import com.midfag.game.Main;
 import com.midfag.game.GUI.GUI;
 import com.midfag.game.GUI.GUIInventory;
+import com.midfag.game.GUI.buttons.Button;
 
 public class ButtonEquip extends Button {
 
@@ -166,6 +168,7 @@ public class ButtonEquip extends Button {
 				color_it (m.base_cooldown,m.total_cooldown); draw_info("Перезарядка: ",""+Math.round(m.total_cooldown*100.0f)/100.0f);
 				color_it (m.total_duration,m.base_duration); draw_info("Длительность: ",""+Math.round(m.total_duration*100.0f)/100.0f);
 				mov+=25;
+				
 				for (int i=0; i<m.Attribute_list.size(); i++)
 				{
 					//Helper.log("ATTR LIST SIZE="+m.Attribute_list.size());
@@ -185,38 +188,36 @@ public class ButtonEquip extends Button {
 				
 				float mx=0;
 				
-				draw_info(((Weapon)obj).get_name(),"");
-				//mov+=25;
-				//draw_info("Bonuses: ",""+((Weapon)obj).attr_count);
-				mov+=15;
-				draw_info("Уровень: "+((Weapon)obj).level,"");
-				mov+=15;
-				color_it (w.total_damage,w.base_damage); draw_info("Урон: ",""+w.total_damage,1);
-				if (w.total_fire_damage>0) {Main.font.setColor(Color.YELLOW); mx+=280; draw_info("Поджог: ",""+w.total_fire_damage*10f,mx); }
-				if (w.total_cold_damage>0) {Main.font.setColor(Color.CYAN); mx+=280; draw_info("Заморозка: ",""+w.total_cold_damage*10f,mx); }
-				mov+=28;
-				color_it (w.base_shoot_cooldown,w.total_shoot_cooldown/target.bonus_attack_speed); draw_info("Скорострельность: ",""+Math.round(1.0f/w.total_shoot_cooldown*target.bonus_attack_speed*10.0f)/10.0f);
-				color_it (w.base_dispersion,w.total_dispersion);draw_info("Dispersion: ",""+Math.round(w.total_dispersion),1);
-				color_it (w.base_dispersion_additional,w.total_dispersion_additional);draw_info("Dispersion add: ",""+Math.round(w.total_dispersion_additional),280);
-				mov+=28;
-				color_it (w.total_ammo_size,w.base_ammo_size);draw_info("Ammo size: ",""+Math.round(w.total_ammo_size),1);
-				color_it (w.base_reload_time,w.total_reload_time/target.bonus_attack_speed);draw_info("Reload time: ",""+Math.round(w.total_reload_time/target.bonus_reload_speed*10.0f)/10f,280);
-				
-				mov=200;
-				Main.font.setColor(1.0f, 0.2f, 0.1f, 1f);
-				draw_info("'"+w.red_text+"'","");
-				
-				/*
+				if (!Gdx.input.isKeyPressed(Keys.ALT_LEFT))
+				{
+					draw_info(((Weapon)obj).get_name(),"");
+					//mov+=25;
+					//draw_info("Bonuses: ",""+((Weapon)obj).attr_count);
+					mov+=15;
+					draw_info("Уровень: "+((Weapon)obj).level,"");
+					mov+=15;
+					color_it (w.total_damage,w.base_damage); draw_info("Урон: ",""+w.total_damage,1);
+					if (w.total_fire_damage>0) {Main.font.setColor(Color.YELLOW); mx+=280; draw_info("Поджог: ",""+w.total_fire_damage*10f,mx); }
+					if (w.total_cold_damage>0) {Main.font.setColor(Color.CYAN); mx+=280; draw_info("Заморозка: ",""+w.total_cold_damage*10f,mx); }
+					mov+=28;
+					color_it (w.base_shoot_cooldown,w.total_shoot_cooldown/target.bonus_attack_speed); draw_info("Скорострельность: ",""+Math.round(1.0f/w.total_shoot_cooldown*target.bonus_attack_speed*10.0f)/10.0f);
+					color_it (w.base_dispersion,w.total_dispersion);draw_info("Dispersion: ",""+Math.round(w.total_dispersion),1);
+					color_it (w.base_dispersion_additional,w.total_dispersion_additional);draw_info("Dispersion add: ",""+Math.round(w.total_dispersion_additional),280);
+					mov+=28;
+					color_it (w.total_ammo_size,w.base_ammo_size);draw_info("Ammo size: ",""+Math.round(w.total_ammo_size),1);
+					color_it (w.base_reload_time,w.total_reload_time/target.bonus_attack_speed);draw_info("Reload time: ",""+Math.round(w.total_reload_time/target.bonus_reload_speed*10.0f)/10f,280);
+					
+					mov=200;
+					Main.font.setColor(1.0f, 0.2f, 0.1f, 1f);
+					draw_info("'"+w.red_text+"'","");
+				}
+				else
 				for (int i=0; i<w.Attribute_list.size(); i++)
 				{
-					draw_info (w.Attribute_list.get(i).name,""+w.Attribute_list.get(i).level);
+					//Helper.log("ATTR LIST SIZE="+m.Attribute_list.size());
+					Main.font.setColor(Color.WHITE);
+					draw_info(w.Attribute_list.get(i).get_descr(),"");
 				}
-				*/
-				//if (Math.random()<0.01){((Weapon)obj).model.setPosition((float)(Math.random()*100),(float)(Math.random()*100));}
-				
-				((Weapon)obj).model.setPosition(info_x,info_y-300);
-				((Weapon)obj).model.draw(GScreen.batch_static);
-				//model.
 				
 
 			}

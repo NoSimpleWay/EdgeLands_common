@@ -9,7 +9,7 @@ public class WeaponAttributeAttackSpeed extends WeaponAttribute {
 		max_level=20;
 		cost=3;
 		
-		name="attack_speed";
+		name="attack_speed (minus reload speed)";
 		uid="attr_as";
 	}
 	

@@ -30,8 +30,6 @@ public class LegendaryWeaponBlender extends Weapon {
 			
 			need_warm=3;
 			
-
-			
 			name="Бенчмарк";
 			
 			missile_speed=1500;

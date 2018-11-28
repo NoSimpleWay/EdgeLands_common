@@ -17,8 +17,10 @@ import com.midfag.equip.weapon.attr.WeaponAttribute;
 import com.midfag.equip.weapon.attr.WeaponAttributeAccuracy;
 import com.midfag.equip.weapon.attr.WeaponAttributeAttackSpeed;
 import com.midfag.equip.weapon.attr.WeaponAttributeClipSize;
+import com.midfag.equip.weapon.attr.WeaponAttributeClipSizePlus;
 import com.midfag.equip.weapon.attr.WeaponAttributeColdDamage;
 import com.midfag.equip.weapon.attr.WeaponAttributeDamage;
+import com.midfag.equip.weapon.attr.WeaponAttributeDamagePlus;
 import com.midfag.equip.weapon.attr.WeaponAttributeFireDamage;
 import com.midfag.equip.weapon.attr.WeaponAttributeReloadSpeed;
 import com.midfag.equip.weapon.attr.WeaponAttributeStability;
@@ -26,6 +28,7 @@ import com.midfag.game.Assets;
 import com.midfag.game.GScreen;
 import com.midfag.game.Helper;
 import com.midfag.game.Enums.Rarity;
+import com.midfag.game.script.ScriptTimer;
 
 public class Weapon {
 
@@ -128,6 +131,9 @@ public class Weapon {
 			
 			Available_attribute_list.add(new WeaponAttributeFireDamage());
 			Available_attribute_list.add(new WeaponAttributeColdDamage());
+			
+			Available_attribute_list.add(new WeaponAttributeClipSizePlus());
+			Available_attribute_list.add(new WeaponAttributeDamagePlus());
 		}
 		
 		public void update_attributes_bonus()
@@ -215,81 +221,45 @@ public class Weapon {
 			int r=0;
 			//Helper.log("IM GENERATED!");
 			
+			
+			
 			attr_point=(float) (level*10f*(Math.pow(1.26f,rarity.ordinal())));
 			attr_point_indicate=attr_point;
 			
-			
 			attr_count=(int) (GScreen.rnd(3)+1);
 			
-			
-			
-			for (int i=0; i<-(attr_count-Available_attribute_list.size()); i++)
+			get_available_attribute();
+			for (int i=0; i<attr_count; i++)
+			if (!Available_attribute_list.isEmpty()) 
 			{
-				Available_attribute_list.remove((int)(Math.random()*Available_attribute_list.size()));
-				i--;
+				//select random attribute from list
+				int random_selected=(int)(Math.random()*Available_attribute_list.size());
+			
+				//set attribute
+				Attribute_list.add(Available_attribute_list.get(random_selected));
+				
+				//remove attribute
+				Available_attribute_list.remove(random_selected);
 			}
 			
-			for (int i=0; i<500; i++)
+			float total_density=0;
+			
+			for (WeaponAttribute alist:Attribute_list )
 			{
-				if (!Available_attribute_list.isEmpty())
-				{
-					
-					for (int j=0; j<Available_attribute_list.size(); j++)
-					{
-						WeaponAttribute aal=Available_attribute_list.get(j);
-						
-						if 	(
-								(aal.cost>attr_point)//если очков на новый атрибут не хватает
-								||
-								(aal.level>=aal.max_level)//или бонус достиг максимального уровня
-							)
-								
-						{
-								Attribute_list.add(aal);
-								
-								Available_attribute_list.remove(j);
-								j--;
-						}
-					}
-					
-					
-					if (!Available_attribute_list.isEmpty())
-					{
-						WeaponAttribute wa=Available_attribute_list.get((int)(Math.random()*Available_attribute_list.size()));
-						
-						wa.level++;
-						attr_point-=wa.cost;
-					}
-					
-					
-					
-					
-				}
-				else
-				{break;}
-				
-				//список бонусов, на которые нам хватает очков, подготовлен
-				
-				
-				
-
+				alist.density=(int)(Math.random()*100+10);
+				total_density+=alist.density;
 			}
-			 //
+			
+			for (WeaponAttribute alist:Attribute_list )
+			{
+				alist.level=alist.density/total_density*attr_point;
+			}
+			
+			
+			
+			
 			
 			update_attributes_bonus(null);
-			
-			//System.out.println("/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/");
-			/*for (int i=0; i<Attribute_list.size(); i++)
-			{
-				//Available_attribute_list.add(new WeaponAttributeDamage());
-				
-				System.out.println("attr: ["+Attribute_list.get(i).name+"] (v"+Attribute_list.get(i).level/10f+")");
-			}*/
-			
-			//System.out.println("damage^ "+total_damage);
-			
-			
-			
 			
 		}
 		

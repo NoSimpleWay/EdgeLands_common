@@ -1,4 +1,4 @@
-package com.midfag.game.GUI.buttons;
+package com.midfag.game.GUI.buttons.inventory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -29,6 +29,7 @@ import com.midfag.game.InputHandler;
 import com.midfag.game.SysConfig;
 import com.midfag.game.Assets;
 import com.midfag.game.Enums.EquipGenerationType;
+import com.midfag.game.GUI.buttons.Button;
 
 public class ButtonRandomGenerator extends Button {
 

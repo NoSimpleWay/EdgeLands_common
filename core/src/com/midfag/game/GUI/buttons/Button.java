@@ -44,7 +44,7 @@ public class Button {
 		{
 			//spr.setPosition(pos.x-(int)(spr.getWidth()/2),(int)(pos.y-spr.getHeight()/2));
 			//spr.draw(GScreen.batch_static);
-			
+			GScreen.batch_static.setColor(standart_color);
 			GScreen.batch_static.draw(spr.getTexture(), pos.x-size_x/2f,pos.y-size_y/2f,size_x,size_y);
 		}
 		after_draw();

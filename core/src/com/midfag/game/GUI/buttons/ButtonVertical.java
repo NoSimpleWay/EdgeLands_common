@@ -80,12 +80,31 @@ public class ButtonVertical extends Button {
 				
 				for (int i=0; i<30; i++)
 				{
-					
-					
-					if (GScreen.pl.inventory[i] instanceof Energoshield) {((Energoshield)GScreen.pl.inventory[i]).level=Helper.inventory_level;}
-					if (GScreen.pl.inventory[i] instanceof Weapon) {((Weapon)GScreen.pl.inventory[i]).level=Helper.inventory_level;}
-					if (GScreen.pl.inventory[i] instanceof ModuleUnit) {((ModuleUnit)GScreen.pl.inventory[i]).level=Helper.inventory_level;}
+					//
+					if (GScreen.pl.inventory[i] instanceof Energoshield)
+					{
+						((Energoshield)GScreen.pl.inventory[i]).level=Helper.inventory_level;
+						((Energoshield)GScreen.pl.inventory[i]).generate();
+						((Energoshield)GScreen.pl.inventory[i]).update_attributes_bonus(GScreen.pl);
+					}
+					//
+					if (GScreen.pl.inventory[i] instanceof Weapon)
+					{
+						((Weapon)GScreen.pl.inventory[i]).level=Helper.inventory_level;
+						((Weapon)GScreen.pl.inventory[i]).generate();
+						((Weapon)GScreen.pl.inventory[i]).update_attributes_bonus(GScreen.pl);
+					}
+					//
+					if (GScreen.pl.inventory[i] instanceof ModuleUnit)
+					{
+						((ModuleUnit)GScreen.pl.inventory[i]).level=Helper.inventory_level;
+						((ModuleUnit)GScreen.pl.inventory[i]).generate();
+						((ModuleUnit)GScreen.pl.inventory[i]).update_attributes_bonus(GScreen.pl);
+					}
+					//
 				}
+				
+				
 				
 				if (GScreen.pl.armored[0]!=null){GScreen.pl.armored[0].level=Helper.inventory_level;}
 				if (GScreen.pl.armored[1]!=null){GScreen.pl.armored[1].level=Helper.inventory_level;}

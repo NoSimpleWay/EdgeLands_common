@@ -1694,9 +1694,9 @@ public class GScreen implements Screen {
         	}
 
         }
-      	
-      	if ((Gdx.input.isButtonPressed(1))&&(!show_edit))
-			//if (InputHandler.but==1)
+      	if (!show_edit)
+      	{
+      		if ((Gdx.input.isButtonPressed(1))&&(!show_edit))
 			{
 
 				float camlen=(float) Math.sqrt((camera_target.pos.x-InputHandler.posx)*(camera_target.pos.x-InputHandler.posx)+(camera_target.pos.y-camera_target.z-InputHandler.posy)*(camera_target.pos.y-camera_target.z-InputHandler.posy));
@@ -1716,6 +1716,7 @@ public class GScreen implements Screen {
 				camera.position.add(-(camera.position.x-camera_target.pos.x)/20f, -(camera.position.y-camera_target.z-camera_target.pos.y)/20f, 0.0f);
 				camera.update();
 			}
+      	}
       	
       		batch.setProjectionMatrix(camera.combined);
       		batch_custom.setProjectionMatrix(camera.combined);
@@ -2337,11 +2338,23 @@ public class GScreen implements Screen {
        	 
        	 if ((((pl.armored_shield!=null)&&(pl.armored_shield.value>0))||(pl.armored_shield==null))&&(pl.active))
        	 {
-	       	 if (Gdx.input.isKeyPressed(Keys.W)){pl.add_impulse(0, pl.speed,delta*(1-pl.time_slow_resist)+real_delta*pl.time_slow_resist*sp);  is_press=true; pl.move_vert=true; pl.direction=0;}
-	       	 if (Gdx.input.isKeyPressed(Keys.S)){pl.add_impulse(0, -pl.speed,delta*(1-pl.time_slow_resist)+real_delta*pl.time_slow_resist*sp); is_press=true; pl.move_vert=true; pl.direction=2;}
-	       	 
-	       	 if (Gdx.input.isKeyPressed(Keys.A)){pl.add_impulse(-pl.speed, 0,delta*(1-pl.time_slow_resist)+real_delta*pl.time_slow_resist*sp); is_press=true; pl.move_vert=false; pl.direction=3;}
-	       	 if (Gdx.input.isKeyPressed(Keys.D)){pl.add_impulse( pl.speed, 0,delta*(1-pl.time_slow_resist)+real_delta*pl.time_slow_resist*sp); is_press=true; pl.move_vert=false; pl.direction=1;}
+       		 if (show_edit)
+       		 {
+       			if (Gdx.input.isKeyPressed(Keys.W)) {camera.position.add(0, real_delta*1000f, 0);}
+       			if (Gdx.input.isKeyPressed(Keys.S)) {camera.position.add(0, -real_delta*1000f, 0);}
+       			if (Gdx.input.isKeyPressed(Keys.A)) {camera.position.add(-real_delta*1000f, 0, 0);}
+       			if (Gdx.input.isKeyPressed(Keys.D)) {camera.position.add(real_delta*1000f, 0, 0);}
+       			
+       			camera.update();
+       		 }
+       		 else
+	       	 {
+       			 if (Gdx.input.isKeyPressed(Keys.W)){pl.add_impulse(0, pl.speed,delta*(1-pl.time_slow_resist)+real_delta*pl.time_slow_resist*sp);  is_press=true; pl.move_vert=true; pl.direction=0;}
+		       	 if (Gdx.input.isKeyPressed(Keys.S)){pl.add_impulse(0, -pl.speed,delta*(1-pl.time_slow_resist)+real_delta*pl.time_slow_resist*sp); is_press=true; pl.move_vert=true; pl.direction=2;}
+		       	 
+		       	 if (Gdx.input.isKeyPressed(Keys.A)){pl.add_impulse(-pl.speed, 0,delta*(1-pl.time_slow_resist)+real_delta*pl.time_slow_resist*sp); is_press=true; pl.move_vert=false; pl.direction=3;}
+		       	 if (Gdx.input.isKeyPressed(Keys.D)){pl.add_impulse( pl.speed, 0,delta*(1-pl.time_slow_resist)+real_delta*pl.time_slow_resist*sp); is_press=true; pl.move_vert=false; pl.direction=1;}
+	       	 }
        	 }
        	 
        	 if (!is_press)
@@ -2884,7 +2897,6 @@ public class GScreen implements Screen {
 			{
 				if (!Button_list.get(i).need_remove)
 				{
-					
 					Button_list.get(i).update(delta);
 					Button_list.get(i).second_update(delta);
 					Button_list.get(i).second_draw();
@@ -2914,13 +2926,13 @@ public class GScreen implements Screen {
 		}
 			add_timer("04 "+batch_static.renderCalls);
 			
-			 
+			batch_static.begin();
 				for (int i=0; i<GUI_list.size(); i++)
 					{GUI_list.get(i).update(real_delta);}
 				
 				for (int i=0; i<GUI_list.size(); i++)
 					{GUI_list.get(i).update2(real_delta);}
-				
+			batch_static.end();	
 			
 			
 			

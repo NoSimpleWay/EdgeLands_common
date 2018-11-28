@@ -1,4 +1,4 @@
-package com.midfag.game.GUI.buttons;
+package com.midfag.game.GUI.buttons.inventory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -26,6 +26,7 @@ import com.midfag.game.InputHandler;
 import com.midfag.game.Assets;
 import com.midfag.game.Enums.EquipGenerationType;
 import com.midfag.game.Enums.Rarity;
+import com.midfag.game.GUI.buttons.Button;
 
 public class ButtonChangeQuality extends Button {
 
@@ -93,16 +94,33 @@ public class ButtonChangeQuality extends Button {
 							((ModuleUnit)GScreen.pl.inventory[i]).update_attributes_bonus(GScreen.pl);
 						}
 			        }
+					//
+					for (int i=0; i<2; i++)
+					if (GScreen.pl.armored[i]!=null)
+					{
+						GScreen.pl.armored[i].rarity=rar;
+						GScreen.pl.armored[i].generate();
+						GScreen.pl.armored[i].update_attributes_bonus(GScreen.pl);
 					
-					if (GScreen.pl.armored[0]!=null){GScreen.pl.armored[0].rarity=rar;}
-					if (GScreen.pl.armored[1]!=null){GScreen.pl.armored[1].rarity=rar;}
-					
-					if (GScreen.pl.armored_shield!=null){GScreen.pl.armored_shield.rarity=rar;}
-					
-					if (GScreen.pl.armored_module[0]!=null){GScreen.pl.armored_module[0].rarity=rar;}
-					if (GScreen.pl.armored_module[1]!=null){GScreen.pl.armored_module[1].rarity=rar;}
-					if (GScreen.pl.armored_module[2]!=null){GScreen.pl.armored_module[2].rarity=rar;}
-					if (GScreen.pl.armored_module[3]!=null){GScreen.pl.armored_module[3].rarity=rar;}
+					}
+
+					//
+					if (GScreen.pl.armored_shield!=null)
+					{
+						GScreen.pl.armored_shield.rarity=rar;
+						GScreen.pl.armored_shield.generate();
+						GScreen.pl.armored_shield.update_attributes_bonus(GScreen.pl);
+					}
+					//
+					for (int i=0; i<4; i++)
+					if (GScreen.pl.armored_module[i]!=null)
+					{
+						GScreen.pl.armored_module[i].rarity=rar;
+						
+						GScreen.pl.armored_module[i].generate();
+						GScreen.pl.armored_module[i].update_attributes_bonus(GScreen.pl);
+					}
+				
 		}
 			
 		}
