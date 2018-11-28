@@ -209,6 +209,7 @@ public class GScreen implements Screen {
     public static boolean show_debug_fields_info=false;
     
     public static boolean main_control=true;
+    public static boolean main_control_is_locked=false;
     
     public static float zoom=10;
     public static float need_zoom=1;
@@ -499,13 +500,13 @@ public class GScreen implements Screen {
 		}
 	}
 	
-	public static List<Entity> get_entity_list(Vector2 _v)
+	public static List<Entity> get_entity_list(float _x, float _y)
 	{
 		//List<Entity> l=new ArrayList<Entity>();
 		temp_entity_list.clear();
 		
-		int temp_cluster_x=(int)(_v.x/cluster_size);
-		int temp_cluster_y=(int)(_v.y/cluster_size);
+		int temp_cluster_x=(int)(_x/cluster_size);
+		int temp_cluster_y=(int)(_y/cluster_size);
 	        
 	  
 	    for (int x=temp_cluster_x-2; x<=temp_cluster_x+2; x++)
@@ -1044,7 +1045,7 @@ public class GScreen implements Screen {
     		}
     	}
     	
-    	if ((InputHandler.key==Keys.F)&&(InputHandler.keyF_release))
+    	if ((InputHandler.key==Keys.F)&&(InputHandler.keyF_release)&&(main_control))
     	{
     		//Helper.log("_-_-_-_--_-_-__--__--");
     		InputHandler.keyF_release=false;
@@ -1523,9 +1524,9 @@ public class GScreen implements Screen {
 		
     	
 
-    	 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
-    	terrain_fbo.begin();
     	
+    	terrain_fbo.begin();
+    	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
     	//batch_default.setShader(batch_default.createDefaultShader());
     	
     	
@@ -1620,7 +1621,7 @@ public class GScreen implements Screen {
 		    	{
 		    		//e.update_data[e.update_calls]="UPDATE DATA X="+x+" Y="+y+" I="+i;
 		    		e.update(delta*(1-e.time_slow_resist)+real_delta*e.time_slow_resist);
-		    		e.bottom_draw(delta);
+		    		
 		    	}
 		    	
 		    	if (e.need_change_cluster) {i--; e.need_change_cluster=false;}
@@ -1700,10 +1701,10 @@ public class GScreen implements Screen {
 			{
 
 				float camlen=(float) Math.sqrt((camera_target.pos.x-InputHandler.posx)*(camera_target.pos.x-InputHandler.posx)+(camera_target.pos.y-camera_target.z-InputHandler.posy)*(camera_target.pos.y-camera_target.z-InputHandler.posy));
-				camlen/=4f;
+				camlen/=1.85f;
 				//need_zoom=camlen*0.02f+1;
 				//camera.zoom=camlen*0.001f+1;
-			    camera.position.add(-(camera.position.x-camera_target.pos.x+sinR(180-pl.rot)*camlen)/5, -(camera.position.y-camera_target.pos.y+cosR(180-pl.rot)*camlen)/5, 0.0f);
+			    camera.position.add(-(camera.position.x-camera_target.pos.x+sinR(180-pl.rot)*camlen)/15f, -(camera.position.y-camera_target.pos.y+cosR(180-pl.rot)*camlen)/15f, 0.0f);
 			    camera.update();
 				
 			}
@@ -1746,6 +1747,11 @@ public class GScreen implements Screen {
 	   {
 	    	cluster[draw_x][draw_y].draw(draw_x*cluster_size, draw_y*cluster_size);
 	   }
+    	
+    	if (screen_effect!=null)
+    	{
+    		screen_effect.update_pre(delta, real_delta);
+    	}
     	//batch.flush();
     	
 		
@@ -1889,13 +1895,21 @@ public class GScreen implements Screen {
 		    	//try {Draw_list.sort(comparator);} catch (Exception e) {e.printStackTrace();}
 		    	//Draw_list.clear();
 		    	Draw_list.sort(comparator);
-	
+		    	
+		         for (int i=0; i<Draw_list.size(); i++)
+		         {
+		        	Entity e=Draw_list.get(i);
+		         	e.bottom_draw(delta);
+		         } 
+		         
 		         for (int i=0; i<Draw_list.size(); i++)
 		         {
 		        	Entity e=Draw_list.get(i);
 		         	e.draw_action(delta);
 		         	e.effect_draw(delta);
-		         } 
+		         }
+		         
+
 		        
 		         for (int i=0; i<Draw_list.size(); i++)
 		         {
@@ -1916,7 +1930,7 @@ public class GScreen implements Screen {
           	if (enemy_see_player)
           	{
           		//{Assets.battle_music_00.play();}
-          		if ((battle_music_timer<0.2f)&&(battle_music_timer+real_delta>=0.2f)) {Assets.battle_music_00.play(); Assets.battle_music_00.setVolume(0.01f); Helper.log("TRY PLAY BATTLE MUSIC");}
+          		if ((battle_music_timer<0.2f)&&(battle_music_timer+real_delta>=0.2f)) { Assets.main_music.pause(); Assets.battle_music_00.play(); Assets.battle_music_00.setVolume(0.01f); Helper.log("TRY PLAY BATTLE MUSIC");}
           		if ((battle_music_timer>0.2)&&(battle_music_timer<1.2f)){Assets.battle_music_00.setVolume((battle_music_timer-0.2f)*Assets.battle_music_multiplier);}
           		if (battle_music_timer<5) {battle_music_timer+=real_delta;}
           		
@@ -1926,8 +1940,9 @@ public class GScreen implements Screen {
           		if (battle_music_timer>0)
           		{
           			battle_music_timer-=real_delta;
-          			if (battle_music_timer<=2) {Assets.battle_music_00.setVolume((battle_music_timer-1f)*Assets.battle_music_multiplier);}
-          			if (battle_music_timer<=0) {Assets.battle_music_00.pause();}
+          			if (battle_music_timer<0) {battle_music_timer=0;}
+          			if (battle_music_timer<=2) {Assets.battle_music_00.setVolume((battle_music_timer/1.8f)*Assets.battle_music_multiplier);}
+          			if (battle_music_timer<=0) {Assets.battle_music_00.stop(); Helper.log("pause battle music");  Assets.main_music.play();}
           			
           		}
           	}
@@ -2336,25 +2351,27 @@ public class GScreen implements Screen {
        	 float sp=1;
        	 if (show_edit){sp=5;}
        	 
-       	 if ((((pl.armored_shield!=null)&&(pl.armored_shield.value>0))||(pl.armored_shield==null))&&(pl.active))
+       	 if (show_edit)
+   		 {
+   			if (Gdx.input.isKeyPressed(Keys.W)) {camera.position.add(0, real_delta*1000f, 0);}
+   			if (Gdx.input.isKeyPressed(Keys.S)) {camera.position.add(0, -real_delta*1000f, 0);}
+   			if (Gdx.input.isKeyPressed(Keys.A)) {camera.position.add(-real_delta*1000f, 0, 0);}
+   			if (Gdx.input.isKeyPressed(Keys.D)) {camera.position.add(real_delta*1000f, 0, 0);}
+   			
+   			camera.update();
+   		 }
+       	 
+       	 if ((((pl.armored_shield!=null)&&(pl.armored_shield.value>0))||(pl.armored_shield==null))&&(pl.active)&&(main_control))
        	 {
-       		 if (show_edit)
+       		
+       		 if (!show_edit)
        		 {
-       			if (Gdx.input.isKeyPressed(Keys.W)) {camera.position.add(0, real_delta*1000f, 0);}
-       			if (Gdx.input.isKeyPressed(Keys.S)) {camera.position.add(0, -real_delta*1000f, 0);}
-       			if (Gdx.input.isKeyPressed(Keys.A)) {camera.position.add(-real_delta*1000f, 0, 0);}
-       			if (Gdx.input.isKeyPressed(Keys.D)) {camera.position.add(real_delta*1000f, 0, 0);}
-       			
-       			camera.update();
-       		 }
-       		 else
-	       	 {
        			 if (Gdx.input.isKeyPressed(Keys.W)){pl.add_impulse(0, pl.speed,delta*(1-pl.time_slow_resist)+real_delta*pl.time_slow_resist*sp);  is_press=true; pl.move_vert=true; pl.direction=0;}
 		       	 if (Gdx.input.isKeyPressed(Keys.S)){pl.add_impulse(0, -pl.speed,delta*(1-pl.time_slow_resist)+real_delta*pl.time_slow_resist*sp); is_press=true; pl.move_vert=true; pl.direction=2;}
 		       	 
 		       	 if (Gdx.input.isKeyPressed(Keys.A)){pl.add_impulse(-pl.speed, 0,delta*(1-pl.time_slow_resist)+real_delta*pl.time_slow_resist*sp); is_press=true; pl.move_vert=false; pl.direction=3;}
 		       	 if (Gdx.input.isKeyPressed(Keys.D)){pl.add_impulse( pl.speed, 0,delta*(1-pl.time_slow_resist)+real_delta*pl.time_slow_resist*sp); is_press=true; pl.move_vert=false; pl.direction=1;}
-	       	 }
+       		 }
        	 }
        	 
        	 if (!is_press)
@@ -2759,7 +2776,7 @@ public class GScreen implements Screen {
 		if (show_debug_fields_info)
 		{
 			batch_static.setColor(1.0f,1.0f,1.0f, 0.8f);
-			batch_static.draw(Assets.text_bg_blue, 0, 0, 300, 700);
+			batch_static.draw(Assets.text_bg_blue, 0, 0, 800, 700);
 			
 			batch_static.setColor(Color.WHITE);
 			
@@ -2768,7 +2785,14 @@ public class GScreen implements Screen {
 			Main.font.setColor(Color.WHITE);
 			Main.font.draw(batch_static, "layouts count: "+layouts.size(), 7, 90);
 			
-			Main.font.draw(batch_static, "battle music: "+battle_music_timer, 7, 110);
+			Main.font.draw(batch_static, "battle music: "+battle_music_timer, 7, 110); 
+			
+			if (Assets.battle_music_00.isPlaying())
+			{Main.font.draw(batch_static, "battle music playing ", 207, 110);}
+			else
+			{Main.font.draw(batch_static, "battle music NOT playing: ", 207, 110);}
+			
+			Main.font.draw(batch_static, "battle music volume"+Assets.battle_music_00.getVolume(), 407, 110);
 			
 			Main.font.draw(batch_static, "enemy see us: "+enemy_see_player, 7, 130);
 			
@@ -2985,7 +3009,7 @@ public class GScreen implements Screen {
 		
 		if (camera_auto_zoom)
 		{
-			camera.zoom+=(need_zoom-camera.zoom)*0.02f;
+			camera.zoom+=(need_zoom-camera.zoom)*real_delta*2f;
 		}
 		
    	 		

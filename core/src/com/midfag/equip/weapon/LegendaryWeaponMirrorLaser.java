@@ -22,8 +22,10 @@ public class LegendaryWeaponMirrorLaser extends Weapon {
 			base_damage=50;
 			base_missile_count=1;
 			base_shoot_cooldown=0.8f;
-			base_dispersion=10;
-			base_dispersion_additional=10;
+			
+			base_accuracy=get_accuracy_rating_by_degrees(10f);
+			base_accuracy_additional=get_accuracy_rating_by_degrees(10f);
+			
 			base_ammo_size=5;
 			base_reload_time=1;
 			
@@ -46,7 +48,7 @@ public class LegendaryWeaponMirrorLaser extends Weapon {
 		{
 			return new MissileMirrorLaser(
 					new Vector2(pl.pos.x,pl.pos.y),
-					(float) Math.toRadians(360-pl.rot+get_dispersion()+GScreen.rnd(add_disp)-add_disp/2),
+					(float) Math.toRadians(360-pl.rot+get_dispersion()),
 					(GScreen.rnd(100)+5000.0f),
 					pl.is_AI);
 		}

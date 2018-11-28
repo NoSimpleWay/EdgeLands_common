@@ -229,7 +229,7 @@ public class InputHandler implements InputProcessor {
     		GScreen.GUI_list.add(gui);
     	}
     	
-    	if (key==Keys.O)
+    	if ((key==Keys.O)&&(!GScreen.main_control_is_locked))
     	{
     		
     		
@@ -289,7 +289,7 @@ public class InputHandler implements InputProcessor {
     		{GScreen.show_debug_fields_info=!GScreen.show_debug_fields_info;}
     	}
     	
-    	if (key==Keys.I)
+    	if ((key==Keys.I)&&(!GScreen.main_control_is_locked))
     	{
 			GScreen.skills_camera.zoom=1;
 

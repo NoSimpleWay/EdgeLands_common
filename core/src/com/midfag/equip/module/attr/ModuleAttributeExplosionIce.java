@@ -26,7 +26,7 @@ public class ModuleAttributeExplosionIce extends ModuleAttribute {
 	{
 		Assets.freeze.play();
 		
-		List<Entity> l=GScreen.get_entity_list(_e.pos);
+		List<Entity> l=GScreen.get_entity_list(_e.pos.x,_e.pos.y);
 		_e.Effect.add(new AnimationEffectFreeze(_e.pos,0,0));
 		
 		for (int i=0; i<l.size(); i++)

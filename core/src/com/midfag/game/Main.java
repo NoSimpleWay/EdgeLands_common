@@ -18,6 +18,8 @@ public class Main extends Game {
 
     public static BitmapFont font;
     public static BitmapFont font_big;
+    public static BitmapFont font_dot_console;
+    
     public static ShapeRenderer shapeRenderer;
     public static ShapeRenderer shapeRenderer_static;
     
@@ -104,6 +106,10 @@ public class Main extends Game {
         Texture texture = new Texture(Gdx.files.internal("data/fonts/big.png"));
         texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);// true enables mipmaps
         font_big = new BitmapFont(Gdx.files.internal("data/fonts/big.fnt"), new TextureRegion(texture), false);
+        
+        texture = new Texture(Gdx.files.internal("data/fonts/dot_console.png"));
+        texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);// true enables mipmaps
+        font_dot_console = new BitmapFont(Gdx.files.internal("data/fonts/dot_console.fnt"), new TextureRegion(texture), false);
         
         texture = new Texture(Gdx.files.internal("data/rus.png"));
         texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);// true enables mipmaps

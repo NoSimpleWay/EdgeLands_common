@@ -106,15 +106,15 @@ public class ButtonEquip extends Button {
 		if (Math.abs(_a-_b)>0.01)
 		{
 		if (_a==_b)
-		{Main.font.setColor(0.5f, 0.6f, 0.7f, 1);}
+		{Main.font_dot_console.setColor(0.5f, 0.6f, 0.7f, 1);}
 		else
 		if (_a>_b)	
-		{Main.font.setColor(0.45f, 1.0f, 0.55f, 1);}
+		{Main.font_dot_console.setColor(0.45f, 1.0f, 0.55f, 1);}
 		else	
-		{Main.font.setColor(1.0f, 0.75f, 0.65f, 1);}
+		{Main.font_dot_console.setColor(1.0f, 0.75f, 0.65f, 1);}
 		}
 		else
-		{Main.font.setColor(0.5f, 0.6f, 0.7f, 1);}	
+		{Main.font_dot_console.setColor(0.5f, 0.6f, 0.7f, 1);}	
 	}
 	
 	
@@ -149,7 +149,7 @@ public class ButtonEquip extends Button {
 			/*Main.shapeRenderer_static.setColor(0.1f, 0.12f, 0.15f,0.5f);
 			Main.shapeRenderer_static.rect(info_x-10, info_y-10-200, 300, 220);*/
 			
-			Main.font.setColor(Color.WHITE);
+			Main.font_dot_console.setColor(Color.WHITE);
 			//GScreen.batch_static.setColor(1.0f,1.0f,1.0f,1.0f);
 		
 			GScreen.batch_static.setColor(Color.WHITE);
@@ -172,7 +172,7 @@ public class ButtonEquip extends Button {
 				for (int i=0; i<m.Attribute_list.size(); i++)
 				{
 					//Helper.log("ATTR LIST SIZE="+m.Attribute_list.size());
-					Main.font.setColor(Color.WHITE);
+					Main.font_dot_console.setColor(Color.WHITE);
 					draw_info(m.Attribute_list.get(i).get_descr(),"");
 				}
 				
@@ -197,25 +197,29 @@ public class ButtonEquip extends Button {
 					draw_info("Уровень: "+((Weapon)obj).level,"");
 					mov+=15;
 					color_it (w.total_damage,w.base_damage); draw_info("Урон: ",""+w.total_damage,1);
-					if (w.total_fire_damage>0) {Main.font.setColor(Color.YELLOW); mx+=280; draw_info("Поджог: ",""+w.total_fire_damage*10f,mx); }
-					if (w.total_cold_damage>0) {Main.font.setColor(Color.CYAN); mx+=280; draw_info("Заморозка: ",""+w.total_cold_damage*10f,mx); }
+					if (w.total_fire_damage>0) {Main.font_dot_console.setColor(Color.YELLOW); mx+=280; draw_info("Поджог: ",""+w.total_fire_damage*10f,mx); }
+					if (w.total_cold_damage>0) {Main.font_dot_console.setColor(Color.CYAN); mx+=280; draw_info("Заморозка: ",""+w.total_cold_damage*10f,mx); }
 					mov+=28;
+					
 					color_it (w.base_shoot_cooldown,w.total_shoot_cooldown/target.bonus_attack_speed); draw_info("Скорострельность: ",""+Math.round(1.0f/w.total_shoot_cooldown*target.bonus_attack_speed*10.0f)/10.0f);
-					color_it (w.base_dispersion,w.total_dispersion);draw_info("Dispersion: ",""+Math.round(w.total_dispersion),1);
-					color_it (w.base_dispersion_additional,w.total_dispersion_additional);draw_info("Dispersion add: ",""+Math.round(w.total_dispersion_additional),280);
+					
+					color_it (w.total_accuracy,w.base_accuracy);draw_info("Dispersion: ",""+Math.round(Weapon.get_dispersion_by_rating(w.total_accuracy)*10f)/10f+" ("+w.total_accuracy+" rating)",1);
+					
+					color_it (w.base_accuracy_additional,w.total_minus_accuracy);draw_info("Dispersion add: ",""+Math.round(w.total_minus_accuracy),280);
+					
 					mov+=28;
 					color_it (w.total_ammo_size,w.base_ammo_size);draw_info("Ammo size: ",""+Math.round(w.total_ammo_size),1);
 					color_it (w.base_reload_time,w.total_reload_time/target.bonus_attack_speed);draw_info("Reload time: ",""+Math.round(w.total_reload_time/target.bonus_reload_speed*10.0f)/10f,280);
 					
 					mov=200;
-					Main.font.setColor(1.0f, 0.2f, 0.1f, 1f);
+					Main.font_dot_console.setColor(1.0f, 0.2f, 0.1f, 1f);
 					draw_info("'"+w.red_text+"'","");
 				}
 				else
 				for (int i=0; i<w.Attribute_list.size(); i++)
 				{
 					//Helper.log("ATTR LIST SIZE="+m.Attribute_list.size());
-					Main.font.setColor(Color.WHITE);
+					Main.font_dot_console.setColor(Color.WHITE);
 					draw_info(w.Attribute_list.get(i).get_descr(),"");
 				}
 				
@@ -239,7 +243,7 @@ public class ButtonEquip extends Button {
 				color_it (e.total_regen_speed,e.base_regen_speed); draw_info("Regen speed: ",""+((Energoshield)obj).total_regen_speed);
 				color_it (e.total_reflect,e.base_reflect); draw_info("Reflect chance: ",""+((Energoshield)obj).total_reflect);
 				
-				Main.font.setColor(1.0f, 0.5f, 0.25f, 1);
+				Main.font_dot_console.setColor(1.0f, 0.5f, 0.25f, 1);
 				
 				
 				for (int i=0; i<e.Attribute_list.size(); i++)
@@ -250,14 +254,14 @@ public class ButtonEquip extends Button {
 				mov+=25;
 				for (int i=0; i<e.Attribute_list.size(); i++)
 				{
-					Main.font.setColor(Color.WHITE);
+					Main.font_dot_console.setColor(Color.WHITE);
 					draw_info(e.Attribute_list.get(i).get_descr(),"");
 				}
 				
 				if (e.red_text!=null)
 				{
 					mov=200;
-					Main.font.setColor(1.0f, 0.2f, 0.1f, 1f);
+					Main.font_dot_console.setColor(1.0f, 0.2f, 0.1f, 1f);
 					draw_info("'"+e.red_text+"'","");
 				}
 
@@ -280,7 +284,7 @@ public class ButtonEquip extends Button {
 					
 					
 					update_object();
-					Main.font.setColor(1.0f, 1.0f, 1.0f, 1);
+					Main.font_dot_console.setColor(1.0f, 1.0f, 1.0f, 1);
 				}
 				else
 				{
@@ -365,11 +369,11 @@ public class ButtonEquip extends Button {
 	
 	public void draw_info(String _s1, String _s2, float _x)
 	{
-		Main.font.draw(GScreen.batch_static, _s1, info_x+_x, info_y-mov);
+		Main.font_dot_console.draw(GScreen.batch_static, _s1, info_x+_x, info_y-mov);
 		
 		if (!_s2.equals(""))
 		{
-			Main.font.draw(GScreen.batch_static, _s2, info_x+190+_x, info_y-mov);
+			Main.font_dot_console.draw(GScreen.batch_static, _s2, info_x+190+_x, info_y-mov);
 			GScreen.batch_static.setColor(0.25f,1,0.5f,0.1f);
 				GScreen.batch_static.draw(Assets.rect_white, info_x+_x-2+188, info_y-mov-15,70,18);
 			GScreen.batch_static.setColor(Color.WHITE);

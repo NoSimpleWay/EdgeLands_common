@@ -19,6 +19,7 @@ import com.midfag.game.GScreen;
 import com.midfag.game.Helper;
 import com.midfag.game.InputHandler;
 import com.midfag.game.Main;
+import com.midfag.game.SysConfig;
 import com.midfag.game.TextInput;
 import com.midfag.game.GUI.GUI;
 import com.midfag.game.GUI.buttons.Button;
@@ -192,13 +193,13 @@ public class GUIEdit extends GUI {
 					GScreen.path[j][i][GScreen.main_path]=-700;
 				}*/
 				
-				GScreen.batch_static.begin();
+				//GScreen.batch_static.begin();
 					GScreen.draw_shaded_text("x="+selected_object.collision_size_x,InputHandler.realx, InputHandler.realy-15,Color.GRAY,100);
 					GScreen.draw_shaded_text("y="+selected_object.collision_size_y,InputHandler.realx+2, InputHandler.realy-35,Color.GRAY,100);
 					
 					GScreen.draw_shaded_text("px="+selected_object.path_x,InputHandler.realx+5, InputHandler.realy-75,Color.GRAY,100);
 					GScreen.draw_shaded_text("py="+selected_object.path_y,InputHandler.realx+7, InputHandler.realy-95,Color.GRAY,100);
-				GScreen.batch_static.end();
+				//GScreen.batch_static.end();
 				//Main.font.draw(GScreen.batch_static, , selected_object.pos.x, selected_object.pos.x);
 			}
 			
@@ -253,37 +254,8 @@ public class GUIEdit extends GUI {
 		if ((Gdx.input.isKeyPressed(Keys.V))&&(selected_object!=null))
 		{
 			indicate_entity=Helper.get_object_from_id(selected_object.id);
-			indicate_entity.z=selected_object.z;
 			
-			indicate_entity.texture_path=selected_object.texture_path;
-			indicate_entity.main_tex=selected_object.main_tex;
-			
-			indicate_entity.have_collision=selected_object.have_collision;
-			indicate_entity.collision_size_x=selected_object.collision_size_x;
-			indicate_entity.collision_size_y=selected_object.collision_size_y;
-			
-			indicate_entity.path_x=selected_object.path_x;
-			indicate_entity.path_y=selected_object.path_y;
-			
-			indicate_entity.collision_size_x=selected_object.collision_size_x;
-			indicate_entity.collision_size_y=selected_object.collision_size_y;
-			
-			indicate_entity.texture_offset_x=selected_object.texture_offset_x;
-			indicate_entity.texture_offset_y=selected_object.texture_offset_y;
-			
-			
-			
-			if (selected_object.light_source!=null)
-			{
-				Helper.log("LIGHT");
-				if (indicate_entity.light_source==null) {indicate_entity.light_source=new LightSource();}
-				
-				indicate_entity.light_source.R=selected_object.light_source.R;
-				indicate_entity.light_source.G=selected_object.light_source.G;
-				indicate_entity.light_source.B=selected_object.light_source.B;
-				
-				indicate_entity.light_source.light_power=selected_object.light_source.light_power;
-			}
+			Entity.transfer_data(selected_object,indicate_entity);
 			
 			selected_object=null;
 			clear_sliders();
@@ -453,45 +425,18 @@ public class GUIEdit extends GUI {
 				//if (InputHandler.realx<800)
 				for (int i=0; i<array_count; i++)
 				{
-					Entity en=Helper.get_object_from_id(indicate_entity.id);
+					Entity en=Helper.get_object_from_id(SysConfig.get_entity_from_list(indicate_entity.uid).id);
+					
+					Helper.log("is_decor="+en.is_decor);
+					Helper.log("indicate_entity is_decor="+indicate_entity.is_decor);
 					
 					
 					
 					if (en!=null)
 					{
 						
-						if (indicate_entity.light_source!=null)
-						{
-							en.light_source= new LightSource();
-						
-							en.light_source.R=indicate_entity.light_source.R;
-							en.light_source.G=indicate_entity.light_source.G;
-							en.light_source.B=indicate_entity.light_source.B;
-							
-							en.light_source.light_power=indicate_entity.light_source.light_power;
-						}
-						
-						en.have_collision=indicate_entity.have_collision;
-
-						
-						en.collision_size_x=indicate_entity.collision_size_x;
-						en.collision_size_y=indicate_entity.collision_size_y;
-						
-						en.path_x=indicate_entity.path_x;
-						en.path_y=indicate_entity.path_y;
-						
-						en.pos.x=xx+array_x*i;
-						en.pos.y=yy+array_y*i;
-						
-						en.uid=indicate_entity.uid;
-						en.main_tex=indicate_entity.main_tex;
-						
-						en.texture_path=indicate_entity.texture_path;
-						
-						en.texture_offset_x=indicate_entity.texture_offset_x;
-						en.texture_offset_y=indicate_entity.texture_offset_y;
-						
-						en.spr.setRotation(indicate_entity.spr.getRotation());
+						Entity.transfer_data(indicate_entity, en);
+						en.pos.set(xx, yy);
 						//en.init("gui edit");
 						GScreen.add_entity_to_map(en);
 						
@@ -582,7 +527,7 @@ public class GUIEdit extends GUI {
 					//GScreen.tile_map[sx+i][sy+j]=15;
 				}
 				
-				List<Entity> l=GScreen.get_entity_list(temp_vector.set(InputHandler.posx, InputHandler.posy));
+				List<Entity> l=GScreen.get_entity_list(InputHandler.posx, InputHandler.posy);
 				
 				Helper.log("ENTITY ON LIST="+l.size());
 				

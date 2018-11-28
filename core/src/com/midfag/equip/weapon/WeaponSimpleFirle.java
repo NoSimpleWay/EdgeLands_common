@@ -22,11 +22,14 @@ public class WeaponSimpleFirle extends Weapon {
 		{
 			uid="weapon_simple_firle";
 			
-			base_damage=10;
+			base_damage=20;
 			base_missile_count=1;
 			base_shoot_cooldown=0.10f;
-			base_dispersion=5;
-			base_dispersion_additional=10;
+			
+			
+			base_accuracy=get_accuracy_rating_by_degrees(1f);
+			base_accuracy_additional=get_accuracy_rating_by_degrees(5f);
+			
 			base_ammo_size=17;
 			base_reload_time=3;
 			

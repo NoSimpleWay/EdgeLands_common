@@ -137,8 +137,9 @@ public class Entity {
 	public Texture[] tex=new Texture[16];
 	public int draw_sprite=0;
 	
-	public Texture[] bottom_tex=new Texture[16];
+	//public Texture[] bottom_tex=new Texture[16];
 	public int bottom_draw=0;
+	public Texture bottom_texture;
 
 	public float rot;
 
@@ -427,64 +428,21 @@ public class Entity {
 		{
 		
 			
-				spr.setPosition(pos.x-spr.getOriginX(),pos.y-spr.getOriginY()+z);
+				//spr.setPosition(pos.x-spr.getOriginX(),pos.y-spr.getOriginY()+z);
 				GScreen.Draw_list.add(this);
-				//spr.draw(GScreen.batch);
-				//Main.font.draw(GScreen.batch, "!"+iso(0), pos.x, pos.y+100);
-				//Main.font.draw(GScreen.batch, ""+(int)(armored_shield.value), pos.x, pos.y);
-			//GScreen.batch.end();
-			/*
-			Main.shapeRenderer.begin(ShapeType.Filled);
-				Main.shapeRenderer.setColor(1, 1, 1, 0.2f);
-				
-				if (armored_weapon!=null)
-				{
-					Main.shapeRenderer.rectLine(pos.x, pos.y,pos.x+GScreen.sinR(360-spr.getRotation()-add_dispersion/2f-armored_weapon.total_dispersion/2f)*200,pos.y+GScreen.cosR(360-spr.getRotation()-add_dispersion/2f-armored_weapon.total_dispersion/2f)*200,0.2f);
-					Main.shapeRenderer.rectLine(pos.x, pos.y,pos.x+GScreen.sinR(360-spr.getRotation()+add_dispersion/2+armored_weapon.total_dispersion/2)*200,pos.y+GScreen.cosR(360-spr.getRotation()+add_dispersion/2f+armored_weapon.total_dispersion/2f)*200,0.2f);
-				}
-				
-				
-			Main.shapeRenderer.end();*/
+
 			
 			
 		}
-		//else
-		//{GScreen.batch.end();}
+
 	}
 	
 	public void dead_action( boolean need_dead_anim)
 	{
 		
-		//Helper.log("DESTROY <"+id+">");
-		need_remove=true;
-		/*
-		if ((need_dead_anim))
-		{
-			for (int v=0; v<3; v++)
-			{
-				GScreen.Missile_list.add(new MissileParticlePiece(new Vector2(pos.x,pos.y),(float) (Math.random()*360),(float)Math.pow(GScreen.rnd(1000),0.5)+100.0f,is_AI));
-			}
-			
-			for (int v=0; v<3; v++)
-			{
-				GScreen.Missile_list.add(new MissileExplosion(new Vector2(pos.x,pos.y),(float) (Math.random()*360),(float) (10f+Math.random()*80f),is_AI));
-			}
-			
-			need_dead_anim=false;
-		}
-		*/
 		
-		//if (!is_player)
-		{
+		need_remove=true;
 
-			
-			//GScreen.cluster[(int)(pos.x/300)][(int)(pos.y/300)].Entity_list.remove(this);
-			
-			
-				//GScreen.Entity_list.remove(this);
-				//GScreen.cluster[(int)(pos.x/300f)][(int)(pos.y/300f)].Entity_list.remove(this);
-			
-		}
 		
 		//m
 		Assets.metal_destroy.play(0.25f, (float) (Math.random()*0.1f+0.95f), 0);
@@ -790,8 +748,6 @@ public class Entity {
 				(
 					(
 						(target!=null)
-						&&
-						(pos.dst(target.pos)<9000)
 					)
 					||
 					(is_player)
@@ -805,12 +761,14 @@ public class Entity {
 								&&
 								(armored[_i].warm/armored[_i].need_warm<0.2f))
 						)
-						
 				)
 		{
 			//System.out.println("try shoot");
 			//assert armored_weapon!=null;
-			shoot_anim=0.2f;
+			
+			armored[_i].additional_recoil+=Weapon.get_dispersion_by_rating(armored[_i].total_minus_accuracy);
+			
+			shoot_anim=0.1f;
 			
 			if (armored[_i].need_warm<=0)
 			{armored[_i].cd=armored[_i].total_shoot_cooldown;}
@@ -833,12 +791,9 @@ public class Entity {
 				mis.cold_damage=armored[_i].total_cold_damage;
 				mis.master=this;
 				mis.master_weapon=armored[_i];
-				
-				//mis.sp
-				
 			}
 			
-			armored[_i].add_disp+=armored[_i].total_dispersion_additional;
+			//float accuracy_rating=armored[_i].a
 			
 			if (is_AI)
 			{
@@ -927,7 +882,10 @@ public class Entity {
 		{
 			
 			if (armored[i]!=null)
-				{armored[i].update(this, _d);}
+			{
+				armored[i].additional_recoil-=_d*10f; if (armored[i].additional_recoil<0) {armored[i].additional_recoil=0;}
+				armored[i].update(this, _d);
+			}
 		}
 		if (armored_shield!=null)
 		{
@@ -996,7 +954,7 @@ public class Entity {
 		{
 			if (armored[i]!=null)
 			{
-				armored[i].add_disp*=Math.pow(0.05f,_d);
+				//armored[i].add_disp*=Math.pow(0.05f,_d);
 			
 				
 				armored[i].cd-=_d*cold_rating*bonus_attack_speed;
@@ -1221,7 +1179,7 @@ public class Entity {
 				if (target==null)
 
 				{
-					List<Entity> l=GScreen.get_entity_list(pos);
+					List<Entity> l=GScreen.get_entity_list(pos.x,pos.y);
 					
 					for (int zzz=0; zzz<l.size(); zzz++)
 						{
@@ -1464,6 +1422,11 @@ public class Entity {
 	public void bottom_draw(float _d) {
 		// TODO Auto-generated method stub
 		
+		if (bottom_texture!=null)
+		{
+			GScreen.batch_custom.setColor(total_illum_R,total_illum_G,total_illum_B,total_alpha);
+			GScreen.batch_custom.draw(bottom_texture, pos.x-bottom_texture.getWidth()/2f+texture_offset_x, pos.y-bottom_texture.getHeight()/2f+texture_offset_y+z);
+		}
 	}
 
 	public void post_update(float _d) {
@@ -1474,6 +1437,47 @@ public class Entity {
 	public void always_draw(float _d) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public static void transfer_data(Entity _master, Entity _target)
+	{
+		_target.z=_master.z;
+		
+		_target.texture_path=_master.texture_path;
+		_target.main_tex=_master.main_tex;
+		_target.bottom_texture=_master.bottom_texture;
+		
+		_target.have_collision=_master.have_collision;
+		_target.collision_size_x=_master.collision_size_x;
+		_target.collision_size_y=_master.collision_size_y;
+		
+		_target.path_x=_master.path_x;
+		_target.path_y=_master.path_y;
+		
+		_target.collision_size_x=_master.collision_size_x;
+		_target.collision_size_y=_master.collision_size_y;
+		
+		_target.texture_offset_x=_master.texture_offset_x;
+		_target.texture_offset_y=_master.texture_offset_y;
+		
+		
+		
+		if (_master.light_source!=null)
+		{
+			Helper.log("LIGHT");
+			if (_target.light_source==null) {_target.light_source=new LightSource();}
+			
+			_target.light_source.R=_master.light_source.R;
+			_target.light_source.G=_master.light_source.G;
+			_target.light_source.B=_master.light_source.B;
+			
+			_target.light_source.light_power=_master.light_source.light_power;
+		}
+		
+		_target.is_AI=_master.is_AI;
+		_target.is_decor=_master.is_decor;
+		_target.is_enemy=_master.is_enemy;
+		_target.is_player=_master.is_player;
 	}
 	
 

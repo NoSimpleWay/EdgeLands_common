@@ -16,16 +16,16 @@ public SSD(Vector2 _v) {
 		super(_v);
 
 		id=this.getClass().getName();
-		
-		is_player=false;
-		is_AI=false;
-		is_decor=true;
 		//foot.setSize(30, 6);
 		
-		have_collision=false;
 		
 		mass=10000;
 		friction=100;
+		
+		is_decor=true;
+		is_AI=false;
+		is_enemy=false;
+		is_player=false;
 
 		//spr.setOrigin(80.0f, 10f);
 		

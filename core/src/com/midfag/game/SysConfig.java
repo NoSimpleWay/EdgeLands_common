@@ -63,7 +63,19 @@ public class SysConfig {
 				{
 					i++;
 					ssd_entity=new SSD(new Vector2());
+					
+					
 					ssd_entity.uid=string_array[i];
+					
+					ssd_entity.have_collision=false;
+					
+					ssd_entity.path_x=-1;
+					ssd_entity.path_y=-1;
+					
+
+					
+					
+					
 					EntityRegisterer.add(ssd_entity);
 					Helper.log ("Happy birthday, SSD "+ssd_entity.uid);
 				}
@@ -78,12 +90,31 @@ public class SysConfig {
 					Helper.log ("Damn, texture |"+string_array[i]+"| looking good!");
 				}
 				//
+				if (string_array[i].toLowerCase().equals("bottom_texture"))
+				{
+					i++;
+					//ssd_entity.texture_path=string_array[i];
+					ssd_entity.bottom_texture=Assets.load(string_array[i]);
+					//ssd_entity.icon=ssd_entity.main_tex;
+					
+					Helper.log ("Damn, bottom texture |"+string_array[i]+"| looking good! "+ssd_entity.bottom_texture);
+					
+				}
+				//
 				if (string_array[i].toLowerCase().equals("offset_x"))
 				{
 					i++;
 					ssd_entity.texture_offset_x=Integer.parseInt(string_array[i]);
 				}
-				
+				//
+				if (string_array[i].toLowerCase().equals("friend"))
+				{
+					ssd_entity.is_decor=false;
+					ssd_entity.is_AI=false;
+					ssd_entity.is_enemy=false;
+					
+				}
+				//
 				if (string_array[i].toLowerCase().equals("offset_y"))
 				{
 					i++;
@@ -196,6 +227,9 @@ public class SysConfig {
 		WeaponAttributeRegisterer.add(new WeaponAttributeFireDamage());
 		WeaponAttributeRegisterer.add(new WeaponAttributeReloadSpeed());
 		WeaponAttributeRegisterer.add(new WeaponAttributeStability());
+		
+		WeaponAttributeRegisterer.add(new WeaponAttributeDamagePlus());
+		WeaponAttributeRegisterer.add(new WeaponAttributeClipSizePlus());
 	}
 	
 	public static void RegisterWeapon()
@@ -214,6 +248,8 @@ public class SysConfig {
 		WeaponRegisterer.add(new LegendaryWeaponPyroman());
 		
 		WeaponRegisterer.add(new RareWeaponTroll());
+		
+		WeaponRegisterer.add(new SupernaturalWeaponEXTERMINATOR());
 	}
 	
 	public static void RegisterEntity()

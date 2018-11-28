@@ -23,8 +23,10 @@ public class LegendaryWeaponPing extends Weapon {
 			base_damage=5;
 			base_missile_count=1;
 			base_shoot_cooldown=0.03f;
-			base_dispersion=8;
-			base_dispersion_additional=3;
+			
+			base_accuracy=get_accuracy_rating_by_degrees(8f);
+			base_accuracy_additional=get_accuracy_rating_by_degrees(3f);
+			
 			base_ammo_size=120;
 			base_reload_time=10/10;
 			
@@ -55,7 +57,7 @@ public class LegendaryWeaponPing extends Weapon {
 		{
 			return new MissilePing(
 					new Vector2(pl.pos.x,pl.pos.y),
-					(float) Math.toRadians(360-pl.rot+get_dispersion()+GScreen.rnd(add_disp)-add_disp/2),
+					(float) Math.toRadians(360-pl.rot+get_dispersion()),
 					(GScreen.rnd(200)+400.0f),
 					pl.is_AI);
 		}

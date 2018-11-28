@@ -67,8 +67,8 @@ public class EntityRaiderTank extends Entity {
 	@Override
 	public void bottom_draw(float _d)
 	{
-		GScreen.batch.setColor(1,1,1,.25f);
-		GScreen.batch.draw(Assets.shadow, pos.x-75, pos.y-40,150,100);
+		GScreen.batch_custom.setColor(1,1,1,.25f);
+		GScreen.batch_custom.draw(Assets.shadow, pos.x-75, pos.y-40,150,100);
 	}
 	
 	@Override

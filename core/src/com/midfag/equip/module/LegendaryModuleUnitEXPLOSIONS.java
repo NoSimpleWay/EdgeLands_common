@@ -175,11 +175,11 @@ public class LegendaryModuleUnitEXPLOSIONS extends ModuleUnit {
 	@Override
 	public void preparing_complete()
 	{
-		List<Entity> el=GScreen.get_entity_list(GScreen.temp_vector.set(master.pos.x,master.pos.y));
+		List<Entity> el=GScreen.get_entity_list(master.pos.x,master.pos.y);
 		
 		for (int i=0; i<el.size(); i++)
 		{
-			if ((!el.get(i).is_decor)&&(el.get(i).active)&&(el.get(i).is_enemy!=master.is_enemy))
+			if ((!el.get(i).is_decor)&&(el.get(i).active)&&(el.get(i).is_enemy!=master.is_enemy)&&(master.can_see(el.get(i))))
 			{
 				el.get(i).hit_action(total_damage,false);
 				el.get(i).burn_it(total_burn);

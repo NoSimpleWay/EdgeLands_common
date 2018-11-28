@@ -131,8 +131,8 @@ public class EntitySpawnTower extends Entity {
 	public void bottom_draw (float _d)
 	{
 		float cold_rating=1.0f-buff_cold/(buff_cold+100.0f);
-		GScreen.batch.setColor(total_illum_R*cold_rating,total_illum_G*cold_rating,total_illum_B,1f);
-		GScreen.batch.draw(Assets.spawn_tower_bottom, pos.x-150, pos.y-80);
+		GScreen.batch_custom.setColor(total_illum_R*cold_rating,total_illum_G*cold_rating,total_illum_B,1f);
+		GScreen.batch_custom.draw(Assets.spawn_tower_bottom, pos.x-150, pos.y-80);
 	}
 	
 	@Override

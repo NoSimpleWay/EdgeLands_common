@@ -17,6 +17,6 @@ public class WeaponAttributeStability extends WeaponAttribute {
 	public void calculate(Weapon _w)
 	{
 		//float bonus=1-level/(level+10);
-		_w.total_dispersion_additional=_w.base_dispersion_additional*(1f-level/(level+10f));
+		_w.total_minus_accuracy=_w.base_accuracy_additional*(1f-level/(level+10f));
 	}
 }

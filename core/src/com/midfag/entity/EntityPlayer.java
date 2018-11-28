@@ -84,7 +84,7 @@ public class EntityPlayer extends Entity {
 		
 		have_module=true;
 		id=this.getClass().getName();
-		uid="016132fe";
+		uid="player_mech";
 		
 		main_tex=Assets.load("mech_new");
 		
@@ -93,49 +93,37 @@ public class EntityPlayer extends Entity {
 		collision_size_x=30;
 		collision_size_y=30;
 		
+		is_AI=false;
+		is_player=true;
+		is_enemy=false;
+		time_slow_resist=0.5f;
+		
+		spr.setSize(100, 100);
+		spr.setOrigin(45, 0);
+		
+		armored_module[0]=new ModuleUnitTimeSlow();
+		armored_module[0].generate();
+
+		
+		speed=100*15.025f;
+		friction=150.15f;
+
+		have_ability=true;
+
+		size=30;
+		
+		mass=1000;
+		
 		if (_v!=null)
 		{
 		
 	
 			
-			is_AI=false;
-			is_player=true;
-			is_enemy=false;
-			
-			time_slow_resist=0.5f;
-			
-			spr.setSize(100, 100);
-			spr.setOrigin(45, 0);
-			
-			//foot.setSize(30, 6);
-			//foot.setOrigin(15, 1);
-			
-			armored_module[0]=new ModuleUnitTimeSlow();
-			armored_module[0].generate();
-			
-			
-			//leg.setOrigin(5, 50);
-			//foot_shadow.setOrigin(17, 12);
-			//is_player
-			
-			speed=100*15.025f;
-			friction=150.15f;
-	
-			have_ability=true;
-			
 
 			
-			/*
-			light_source=new LightSource();
-			light_source.light_power=1.8f;
-			light_source.R=0.2f;
-			light_source.G=0.4f;
-			light_source.B=0.9f;
-			light_source.is_static=true;
-			*/
-			size=30;
 			
-			mass=1000;
+			
+			
 			
 			
 			
@@ -336,11 +324,14 @@ public class EntityPlayer extends Entity {
 		//	System.out.println("Scroll lock is live!");
 		//}
 		
-		if ((Gdx.input.isKeyPressed(Keys.NUM_1))&&(InputHandler.keyF_release)){use_module(0); InputHandler.keyF_release=false;}
-		if ((Gdx.input.isKeyPressed(Keys.NUM_2))&&(InputHandler.keyF_release)){use_module(1); InputHandler.keyF_release=false;}
-		if ((Gdx.input.isKeyPressed(Keys.NUM_3))&&(InputHandler.keyF_release)){use_module(2); InputHandler.keyF_release=false;}
-		if ((Gdx.input.isKeyPressed(Keys.NUM_4))&&(InputHandler.keyF_release)){use_module(3); InputHandler.keyF_release=false;}
-		if ((Gdx.input.isKeyPressed(Keys.NUM_5))&&(InputHandler.keyF_release)){use_module(4); InputHandler.keyF_release=false;}
+		if (GScreen.main_control)
+		{
+			if ((Gdx.input.isKeyPressed(Keys.NUM_1))&&(InputHandler.keyF_release)){use_module(0); InputHandler.keyF_release=false;}
+			if ((Gdx.input.isKeyPressed(Keys.NUM_2))&&(InputHandler.keyF_release)){use_module(1); InputHandler.keyF_release=false;}
+			if ((Gdx.input.isKeyPressed(Keys.NUM_3))&&(InputHandler.keyF_release)){use_module(2); InputHandler.keyF_release=false;}
+			if ((Gdx.input.isKeyPressed(Keys.NUM_4))&&(InputHandler.keyF_release)){use_module(3); InputHandler.keyF_release=false;}
+			if ((Gdx.input.isKeyPressed(Keys.NUM_5))&&(InputHandler.keyF_release)){use_module(4); InputHandler.keyF_release=false;}
+		}
 		
 		if (Gdx.input.isKeyPressed(Keys.G))
 		{

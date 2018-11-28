@@ -36,16 +36,20 @@ public class Weapon {
 	public float base_damage=777;
 	public float base_missile_count;
 	public float base_shoot_cooldown;
-	public float base_dispersion;
-	public float base_dispersion_additional;
+	
+	public float base_accuracy;
+	public float base_accuracy_additional;
+	
 	public float base_ammo_size;
 	public float base_reload_time;
 	
 	public float total_damage;
 	public float total_missile_count;
 	public float total_shoot_cooldown;
-	public float total_dispersion;
-	public float total_dispersion_additional;
+	
+	public float total_accuracy;
+	public float total_minus_accuracy;
+	
 	public float total_ammo_size;
 	public float total_reload_time;
 	
@@ -60,7 +64,7 @@ public class Weapon {
 	public int ammo;
 	public float cd;
 	public float disp;
-	public float add_disp;
+	public float add_dispZ;
 	public float reload_timer;
 	
 	public Sprite spr=new Sprite(Assets.load("icon_firle"));
@@ -93,6 +97,7 @@ public class Weapon {
 	public float attr_point_indicate;
 	
 	public float shoot_volume=0.15f;
+	public float additional_recoil;
 	
 	
 	
@@ -152,8 +157,8 @@ public class Weapon {
 			
 			total_missile_count=base_missile_count;
 			total_shoot_cooldown=base_shoot_cooldown;
-			total_dispersion=base_dispersion;
-			total_dispersion_additional=base_dispersion_additional;
+			total_accuracy=base_accuracy;
+			total_minus_accuracy=base_accuracy_additional;
 			total_ammo_size=base_ammo_size;
 			total_reload_time=base_reload_time;
 			
@@ -195,7 +200,7 @@ public class Weapon {
 		{
 			return new MissileSimple(
 					new Vector2(pl.pos.x+pl.offset.x,pl.pos.y+pl.offset.y),
-					(float) Math.toRadians(360-pl.rot+get_dispersion()+GScreen.rnd(add_disp)-add_disp/2f),
+					(float) Math.toRadians(360f-pl.rot+get_dispersion()),
 					(GScreen.rnd(missile_speed/10f)+missile_speed),
 					pl.is_enemy);
 		}
@@ -270,7 +275,10 @@ public class Weapon {
 		
 		public float get_dispersion()
 		{
-			return GScreen.rnd(total_dispersion)-(total_dispersion)/2f;
+			float degr=get_dispersion_by_rating(total_accuracy)+additional_recoil;
+			degr=GScreen.rnd(degr)-(degr)/2f;
+			
+			return degr;
 		}
 		
 		public void equip()
@@ -293,4 +301,21 @@ public class Weapon {
 			
 		}
 		//public void
+		
+		public static float get_accuracy_rating_by_degrees(float _degrees)
+		{
+			if (_degrees>360) {return 0;}
+			if (_degrees<=0) {return 123456789f;}
+			
+			return 1f/(_degrees/360f)*100f-100f;
+				
+			//34 028 235.0
+			
+		}
+		
+		public static float get_dispersion_by_rating(float _rating)
+		{
+			if (_rating<=0) {return 360f;}
+			return 1/(_rating/100f+1f)*360f;
+		}
 }

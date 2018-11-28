@@ -21,8 +21,8 @@ public class LegendaryWeaponBlender extends Weapon {
 			base_damage=10;
 			base_missile_count=15;
 			base_shoot_cooldown=0.025f;
-			base_dispersion=8;
-			base_dispersion_additional=3;
+			base_accuracy=get_accuracy_rating_by_degrees(8f);
+			base_accuracy_additional=get_accuracy_rating_by_degrees(3f);
 			base_ammo_size=120;
 			base_reload_time=1;
 			
@@ -45,7 +45,7 @@ public class LegendaryWeaponBlender extends Weapon {
 		{
 			return new Missile(
 					new Vector2(pl.pos.x,pl.pos.y),
-					(float) Math.toRadians(360-pl.rot+get_dispersion()+GScreen.rnd(add_disp)-add_disp/2),
+					(float) Math.toRadians(360-pl.rot+get_dispersion()),
 					(GScreen.rnd(200)+missile_speed),
 					pl.is_AI);
 		}

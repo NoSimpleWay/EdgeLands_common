@@ -25,6 +25,16 @@ public class ScreenEffect {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public void update_overlay(float _d, float _real_d) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void update_pre(float _d, float _real_d) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 	

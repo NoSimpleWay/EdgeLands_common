@@ -49,8 +49,8 @@ public class WeaponAttributeChaos extends WeaponAttribute {
 				_w.Attribute_list.add(new WeaponAttributeChaos());
 				
 				_w.base_damage=(float)(Math.random()*30)+1;
-				_w.base_dispersion=(float)(Math.random()*90);
-				_w.base_dispersion_additional=(float)(Math.random()*90);
+				_w.base_accuracy=(float)(Math.random()*90);
+				_w.base_accuracy_additional=(float)(Math.random()*90);
 				
 				_w.base_reload_time=(float)(Math.random()*3);
 				_w.base_shoot_cooldown=(float)(Math.random()*2)+0.1f;

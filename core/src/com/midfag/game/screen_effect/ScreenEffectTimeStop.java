@@ -17,7 +17,7 @@ public class ScreenEffectTimeStop extends ScreenEffect {
 		sound_effect=Gdx.audio.newSound(Gdx.files.internal("data/time_stop.wav"));
 		sound_effect.play();
 		GScreen.batch_static.setShader(Main.shader_time_slow);
-		Assets.music.setVolume(0.05f);
+		Assets.main_music.setVolume(0.05f);
 		Assets.battle_music_multiplier=0.01f;
 		Assets.battle_music_00.setVolume(0);
 		
@@ -55,18 +55,19 @@ public class ScreenEffectTimeStop extends ScreenEffect {
 	@Override
 	public void end_action() {
 		// TODO Auto-generated method stub
+		
 		GScreen.time_speed=1.0f;
 		sound_effect.stop();
 		
 		
 		Assets.battle_music_multiplier=0.333f;
 		
-		Assets.music.setVolume(0.5f);
+		Assets.main_music.setVolume(0.5f);
 		
 			
 		
 		shader=GScreen.batch_custom.getShader();
-		GScreen.batch_static.setShader(Main.shader_bloom);
+		GScreen.batch_static.setShader(Main.shader_default);
 	}
 	
 }

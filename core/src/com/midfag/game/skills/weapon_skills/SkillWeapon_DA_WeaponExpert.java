@@ -38,8 +38,8 @@ public class SkillWeapon_DA_WeaponExpert extends Skill {
 		_w.total_damage+=_w.base_damage/10f;
 		_w.total_shoot_cooldown*=0.909f;
 		_w.total_reload_time*=0.909f;
-		_w.total_dispersion*=0.909f;
-		_w.total_dispersion_additional*=0.909f;
+		_w.total_accuracy*=0.909f;
+		_w.total_minus_accuracy*=0.909f;
 	}
 	
 	@Override

@@ -38,8 +38,10 @@ public class RareWeaponTroll extends Weapon {
 			base_damage=20;
 			base_missile_count=10;
 			base_shoot_cooldown=0.1f;
-			base_dispersion=18;
-			base_dispersion_additional=5;
+			
+			base_accuracy=get_accuracy_rating_by_degrees(18f);
+			base_accuracy_additional=get_accuracy_rating_by_degrees(5f);
+			
 			base_ammo_size=20;
 			base_reload_time=3;
 			
@@ -85,7 +87,7 @@ public class RareWeaponTroll extends Weapon {
 		{
 			return new MissileTroll(
 					new Vector2(pl.pos.x,pl.pos.y),
-					(float) Math.toRadians(360-pl.rot+get_dispersion()+GScreen.rnd(add_disp)-add_disp/2),
+					(float) Math.toRadians(360-pl.rot+get_dispersion()),
 					(GScreen.rnd(100)+1500.0f),
 					pl.is_AI);
 		}

@@ -12,8 +12,10 @@ public class WeaponRaiderTurret extends Weapon {
 			base_damage=100;
 			base_missile_count=1;
 			base_shoot_cooldown=1.0f;
-			base_dispersion=3f;
-			base_dispersion_additional=3.0f;
+			
+			base_accuracy=get_accuracy_rating_by_degrees(3f);
+			base_accuracy_additional=get_accuracy_rating_by_degrees(3f);
+			
 			base_ammo_size=5;
 			base_reload_time=5.0f;
 			missile_speed=2350;

@@ -9,7 +9,7 @@ public class WeaponAttributeClipSizePlus extends WeaponAttribute {
 		max_level=5;
 		cost=3;
 		
-		name="clip size";
+		name="clip size_plus";
 		uid="attr_clip_size_plus";
 	}
 	
@@ -18,7 +18,7 @@ public class WeaponAttributeClipSizePlus extends WeaponAttribute {
 	
 	public void calculate(Weapon _w)
 	{
-		_w.total_ammo_size=_w.base_ammo_size*(2f+1.0f*level);
+		_w.total_ammo_size+=_w.base_ammo_size*(0.1f*level);
 		_w.total_reload_time+=0.05f*level+_w.base_reload_time*0.05f*level;
 	}
 }

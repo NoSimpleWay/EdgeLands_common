@@ -58,7 +58,7 @@ public class Assets {
 	
 	public static long music_id;
 	
-	public static Music music = Gdx.audio.newMusic(Gdx.files.internal("data/music01.mp3"));
+	public static Music main_music = Gdx.audio.newMusic(Gdx.files.internal("data/music01.mp3"));
 
 	public static Sound flash;
 
@@ -242,6 +242,8 @@ public class Assets {
 	public static Texture rama=load ("rama");
 	public static Texture text_bg=load ("text_bg");
 	
+	public static Music music_exterminate=Gdx.audio.newMusic(Gdx.files.internal("data/planet_exterminate.mp3"));
+	
 	public static Texture text_bg_blue=load ("text_bg_blue");//24.04.2018 03.19 Abyss, Pt. 1 | Dark Ambient Orchestra
 	
 	//public static Texture selected_skill=load ("selected_skill"));
@@ -412,14 +414,12 @@ public class Assets {
 		trololo.setLooping(trololo_id, true);
 		trololo.pause();
 		
-		music.setLooping(true);
-		music.setVolume(0.25f);
-		music.play();
+		main_music.setLooping(true);
+		main_music.setVolume(0.5f);
+		main_music.play();
 	
 		battle_music_00.setLooping(true);
 		battle_music_00.setVolume(0.25f);
-		battle_music_00.play();
-		battle_music_00.pause();
 		
 		/*time_slow_id=time_slow.play();
 		time_slow.setLooping(time_slow_id, true);

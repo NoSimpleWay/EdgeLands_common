@@ -18,6 +18,6 @@ public class WeaponAttributeClipSize extends WeaponAttribute {
 	
 	public void calculate(Weapon _w)
 	{
-		_w.total_ammo_size=_w.base_ammo_size*(1f+0.5f*level);
+		_w.total_ammo_size+=_w.base_ammo_size*(0.05f*level);
 	}
 }

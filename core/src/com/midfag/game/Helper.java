@@ -123,17 +123,10 @@ public class Helper {
 				{
 					e=get_object_from_id(SysConfig.get_package_path_by_uid(id));
 					e.uid=id;
-					e.main_tex=entity_from_list.main_tex;
-					e.have_collision=entity_from_list.have_collision;
 					
-					e.collision_size_x=entity_from_list.collision_size_x;
-					e.collision_size_y=entity_from_list.collision_size_y;
+					Entity.transfer_data(entity_from_list, e);
+					log("is enemy "+e.uid+"="+e.is_enemy);
 					
-					e.path_x=entity_from_list.path_x;
-					e.path_y=entity_from_list.path_y;
-					
-					e.texture_offset_x=entity_from_list.texture_offset_x;
-					e.texture_offset_y=entity_from_list.texture_offset_y;
 				}
 				//System.out.println("ID="+id);	
 			}
@@ -229,7 +222,13 @@ public class Helper {
 				if (ss[i].equals("weapon_rarity")) {i++; wea.rarity=Rarity.values()[Integer.parseInt(ss[i])];}
 				if (ss[i].equals("weapon_level")) {i++; wea.level=Float.parseFloat(ss[i]);}
 				
-				if (ss[i].equals("WeaponAttr")) {i++;  w_attr=get_weapon_attr_by_uid(ss[i]);  		log ("attr: "+w_attr.name);}
+				if (ss[i].equals("WeaponAttr"))
+				{
+					i++; 
+					log ("get_weapon_attr_by_uid: "+ss[i]);
+					w_attr=get_weapon_attr_by_uid(ss[i]);
+					log ("attr: "+w_attr.name);
+				}
 				if (ss[i].equals("weapon_attr_level")) {i++; w_attr.level=Float.parseFloat(ss[i]);	log ("attr level: "+w_attr.level);}
 				if (ss[i].equals("WeaponAttrReady")) {wea.Attribute_list.add(w_attr); log ("attr level: "+w_attr.level);}
 				

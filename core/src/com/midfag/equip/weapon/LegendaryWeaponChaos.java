@@ -34,8 +34,8 @@ public class LegendaryWeaponChaos extends Weapon {
 			base_damage=10;
 			base_missile_count=2;
 			base_shoot_cooldown=0.3f;
-			base_dispersion=10;
-			base_dispersion_additional=5;
+			base_accuracy=get_accuracy_rating_by_degrees(10f);
+			base_accuracy_additional=get_accuracy_rating_by_degrees(5f);
 			base_ammo_size=20;
 			base_reload_time=3;
 			
@@ -74,7 +74,7 @@ public class LegendaryWeaponChaos extends Weapon {
 		{
 			return new MissileChaos(
 					new Vector2(pl.pos.x,pl.pos.y),
-					(float) Math.toRadians(360-pl.rot+get_dispersion()+GScreen.rnd(add_disp)-add_disp/2),
+					(float) Math.toRadians(360-pl.rot+get_dispersion()),
 					(GScreen.rnd(200)+400.0f),
 					pl.is_AI);
 		}
