@@ -2,6 +2,9 @@ package com.midfag.equip.energoshield;
 
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.midfag.equip.energoshield.attr.ESAttributeReflect;
+import com.midfag.equip.energoshield.attr.ESAttributeRegen;
+import com.midfag.equip.energoshield.attr.ESAttributeValue;
 import com.midfag.game.Assets;
 import com.midfag.game.Localisation;
 
@@ -27,6 +30,16 @@ public class EnergoshieldFast extends Energoshield {
 		generate();
 		update_attributes_bonus();
 		
+	}
+	
+	@Override
+	public void get_available_attribute()
+	{
+		Available_attribute_list.clear();
+		
+		Available_attribute_list.add(new ESAttributeValue().set_weigth(1f));
+		Available_attribute_list.add(new ESAttributeRegen());
+		Available_attribute_list.add(new ESAttributeReflect());
 	}
 	
 

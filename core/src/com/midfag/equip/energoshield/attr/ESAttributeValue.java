@@ -14,6 +14,8 @@ public class ESAttributeValue extends ESAttribute {
 		max_level=10000;
 	}
 	
+
+
 	@Override
 	public void calculate(Energoshield _e)
 	{
@@ -25,5 +27,12 @@ public class ESAttributeValue extends ESAttribute {
 	public String get_descr() {
 		// TODO Auto-generated method stub
 		return "+"+level*2f+"% ёмкость щита/+"+(level*5f);
+	}
+
+
+
+	public ESAttribute set_weigth(float f) {
+		// TODO Auto-generated method stub
+		return this;
 	}
 }

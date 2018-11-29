@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.midfag.entity.Entity;
 import com.midfag.entity.friends.EntityTurret;
+import com.midfag.equip.energoshield.EnergoshieldRobo;
+import com.midfag.equip.energoshield.EnergoshieldSimple;
 import com.midfag.equip.module.attr.ModuleAttributeExplosionIce;
 import com.midfag.equip.weapon.Weapon;
 import com.midfag.equip.weapon.WeaponSimpleFirle;
@@ -18,7 +20,6 @@ public class ModuleUnitTurret extends ModuleUnit {
 	public float base_push_damage=50;
 	public float total_push_damage=50;
 	*/
-	public Weapon weapon;
 	public Entity turret;
 
 
@@ -38,6 +39,17 @@ public class ModuleUnitTurret extends ModuleUnit {
 		indicate_tex=Assets.load("icon_indicate_turret");
 
 		rarity=Rarity.COMMON;
+		
+		weapon=new WeaponSimpleFirle();
+		weapon.level=level;
+		weapon.rarity=rarity;
+		weapon.generate();
+		
+		shield=new EnergoshieldSimple();
+		shield.level=level;
+		//shield.base_value=500;
+		shield.rarity=rarity;
+		shield.generate();
 		
 		Available_attribute_list.add(new ModuleAttributeExplosionIce());
 		
@@ -65,6 +77,8 @@ public class ModuleUnitTurret extends ModuleUnit {
 		turret=en;
 		GScreen.add_entity_to_map(en);
 		
+		
+		
 		//GScreen.pl=en;
 	}
 	
@@ -83,10 +97,16 @@ public class ModuleUnitTurret extends ModuleUnit {
 	@Override
 	public void additional_update_stats()
 	{
-		weapon=new WeaponSimpleFirle();
-		weapon.level=level;
 		weapon.rarity=rarity;
+		weapon.level=level;
 		weapon.generate();
+		weapon.update_attributes_bonus();
+		
+		
+		shield.rarity=rarity;
+		shield.level=level;
+		shield.generate();
+		shield.update_attributes_bonus();
 	}
 	
 	@Override

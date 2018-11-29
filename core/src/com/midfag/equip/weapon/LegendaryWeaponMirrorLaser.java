@@ -35,12 +35,12 @@ public class LegendaryWeaponMirrorLaser extends Weapon {
 			
 
 			
-			name="Разбитое зеркало";
+			name="Многоотражательный луч";
 			
 			 spr.setTexture(Assets.load("icon_mirror_laser"));//()=)
 			 spr.setSize(spr.getTexture().getWidth(), spr.getTexture().getHeight());
 			 
-			 red_text="Разбей большое зеркало - получишь тысячу зеркал!";
+			 red_text="ХА! Он действительно существует!";
 		}
 		
 		@Override

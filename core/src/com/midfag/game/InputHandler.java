@@ -315,9 +315,12 @@ public class InputHandler implements InputProcessor {
     			
     			gui.Button_list.add(new ButtonEquip(530,217,-5,gui));
     			
-    			for (int i=0; i<2; i++)
-    			for (int j=0; j<2; j++)
-    			{gui.Button_list.add(new ButtonEquip(170+j*220,130+275*i,-10-j-i*2,gui));}
+    			for (int i=0; i<4; i++)
+    			{
+    				gui.Button_list.add(new ButtonEquip(110+i*81,120,-10-i,gui));
+    				gui.Button_list.add(new ButtonEquip(110+i*81,120+50,-20-i,gui));
+    				gui.Button_list.add(new ButtonEquip(110+i*81,120+100,-30-i,gui));
+    			}
     			
     			gui.Button_list.add(new ButtonRandomGenerator(30,350+47*0,EquipGenerationType.WEAPON));
     			gui.Button_list.add(new ButtonRandomGenerator(30,350+47*1,EquipGenerationType.SHIELD));

@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.midfag.entity.decorations.DecorBarrel;
 
+import javafx.scene.paint.Color;
+
 public class Main extends Game {
 
 
@@ -49,6 +51,7 @@ public class Main extends Game {
     public void create() {
 
 
+    	
     	System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
     	
         Assets.load_assets();

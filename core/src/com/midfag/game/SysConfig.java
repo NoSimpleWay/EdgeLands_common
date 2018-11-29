@@ -175,6 +175,8 @@ public class SysConfig {
 		ModuleRegisterer.add(new ModuleUnitOverload());
 		
 		ModuleRegisterer.add(new ModuleUnitRefresher());
+		
+		ModuleRegisterer.add(new ModuleUnitCubeDefender());
 	}
 	
 	public static void RegisterModuleAttribute()
@@ -329,13 +331,16 @@ public class SysConfig {
 	
 	public static Entity get_entity_from_list(String _uid)
 	{
+		Helper.log("try find entity with UID["+_uid+"]");
 		for (int i=0; i<EntityRegisterer.size(); i++)
 		{
 			if (_uid.equals(EntityRegisterer.get(i).uid))
 			{
+				Helper.log("return ["+EntityRegisterer.get(i).uid+"]");
 				return EntityRegisterer.get(i);
 			}
 		}
+		Helper.log("return NULL :(");
 		return null;
 	}
 	

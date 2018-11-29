@@ -181,6 +181,7 @@ public class GUIEdit extends GUI {
 				
 				selected_object.have_collision=true;
 				selected_object.default_collision_size=false;
+				selected_object.default_path_size=false;
 				
 				selected_object.path_x=Math.round(selected_object.collision_size_x/30f);
 				selected_object.path_y=Math.round(selected_object.collision_size_y/30f);
@@ -424,8 +425,19 @@ public class GUIEdit extends GUI {
 				
 				//if (InputHandler.realx<800)
 				for (int i=0; i<array_count; i++)
-				{
-					Entity en=Helper.get_object_from_id(SysConfig.get_entity_from_list(indicate_entity.uid).id);
+				{	
+					Entity en=null;
+					
+					if (indicate_entity!=null)
+					{
+						en=Helper.get_object_from_id
+								(
+										SysConfig.get_entity_from_list
+										(
+											indicate_entity.uid
+										).id
+								);
+					}
 					
 					Helper.log("is_decor="+en.is_decor);
 					Helper.log("indicate_entity is_decor="+indicate_entity.is_decor);

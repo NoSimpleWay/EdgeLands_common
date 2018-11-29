@@ -66,10 +66,10 @@ public class ButtonRandomGenerator extends Button {
 		{
 				InputHandler.but=-1;
 				
-				for (int i=0; i<30; i++)//;
-				{
-					GScreen.pl.inventory[i]=null;
-				}
+				//for (int i=0; i<30; i++)//;
+				//{
+				//	GScreen.pl.inventory[i]=null;
+				//}
 				
 				if (egt==EquipGenerationType.MODULE)
 				{

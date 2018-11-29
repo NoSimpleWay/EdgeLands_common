@@ -207,6 +207,7 @@ public class Entity {
 	public float temp_collision_y;
 	public String texture_path="";
 	public float shoot_anim=0.000f;
+	public boolean default_path_size=true;
 	
 	public void use_module(int _id)
 	{
@@ -337,7 +338,8 @@ public class Entity {
 	
 	public void freeze_it(float _value)
 	{
-		buff_cold+=_value*(1.0f-(buff_cold/(buff_cold+100.0f)));
+		
+		buff_cold+=(_value/armored_shield.value)*500f;
 
 	}
 	
@@ -348,11 +350,6 @@ public class Entity {
 	
 	public void hit_action(float _damage, boolean _sound)
 	{
-		
-		//stun+=1;
-		
-		
-		
 		if (have_ability)
 		{
 			for (int i=0; i<Skills_list.size(); i++)
@@ -411,10 +408,6 @@ public class Entity {
 		
 	}
 
-
-
-
-
 	public void some_draw()
 	{
 
@@ -445,9 +438,12 @@ public class Entity {
 
 		
 		//m
-		Assets.metal_destroy.play(0.25f, (float) (Math.random()*0.1f+0.95f), 0);
+		if (need_dead_anim)
+		{
+			Assets.metal_destroy.play(0.25f, (float) (Math.random()*0.1f+0.95f), 0);
+		}	
+			ScriptSystem.Entity_with_id_list.remove(this);
 		
-		ScriptSystem.Entity_with_id_list.remove(this);
 
 	}
 	
@@ -1460,6 +1456,7 @@ public class Entity {
 		_target.texture_offset_x=_master.texture_offset_x;
 		_target.texture_offset_y=_master.texture_offset_y;
 		
+		_target.uid=_master.uid;
 		
 		
 		if (_master.light_source!=null)

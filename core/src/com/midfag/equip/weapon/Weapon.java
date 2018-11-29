@@ -228,7 +228,7 @@ public class Weapon {
 			
 			
 			
-			attr_point=(float) (level*10f*(Math.pow(1.26f,rarity.ordinal())));
+			attr_point=(float) (level*10f*(Math.pow(1.25f,rarity.ordinal())));
 			attr_point_indicate=attr_point;
 			
 			attr_count=(int) (GScreen.rnd(3)+1);

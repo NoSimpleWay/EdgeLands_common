@@ -20,6 +20,23 @@ import com.midfag.game.GUI.buttons.Button;
 
 public class ButtonEquip extends Button {
 
+
+	
+	private static final int cursor = 99;
+	private static final int shield = -5;
+	
+	private static final int weapon_module1 = -20;
+	private static final int weapon_module2 = -21;
+	private static final int weapon_module3= -22;
+	private static final int weapon_module4 = -23;
+	
+	private static final int shield_module1 = -30;
+	private static final int shield_module2 = -31;
+	private static final int shield_module3= -32;
+	private static final int shield_module4 = -33;
+	
+	private static final int weapon2 = -2;
+	private static final int weapon1 = -1;
 	public Object obj;
 	public float mov;
 	
@@ -49,6 +66,7 @@ public class ButtonEquip extends Button {
 	
 	public void update_object()
 	{
+		//standart_color.a=1f;
 		
 		//info_y=GScreen.scr_h-25;
 		
@@ -60,19 +78,18 @@ public class ButtonEquip extends Button {
 			if (target.inventory[inventory_id] instanceof ModuleUnit){obj=(ModuleUnit)target.inventory[inventory_id];}
 		}
 		
-		if (inventory_id==-1)
+		if (inventory_id==weapon1)
 		{
 			obj=(Weapon)target.armored[0];
 			
 		}
 		
-		if (inventory_id==-2)
+		if (inventory_id==weapon2)
 		{
 			obj=(Weapon)target.armored[1];
-			
 		}
 				
-		if (inventory_id==-5)
+		if (inventory_id==shield)
 		{
 			obj=(Energoshield)target.armored_shield;
 		}
@@ -82,9 +99,38 @@ public class ButtonEquip extends Button {
 			obj=(ModuleUnit)target.armored_module[Math.abs(inventory_id)-10];
 		}
 		
+		//некоторые модули имеют оружие, в таком случае объект для кнопки является оружие модуля
+		for (int i=0; i<4; i++)
+		if (inventory_id==weapon_module1-i)
+		{
+			if(
+					(target.armored_module[i]!=null)
+					&&
+					(target.armored_module[i].weapon!=null)
+			)
+			{obj=target.armored_module[i].weapon; get_color_by_rarity(target.armored_module[i].weapon.rarity);}
+			else
+			{obj=null; standart_color=Helper.color_button_red_opacity; }
+		}
+		
+		//
+		for (int i=0; i<4; i++)
+		if (inventory_id==shield_module1-i)
+		{
+			if(
+					(target.armored_module[i]!=null)
+					&&
+					(target.armored_module[i].shield!=null)
+			)
+			{obj=target.armored_module[i].shield; get_color_by_rarity(target.armored_module[i].shield.rarity);}
+			else
+			{obj=null; standart_color=Helper.color_button_blue_opacity; }
+		}
 		
 		
-		if (inventory_id==99)
+		
+		
+		if (inventory_id==cursor)
 		{
 			pos.x=InputHandler.realx+20;
 			pos.y=InputHandler.realy+20;
@@ -120,7 +166,8 @@ public class ButtonEquip extends Button {
 	
 	public void get_color_by_rarity(Rarity _rar)
 	{
-		if (_rar.equals(Rarity.COMMON)) {standart_color=Color.WHITE;}
+		//standart_color=Color.YELLOW;
+		if (_rar.equals(Rarity.COMMON)) {standart_color=Color.GRAY;}
 		if (_rar.equals(Rarity.UNCOMMON)) {standart_color=Color.GREEN;}
 		if (_rar.equals(Rarity.RARE)) {standart_color=Color.BLUE;}
 		if (_rar.equals(Rarity.ELITE)) {standart_color=Color.MAGENTA;}
@@ -245,17 +292,17 @@ public class ButtonEquip extends Button {
 				
 				Main.font_dot_console.setColor(1.0f, 0.5f, 0.25f, 1);
 				
-				
+				/*
 				for (int i=0; i<e.Attribute_list.size(); i++)
 				{
 					if (!e.Attribute_list.get(i).base){draw_info(""+e.Attribute_list.get(i).name,""+e.Attribute_list.get(i).get_attr_value());}
-				}
+				}*/
 				
 				mov+=25;
 				for (int i=0; i<e.Attribute_list.size(); i++)
 				{
 					Main.font_dot_console.setColor(Color.WHITE);
-					draw_info(e.Attribute_list.get(i).get_descr(),"");
+					draw_info(e.Attribute_list.get(i).get_descr()+"["+e.Attribute_list.get(i).level+"]","");
 				}
 				
 				if (e.red_text!=null)
@@ -289,7 +336,7 @@ public class ButtonEquip extends Button {
 				else
 				{
 					
-					if ((inventory_id==-1)&&(target.inventory[99] instanceof Weapon))
+					if ((inventory_id==weapon1)&&(target.inventory[99] instanceof Weapon))
 					{
 						if (target.armored[0]!=null)
 						{target.armored[0].unequip();}
@@ -301,7 +348,7 @@ public class ButtonEquip extends Button {
 						target.armored[0].equip();
 					}
 					
-					if ((inventory_id==-2)&&(target.inventory[99] instanceof Weapon))
+					if ((inventory_id==weapon2)&&(target.inventory[99] instanceof Weapon))
 					{
 						if (target.armored[1]!=null)
 						{
@@ -315,7 +362,7 @@ public class ButtonEquip extends Button {
 						target.armored[1].equip();
 					}
 					
-					if ((inventory_id==-5)&&(target.inventory[99] instanceof Energoshield))
+					if ((inventory_id==shield)&&(target.inventory[99] instanceof Energoshield))
 					{
 						Object swap=(Energoshield)target.armored_shield;
 						target.armored_shield=(Energoshield)target.inventory[99];
@@ -325,7 +372,14 @@ public class ButtonEquip extends Button {
 					if ((inventory_id<=-10)&&(inventory_id>-15)&&(target.inventory[99] instanceof ModuleUnit))
 					{
 						Gdx.audio.newSound(Gdx.files.internal("data/module_put.wav")).play(0.2f);
+						
 						Object swap=(ModuleUnit)target.armored_module[Math.abs(inventory_id)-10];
+						
+						/*if (target.armored_module[Math.abs(inventory_id)-10].weapon!=null)
+						{target.inventory[weapon_module1]=target.armored_module[Math.abs(inventory_id)-10].weapon;}
+						else
+						{target.inventory[weapon_module1]=null;}*/
+							
 						target.armored_module[Math.abs(inventory_id)-10]=(ModuleUnit)target.inventory[99];
 						target.inventory[99]=swap;
 					}
@@ -373,9 +427,9 @@ public class ButtonEquip extends Button {
 		
 		if (!_s2.equals(""))
 		{
-			Main.font_dot_console.draw(GScreen.batch_static, _s2, info_x+190+_x, info_y-mov);
+			Main.font_dot_console.draw(GScreen.batch_static, _s2, info_x+220+_x, info_y-mov);
 			GScreen.batch_static.setColor(0.25f,1,0.5f,0.1f);
-				GScreen.batch_static.draw(Assets.rect_white, info_x+_x-2+188, info_y-mov-15,70,18);
+				GScreen.batch_static.draw(Assets.rect_white, info_x+_x-2+218, info_y-mov-15,70,18);
 			GScreen.batch_static.setColor(Color.WHITE);
 		}
 		

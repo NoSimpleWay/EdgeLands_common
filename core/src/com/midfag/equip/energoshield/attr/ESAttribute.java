@@ -17,11 +17,23 @@ public class ESAttribute {
 	public boolean base=true;
 
 	public String uid;
+
+	public int density;
+	public float weigth=1.0f;
+	
+	
+	public ESAttribute(float _w)
+	{
+		level=1;
+		weigth=_w;
+	}
 	
 	public ESAttribute()
 	{
 		level=1;
 	}
+	
+
 	
 	public void calculate(Energoshield _e)
 	{

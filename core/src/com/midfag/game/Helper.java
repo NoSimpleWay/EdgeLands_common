@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 import com.midfag.entity.Entity;
@@ -29,6 +30,10 @@ import com.midfag.game.script.ScriptTimer;
 public class Helper {
 	
 	//private static final String BUILDER_CLASS = "builder.class";
+	
+	public static final Color color_button_red_opacity=new Color(0xff000035);
+	public static final Color color_button_blue_opacity=new Color(0x0000ff35);
+	
 	public static String alphabet[]=new String [16];
 	public static String hex[]={"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P"};
 	public static GlyphLayout  layout = new GlyphLayout();
@@ -162,6 +167,21 @@ public class Helper {
 					i++;
 					e.collision_size_y=Integer.parseInt(ss[i]);
 					e.default_collision_size=false;
+				}
+				
+
+				if (ss[i].equals("path_size_x"))
+				{
+					i++;
+					e.path_x=Integer.parseInt(ss[i]);
+					e.default_path_size=false;
+				}
+				
+				if (ss[i].equals("path_size_y"))
+				{
+					i++;
+					e.path_y=Integer.parseInt(ss[i]);
+					e.default_path_size=false;
 				}
 				
 				if (ss[i].equals("y"))

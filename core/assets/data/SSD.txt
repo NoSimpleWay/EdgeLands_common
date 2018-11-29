@@ -71,10 +71,12 @@ cube_force_field
 
 texture
 cube_force_field
+
+offset_y
+15
 -----------------------------------------
 SSD
 cube_guardian_bottom
-
 
 bottom_texture
 cube_guardian_bottom

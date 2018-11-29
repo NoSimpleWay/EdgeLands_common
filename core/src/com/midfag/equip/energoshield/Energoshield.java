@@ -10,6 +10,7 @@ import com.midfag.equip.energoshield.attr.ESAttribute;
 import com.midfag.equip.energoshield.attr.ESAttributeReflect;
 import com.midfag.equip.energoshield.attr.ESAttributeRegen;
 import com.midfag.equip.energoshield.attr.ESAttributeValue;
+import com.midfag.equip.weapon.attr.WeaponAttribute;
 import com.midfag.game.GScreen;
 import com.midfag.game.Assets;
 import com.midfag.game.Enums.Rarity;
@@ -149,54 +150,37 @@ public class Energoshield {
 			}
 			
 				
-			attr_point=(float) (level*10f*(Math.pow(1.26f,rarity.ordinal())));
+			attr_point=(float) (level*10f*(Math.pow(1.25f,rarity.ordinal())));
 			attr_point_indicate = attr_point;
 			
 			attr_count=(int) (GScreen.rnd(3))+1;
-		
-			for (int i=0; i<(Available_attribute_list.size()-attr_count); i++)
+			get_available_attribute();
+			for (int i=0; i<attr_count; i++)
+			if (!Available_attribute_list.isEmpty()) 
 			{
-				Available_attribute_list.remove((int)(Math.random()*Available_attribute_list.size()));
-				i--;
+				//select random attribute from list
+				int random_selected=(int)(Math.random()*Available_attribute_list.size());
+			
+				//set attribute
+				Attribute_list.add(Available_attribute_list.get(random_selected));
+				
+				//remove attribute
+				Available_attribute_list.remove(random_selected);
 			}
-		
-			for (int i=0; i<500; i++)
+			
+			float total_density=0;
+			
+			for (ESAttribute alist:Attribute_list )
 			{
-				if (!Available_attribute_list.isEmpty())
-				{
-					
-					for (int j=0; j<Available_attribute_list.size(); j++)
-					{
-						ESAttribute aal=Available_attribute_list.get(j);
-						
-						if 	(
-								(aal.cost>attr_point)//если очков на новый атрибут не хватает
-								||
-								(aal.level>=aal.max_level)//или бонус достиг максимального уровня
-							)
-								
-						{
-								Attribute_list.add(aal);
-								
-								Available_attribute_list.remove(j);
-								j--;
-						}
-					}
-					
-					
-					if (!Available_attribute_list.isEmpty())
-					{
-						ESAttribute wa=Available_attribute_list.get((int)(Math.random()*Available_attribute_list.size()));
-						
-						wa.level++;
-						attr_point-=wa.cost;
-					}
-				}
-				else
-				{break;}
-			}	
+				alist.density=(int)(Math.random()*100+10);
+				total_density+=alist.density;
+			}
+			
+			for (ESAttribute alist:Attribute_list )
+			{
+				alist.level=alist.density/total_density*attr_point;
+			}
 		}
-		
 		//value=total_value;
 	}
 	

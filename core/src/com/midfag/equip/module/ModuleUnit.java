@@ -8,10 +8,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.midfag.entity.Entity;
+import com.midfag.equip.energoshield.Energoshield;
 import com.midfag.equip.module.attr.ModuleAttribute;
 import com.midfag.equip.module.attr.ModuleAttributeDuration;
 import com.midfag.equip.module.attr.ModuleAttributeFastCooldown;
-
+import com.midfag.equip.weapon.Weapon;
 import com.midfag.game.Assets;
 import com.midfag.game.GScreen;
 import com.midfag.game.Helper;
@@ -19,6 +20,8 @@ import com.midfag.game.Enums.Rarity;
 
 public class ModuleUnit {
 
+	public Weapon weapon=null;
+	//public boolean have_weapon=false;
 	public boolean active=false;
 	public float prepare_time=-777;
 	public float base_cooldown;
@@ -49,6 +52,7 @@ public class ModuleUnit {
 	public List<ModuleAttribute> Attribute_list = new ArrayList<ModuleAttribute>();
 	public Color color;
 	public String uid;
+	public Energoshield shield=null;
 	
 	
 	public ModuleUnit()
@@ -126,7 +130,7 @@ public class ModuleUnit {
 			}
 			*/
 			
-			attr_point=(float) (level*10f*(Math.pow(1.26f,rarity.ordinal())));
+			attr_point=(float) (level*10f*(Math.pow(1.25f,rarity.ordinal())));
 			
 		
 			attr_count=(int) (GScreen.rnd(3))+1;

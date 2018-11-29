@@ -9,7 +9,7 @@ public class ESAttributeReflect extends ESAttribute {
 	
 	public ESAttributeReflect()
 	{
-		name="regeneration";
+		name="reflection";
 		uid="refl";
 		cost=1;
 		max_level=10000;
@@ -18,14 +18,14 @@ public class ESAttributeReflect extends ESAttribute {
 	@Override
 	public void calculate(Energoshield _e)
 	{
-		_e.total_reflect+=(level*0.2f);
-		_e.total_reflect+=_e.base_reflect*level*0.02f;
-		_e.total_reflect+=_e.base_reflect*(_e.level-1f);
+		_e.total_reflect+=_e.base_reflect*level*0.03f;
+		_e.total_reflect+=level*0.5f;
+
 	}
 	
 	@Override
 	public String get_descr() {
 		// TODO Auto-generated method stub
-		return "+"+level*2f+"%/+"+level*0.2+" уровень отражения";
+		return "+"+level*3f+"%/+"+level*0.5+" уровень отражения";
 	}
 }

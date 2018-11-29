@@ -127,7 +127,9 @@ public class GScreen implements Screen {
 	
 	public static int background_path;
 	public static int main_path;
-    public static float[][][] path=new float[300][300][2];
+	
+    public static int[][][] path=new int[300][300][2];
+    
     public static long[][] path_time=new long[300][300];
     
     public static float light_mask_R[][]=new float[300][300];
@@ -332,7 +334,10 @@ public class GScreen implements Screen {
 		float min=99999999f;
 
 		float dst=0;
+		
+		 
     	
+		//for (int i=0; i<0; i++)
     	for (int x=x_min; x<=x_max; x++)
     	for (int y=y_min; y<=y_max; y++)
     	for (int j=0; j<cluster[x][y].Entity_list.size(); j++)
@@ -1664,7 +1669,7 @@ public class GScreen implements Screen {
 				        				dist_y=e.pos.y-e.target.pos.y;
 				        			}
 				        			
-				        			if ((dist_x*dist_x+dist_y*dist_y>800f*800f))
+				        			if ((dist_x*dist_x+dist_y*dist_y>800*800))
 				        			{
 				        				
 				        				if ((path[fx][fy-1][main_path]*path[fx][fy-1][main_path]<path[fx][fy+1][main_path]*path[fx][fy+1][main_path])) {diry=-1;}
@@ -1695,26 +1700,24 @@ public class GScreen implements Screen {
         	}
 
         }
+      	
       	if (!show_edit)
       	{
       		if ((Gdx.input.isButtonPressed(1))&&(!show_edit))
 			{
-
 				float camlen=(float) Math.sqrt((camera_target.pos.x-InputHandler.posx)*(camera_target.pos.x-InputHandler.posx)+(camera_target.pos.y-camera_target.z-InputHandler.posy)*(camera_target.pos.y-camera_target.z-InputHandler.posy));
 				camlen/=1.85f;
-				//need_zoom=camlen*0.02f+1;
-				//camera.zoom=camlen*0.001f+1;
-			    camera.position.add(-(camera.position.x-camera_target.pos.x+sinR(180-pl.rot)*camlen)/15f, -(camera.position.y-camera_target.pos.y+cosR(180-pl.rot)*camlen)/15f, 0.0f);
-			    camera.update();
 				
+			    camera.position.add(-(camera.position.x-camera_target.pos.x+sinR(180-pl.rot)*camlen)/15f, -(camera.position.y-camera_target.pos.y+cosR(180-pl.rot)*camlen)/15f, 0.0f);
+			    
+			    camera.update();
 			}
 			else
 			{
+				camera.position.x=pl.pos.x;
+				camera.position.y=pl.pos.y;
 				
-				
-				//camera.position.x=pl.pos.x;
-				//camera.position.y=pl.pos.y;
-				camera.position.add(-(camera.position.x-camera_target.pos.x)/20f, -(camera.position.y-camera_target.z-camera_target.pos.y)/20f, 0.0f);
+				//camera.position.add(-(camera.position.x-camera_target.pos.x)/20f, -(camera.position.y-camera_target.z-camera_target.pos.y)/20f, 0.0f);
 				camera.update();
 			}
       	}
@@ -2500,8 +2503,8 @@ public class GScreen implements Screen {
 					if ((i>0)&&(i<299)&&(j>0)&&(j<299))
 					if (path[j][i][background_path]>0)
 					{
-						float curpa=path[j][i][background_path];
-						float plus=curpa+1;
+						int curpa=path[j][i][background_path];
+						int plus=curpa+1;
 						
 						if ((path[j][i+1][background_path]>curpa)) {path[j][i+1][background_path]=plus;}
 						if ((path[j+1][i][background_path]>curpa)) {path[j+1][i][background_path]=plus;}
@@ -2520,8 +2523,8 @@ public class GScreen implements Screen {
 					if ((i>0)&&(i<299)&&(j>0)&&(j<299))
 					if (path[j][i][background_path]>0)
 					{
-						float curpa=path[j][i][background_path];
-						float plus=curpa+1;
+						int curpa=path[j][i][background_path];
+						int plus=curpa+1;
 						
 						if ((path[j][i+1][background_path]>curpa)) {path[j][i+1][background_path]=plus;}
 						if ((path[j+1][i][background_path]>curpa)) {path[j+1][i][background_path]=plus;}
@@ -2541,8 +2544,8 @@ public class GScreen implements Screen {
 						if ((i>0)&&(i<299)&&(j>0)&&(j<299))
 						if (path[j][i][background_path]>0)	
 						{
-							float curpa=path[j][i][background_path];
-							float plus=curpa+1;
+							int curpa=path[j][i][background_path];
+							int plus=curpa+1;
 							
 							if ((path[j][i+1][background_path]>curpa)) {path[j][i+1][background_path]=plus;}
 							if ((path[j+1][i][background_path]>curpa)) {path[j+1][i][background_path]=plus;}
@@ -2561,8 +2564,8 @@ public class GScreen implements Screen {
 						if ((i>0)&&(i<299)&&(j>0)&&(j<299))
 						if (path[j][i][background_path]>0)	
 						{
-							float curpa=path[j][i][background_path];
-							float plus=curpa+1;
+							int curpa=path[j][i][background_path];
+							int plus=curpa+1;
 							
 							if ((path[j][i+1][background_path]>curpa)) {path[j][i+1][background_path]=plus;}
 							if ((path[j+1][i][background_path]>curpa)) {path[j+1][i][background_path]=plus;}
@@ -2877,20 +2880,20 @@ public class GScreen implements Screen {
 				batch_static.setColor(Color.WHITE);
 				Main.font.draw(batch_static, ""+Helper.inventory_level, 15, 253);
 				
-				batch_static.draw(Assets.gui_module, 73, 107);
+				//batch_static.draw(Assets.gui_module, 73, 107);
 				
 				GScreen.batch_static.draw(Assets.text_bg_blue, 75, 440,850,250);
 				
-				for (int yy=0; yy<2; yy++)
-				for (int xx=0; xx<2; xx++)
+				
+				/*for (int xx=0; xx<4; xx++)
 				{
-					batch_static.draw(Assets.gui_module_bg, 95+220*xx, 150+150*yy);
+					batch_static.draw(Assets.gui_module_bg, 95+220*xx, 150);
 					
-					if ((pl.armored_module[xx+yy*2]!=null)&&(pl.armored_module[xx+yy*2].model!=null))
+					if ((pl.armored_module[xx]!=null)&&(pl.armored_module[xx].model!=null))
 					{
-						batch_static.draw(pl.armored_module[xx+yy*2].model, 90+220*xx, 145+150*yy);
+						batch_static.draw(pl.armored_module[xx].model, 90+220*xx, 145);
 					}
-				}
+				}*/
 				
 				
 			}
