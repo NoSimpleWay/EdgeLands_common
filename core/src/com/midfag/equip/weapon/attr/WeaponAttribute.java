@@ -32,7 +32,7 @@ public class WeaponAttribute {
 		
 	}
 
-	public String get_descr() {
+	public String get_descr(Weapon _w) {
 		// TODO Auto-generated method stub
 		return name+" ["+level+"]";
 	}

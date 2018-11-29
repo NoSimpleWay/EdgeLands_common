@@ -2874,15 +2874,15 @@ public class GScreen implements Screen {
 			
 			if (show_equip)
 			{
-				batch_static.setColor(0.1f,0.15f, 0.20f,0.9f);
+				batch_static.setColor(0.04f,0.05f, 0.06f,0.92f);
 				batch_static.draw(Assets.rect_white, 0, 0, scr_w,scr_h);
 				
 				batch_static.setColor(Color.WHITE);
 				Main.font.draw(batch_static, ""+Helper.inventory_level, 15, 253);
 				
 				//batch_static.draw(Assets.gui_module, 73, 107);
-				
-				GScreen.batch_static.draw(Assets.text_bg_blue, 75, 440,850,250);
+				batch_static.setColor(Color.GRAY);
+				GScreen.batch_static.draw(Assets.text_bg_blue, 75, 240,850,450);
 				
 				
 				/*for (int xx=0; xx<4; xx++)

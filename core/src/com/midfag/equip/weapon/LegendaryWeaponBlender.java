@@ -34,8 +34,8 @@ public class LegendaryWeaponBlender extends Weapon {
 			
 			missile_speed=1500;
 			
-			spr.setTexture(Assets.load("icon_legendary_ping_minigun"));
-			
+			spr.setTexture(Assets.load("icon_benchmark"));
+			spr.setSize(75, 40);
 			red_text="İÒÎ ÂÎÎÁÙÅ ÇÀÊÎÍÍÎ?";
 		}
 		

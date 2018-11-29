@@ -18,7 +18,7 @@ public class ESAttribute {
 
 	public String uid;
 
-	public int density;
+	public float density;
 	public float weigth=1.0f;
 	
 	
@@ -33,6 +33,12 @@ public class ESAttribute {
 		level=1;
 	}
 	
+	public ESAttribute set_weigth(float _w) {
+		// TODO Auto-generated method stub
+		
+		weigth=_w;
+		return this;
+	}
 
 	
 	public void calculate(Energoshield _e)

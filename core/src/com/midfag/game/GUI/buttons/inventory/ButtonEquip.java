@@ -200,10 +200,9 @@ public class ButtonEquip extends Button {
 			//GScreen.batch_static.setColor(1.0f,1.0f,1.0f,1.0f);
 		
 			GScreen.batch_static.setColor(Color.WHITE);
-			
+			//
 			if (obj instanceof ModuleUnit)
 			{
-				
 				ModuleUnit m=((ModuleUnit)obj);
 				
 				draw_info(""+((ModuleUnit)obj).get_name(),"");
@@ -222,12 +221,9 @@ public class ButtonEquip extends Button {
 					Main.font_dot_console.setColor(Color.WHITE);
 					draw_info(m.Attribute_list.get(i).get_descr(),"");
 				}
-				
 				//model.
-				
-
 			}
-			
+			//
 			if (obj instanceof Weapon)
 			{
 				
@@ -243,22 +239,30 @@ public class ButtonEquip extends Button {
 					mov+=15;
 					draw_info("Уровень: "+((Weapon)obj).level,"");
 					mov+=15;
-					color_it (w.total_damage,w.base_damage); draw_info("Урон: ",""+w.total_damage,1);
-					if (w.total_fire_damage>0) {Main.font_dot_console.setColor(Color.YELLOW); mx+=280; draw_info("Поджог: ",""+w.total_fire_damage*10f,mx); }
-					if (w.total_cold_damage>0) {Main.font_dot_console.setColor(Color.CYAN); mx+=280; draw_info("Заморозка: ",""+w.total_cold_damage*10f,mx); }
+					if (w.total_damage>0)
+					{
+						color_it (w.total_damage,w.base_damage);
+						
+						if (w.total_missile_count>1)
+						{draw_info("Урон: ",""+Math.round(w.total_damage*10f)/10f+" x"+Math.round(w.total_missile_count));}
+						else
+						{draw_info("Урон: ",""+Math.round(w.total_damage*10f)/10f);}
+					}
+					
+					if (w.total_fire_damage>0) {Main.font_dot_console.setColor(Color.YELLOW);	draw_info("Поджог: ",""+Math.round(w.total_fire_damage*100f)/100f,mx);		}
+					if (w.total_cold_damage>0) {Main.font_dot_console.setColor(Color.CYAN);		draw_info("Заморозка: ",""+Math.round(w.total_cold_damage*100)/100f,mx);	}
+					
 					mov+=28;
 					
 					color_it (w.base_shoot_cooldown,w.total_shoot_cooldown/target.bonus_attack_speed); draw_info("Скорострельность: ",""+Math.round(1.0f/w.total_shoot_cooldown*target.bonus_attack_speed*10.0f)/10.0f);
-					
-					color_it (w.total_accuracy,w.base_accuracy);draw_info("Dispersion: ",""+Math.round(Weapon.get_dispersion_by_rating(w.total_accuracy)*10f)/10f+" ("+w.total_accuracy+" rating)",1);
-					
-					color_it (w.base_accuracy_additional,w.total_minus_accuracy);draw_info("Dispersion add: ",""+Math.round(w.total_minus_accuracy),280);
+					color_it (w.total_accuracy,w.base_accuracy);draw_info("Пассивный разброс: ",""+Math.round(Weapon.get_dispersion_by_rating(w.total_accuracy)*10f)/10f,0.01f);
+					color_it (w.base_accuracy_additional,w.total_minus_accuracy);draw_info("Разброс выстрела",""+Math.round(Weapon.get_dispersion_by_rating(w.total_minus_accuracy)*10f)/10f,350);
 					
 					mov+=28;
-					color_it (w.total_ammo_size,w.base_ammo_size);draw_info("Ammo size: ",""+Math.round(w.total_ammo_size),1);
-					color_it (w.base_reload_time,w.total_reload_time/target.bonus_attack_speed);draw_info("Reload time: ",""+Math.round(w.total_reload_time/target.bonus_reload_speed*10.0f)/10f,280);
+					color_it (w.total_ammo_size,w.base_ammo_size);draw_info("Размер магазина: ",""+Math.round(w.total_ammo_size),0.01f);
+					color_it (w.base_reload_time,w.total_reload_time/target.bonus_attack_speed);draw_info("Время перезарядки: ",""+Math.round(w.total_reload_time/target.bonus_reload_speed*10.0f)/10f,350);
 					
-					mov=200;
+					mov=400;
 					Main.font_dot_console.setColor(1.0f, 0.2f, 0.1f, 1f);
 					draw_info("'"+w.red_text+"'","");
 				}
@@ -267,36 +271,22 @@ public class ButtonEquip extends Button {
 				{
 					//Helper.log("ATTR LIST SIZE="+m.Attribute_list.size());
 					Main.font_dot_console.setColor(Color.WHITE);
-					draw_info(w.Attribute_list.get(i).get_descr(),"");
+					draw_info(w.Attribute_list.get(i).get_descr(w),"");
 				}
-				
-
 			}
-			
-				
+			//	
 			if (obj instanceof Energoshield)
 			{
-
-				
 				Energoshield e=((Energoshield)obj);
 				draw_info(""+e.name,"("+e.attr_point_indicate+","+e.level+")");
 				
 				mov+=15;
-				
-				//draw_info("Bonuses: ",""+((Energoshield)obj).attr_count);
-				
 				
 				color_it (e.total_value,e.base_value); draw_info("Value: ",""+((Energoshield)obj).total_value);
 				color_it (e.total_regen_speed,e.base_regen_speed); draw_info("Regen speed: ",""+((Energoshield)obj).total_regen_speed);
 				color_it (e.total_reflect,e.base_reflect); draw_info("Reflect chance: ",""+((Energoshield)obj).total_reflect);
 				
 				Main.font_dot_console.setColor(1.0f, 0.5f, 0.25f, 1);
-				
-				/*
-				for (int i=0; i<e.Attribute_list.size(); i++)
-				{
-					if (!e.Attribute_list.get(i).base){draw_info(""+e.Attribute_list.get(i).name,""+e.Attribute_list.get(i).get_attr_value());}
-				}*/
 				
 				mov+=25;
 				for (int i=0; i<e.Attribute_list.size(); i++)
@@ -307,7 +297,7 @@ public class ButtonEquip extends Button {
 				
 				if (e.red_text!=null)
 				{
-					mov=200;
+					mov=400;
 					Main.font_dot_console.setColor(1.0f, 0.2f, 0.1f, 1f);
 					draw_info("'"+e.red_text+"'","");
 				}
@@ -321,14 +311,9 @@ public class ButtonEquip extends Button {
 				InputHandler.but=-1;
 				if (inventory_id>=0)
 				{
-					
-					
-
 					Object swap=target.inventory[inventory_id];
 					target.inventory[inventory_id]=target.inventory[99];
 					target.inventory[99]=swap;
-					
-					
 					
 					update_object();
 					Main.font_dot_console.setColor(1.0f, 1.0f, 1.0f, 1);
@@ -427,30 +412,32 @@ public class ButtonEquip extends Button {
 		
 		if (!_s2.equals(""))
 		{
-			Main.font_dot_console.draw(GScreen.batch_static, _s2, info_x+220+_x, info_y-mov);
+			
+			
 			GScreen.batch_static.setColor(0.25f,1,0.5f,0.1f);
-				GScreen.batch_static.draw(Assets.rect_white, info_x+_x-2+218, info_y-mov-15,70,18);
-			GScreen.batch_static.setColor(Color.WHITE);
+			GScreen.batch_static.draw(Assets.rect_white, info_x+_x-2+218, info_y-mov-17,120,18);
+			
+			GScreen.batch_static.setColor(1,1,1,0.1f);
+			GScreen.batch_static.draw(Assets.rect_white, info_x+_x-2, info_y-mov-17,190,18);
+			
+			GScreen.batch_static.setColor(Color.WHITE);	
+			
+			Main.font_dot_console.draw(GScreen.batch_static, _s2, info_x+220+_x, info_y-mov);
 		}
-		
-		if ((_s2.equals(""))&&(mov<180))
+
+		if ((_s2.equals(""))&&(mov<380))
 		{
 			Helper.layout.setText(Main.font, _s1);
 			
 			
 			GScreen.batch_static.setColor(1.0f,1,0.5f,0.1f);
-			GScreen.batch_static.draw(Assets.rect_white, info_x+_x-2, info_y-3-mov-Helper.layout.height,Helper.layout.width+5,Helper.layout.height+5);
+			GScreen.batch_static.draw(Assets.rect_white, info_x+_x-2, info_y-3-mov-Helper.layout.height,Helper.layout.width+10,Helper.layout.height+5);
 			GScreen.batch_static.setColor(Color.WHITE);
 		}
 		
-		if ((!_s2.equals("")))
-		{
-				GScreen.batch_static.setColor(1,1,1,0.1f);
-					GScreen.batch_static.draw(Assets.rect_white, info_x+_x-2, info_y-mov-15,170,18);
-				GScreen.batch_static.setColor(Color.WHITE);	
-		}
+
 		
-		if (mov>=180)
+		if (mov>=380)
 		{
 			GScreen.batch_static.setColor(1,0.5f,0.25f,0.1f);
 				GScreen.batch_static.draw(Assets.rect_white, info_x+_x-2, info_y-mov-15,770,18);

@@ -31,8 +31,5 @@ public class ESAttributeValue extends ESAttribute {
 
 
 
-	public ESAttribute set_weigth(float f) {
-		// TODO Auto-generated method stub
-		return this;
-	}
+
 }

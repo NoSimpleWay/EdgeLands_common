@@ -12,6 +12,7 @@ import com.midfag.entity.missiles.MissileSimple;
 import com.midfag.equip.weapon.attr.WeaponAttributeAccuracy;
 import com.midfag.equip.weapon.attr.WeaponAttributeAttackSpeed;
 import com.midfag.equip.weapon.attr.WeaponAttributeClipSize;
+import com.midfag.equip.weapon.attr.WeaponAttributeClipSizePlus;
 import com.midfag.equip.weapon.attr.WeaponAttributeColdDamage;
 import com.midfag.equip.weapon.attr.WeaponAttributeDamage;
 import com.midfag.equip.weapon.attr.WeaponAttributeFireDamage;
@@ -74,8 +75,10 @@ public class LegendaryWeaponPyroman extends Weapon {
 			Available_attribute_list.clear();
 			Available_attribute_list.add(new WeaponAttributeAttackSpeed());
 			Available_attribute_list.add(new WeaponAttributeClipSize());
+			Available_attribute_list.add(new WeaponAttributeClipSizePlus());
 			Available_attribute_list.add(new WeaponAttributeReloadSpeed());
 			Available_attribute_list.add(new WeaponAttributeFireDamage());
+			Available_attribute_list.add(new WeaponAttributeAccuracy());
 		}
 
 		@Override

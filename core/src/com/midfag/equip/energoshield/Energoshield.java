@@ -153,7 +153,11 @@ public class Energoshield {
 			attr_point=(float) (level*10f*(Math.pow(1.25f,rarity.ordinal())));
 			attr_point_indicate = attr_point;
 			
-			attr_count=(int) (GScreen.rnd(3))+1;
+			attr_count=(int) (GScreen.rnd(3)+2);
+			
+			if (attr_count>Available_attribute_list.size())
+			{attr_count=Available_attribute_list.size();}
+			
 			get_available_attribute();
 			for (int i=0; i<attr_count; i++)
 			if (!Available_attribute_list.isEmpty()) 
@@ -172,7 +176,7 @@ public class Energoshield {
 			
 			for (ESAttribute alist:Attribute_list )
 			{
-				alist.density=(int)(Math.random()*100+10);
+				alist.density=(int)(Math.random()*100+10)*alist.weigth;
 				total_density+=alist.density;
 			}
 			

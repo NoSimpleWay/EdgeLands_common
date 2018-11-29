@@ -17,8 +17,8 @@ public class WeaponSimpleShotgun extends Weapon {
 			base_missile_count=10;
 			base_shoot_cooldown=1.2f;
 			
-			base_accuracy=get_accuracy_rating_by_degrees(20f);
-			base_accuracy_additional=get_accuracy_rating_by_degrees(30f);
+			base_accuracy=get_accuracy_rating_by_degrees(7f);
+			base_accuracy_additional=get_accuracy_rating_by_degrees(5f);
 			
 			base_ammo_size=7;
 			base_reload_time=3;

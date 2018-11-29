@@ -37,9 +37,9 @@ public class EnergoshieldFast extends Energoshield {
 	{
 		Available_attribute_list.clear();
 		
-		Available_attribute_list.add(new ESAttributeValue().set_weigth(1f));
-		Available_attribute_list.add(new ESAttributeRegen());
-		Available_attribute_list.add(new ESAttributeReflect());
+		Available_attribute_list.add(new ESAttributeValue().set_weigth(0.5f));
+		Available_attribute_list.add(new ESAttributeRegen().set_weigth(1.0f));
+		Available_attribute_list.add(new ESAttributeReflect().set_weigth(0.5f));
 	}
 	
 
