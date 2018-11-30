@@ -14,7 +14,7 @@ public class EnergoshieldStone extends Energoshield {
 	{
 		base_value=650;
 		base_regen_speed=8;
-		base_reflect=2f;
+		base_reflect=5f;
 		
 		name=Localisation.get_value_from_id("name_shield_stone");
 		uid="shstone";

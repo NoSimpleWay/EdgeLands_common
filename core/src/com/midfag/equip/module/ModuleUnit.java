@@ -53,6 +53,7 @@ public class ModuleUnit {
 	public Color color;
 	public String uid;
 	public Energoshield shield=null;
+	public String red_text="";
 	
 	
 	public ModuleUnit()

@@ -13,8 +13,8 @@ public class WeaponRaiderTank extends Weapon {
 			base_missile_count=3;
 			base_shoot_cooldown=0.2f;
 			
-			base_accuracy=get_accuracy_rating_by_degrees(3f);
-			base_accuracy_additional=get_accuracy_rating_by_degrees(3f);
+			base_accuracy=get_accuracy_rating_by_degrees(20f);
+			base_accuracy_additional=get_accuracy_rating_by_degrees(2f);
 			
 			base_ammo_size=30;
 			base_reload_time=5.0f;

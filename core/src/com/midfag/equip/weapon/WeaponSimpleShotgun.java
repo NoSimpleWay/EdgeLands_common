@@ -25,7 +25,7 @@ public class WeaponSimpleShotgun extends Weapon {
 			
 			fire_multiplier=base_shoot_cooldown/base_missile_count;
 			
-			missile_speed=2100;
+			missile_speed=1000;
 			
 			name="Стандартный дробовик";
 			

@@ -36,6 +36,9 @@ public class SystemCollision extends Entity {
 		armored_shield.total_value=999999;
 		armored_shield.total_regen_speed=999;
 		
+		collision_size_x=100;
+		collision_size_y=100;
+		
 		diagonal=true;
 		
 		mass=10000;
@@ -59,13 +62,11 @@ public class SystemCollision extends Entity {
 	{
 		if (GScreen.show_edit)
 		{
-			spr.setColor(total_illum_R,total_illum_G,total_illum_B,1);
-			spr.setScale(1);
-			spr.draw(GScreen.batch_custom);
+
 			
 			
-			GScreen.batch_custom.setColor(Color.WHITE);
-			GScreen.batch_custom.draw(Assets.rama, pos.x-collision_size_x, pos.y-collision_size_y, collision_size_x*2f, collision_size_y*2f);
+			GScreen.batch_custom.setColor(total_illum_R,total_illum_G,total_illum_B,total_alpha);
+			GScreen.batch_custom.draw(Assets.rect_white, pos.x-collision_size_x, pos.y-collision_size_y, collision_size_x*2f, collision_size_y*2f);
 		}
 	}
 	

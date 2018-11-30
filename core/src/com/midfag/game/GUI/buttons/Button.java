@@ -39,7 +39,7 @@ public class Button {
 	
 	public void draw()
 	{
-
+		pre_draw();
 		if ((!need_remove)&&(!off_bg)&&(is_active))
 		{
 			//spr.setPosition(pos.x-(int)(spr.getWidth()/2),(int)(pos.y-spr.getHeight()/2));
@@ -51,6 +51,11 @@ public class Button {
 
 	}
 	
+	public void pre_draw() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	public void after_draw()
 	{
 		

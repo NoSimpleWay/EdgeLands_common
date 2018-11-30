@@ -50,6 +50,8 @@ public class LegendaryModuleUnitTimeStop extends ModuleUnit {
 		
 		generate();
 		update_stats();
+		
+		red_text="Успей увидеть всё";
 	}
 	
 	public void  get_available_attribute()
@@ -98,6 +100,8 @@ public class LegendaryModuleUnitTimeStop extends ModuleUnit {
 				GScreen.pl.armored_module[i].lock=true;
 			}
 		}
+		
+
 	}
 	
 	@Override

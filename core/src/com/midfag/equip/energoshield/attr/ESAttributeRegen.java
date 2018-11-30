@@ -1,6 +1,7 @@
 package com.midfag.equip.energoshield.attr;
 
 import com.midfag.equip.energoshield.Energoshield;
+import com.midfag.game.Helper;
 
 public class ESAttributeRegen extends ESAttribute {
 	
@@ -21,8 +22,8 @@ public class ESAttributeRegen extends ESAttribute {
 	}
 	
 	@Override
-	public String get_descr() {
+	public String get_descr(Energoshield _e) {
 		// TODO Auto-generated method stub
-		return "+"+level*3f+"% скорость регенерации +"+level*0.35f+"/сек скорость регенерации";
+		return "регенерация +"+Helper.round_to(_e.base_regen_speed*(level*0.05f)+level*0.35f+_e.base_regen_speed*(_e.level-1), 10f);
 	}
 }

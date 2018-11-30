@@ -1,6 +1,7 @@
 package com.midfag.equip.energoshield.attr;
 
 import com.midfag.equip.energoshield.Energoshield;
+import com.midfag.game.Helper;
 
 public class ESAttributeValue extends ESAttribute {
 	
@@ -19,14 +20,14 @@ public class ESAttributeValue extends ESAttribute {
 	@Override
 	public void calculate(Energoshield _e)
 	{
-		_e.total_value+=_e.base_value*(level*0.02f)+_e.base_value*(_e.level-1);
-		_e.total_value+=(level*0.5f);
+		_e.total_value+=_e.base_value*level*0.02f;
+		_e.total_value+=level*1f;
 	}
 	
 	@Override
-	public String get_descr() {
+	public String get_descr(Energoshield _e) {
 		// TODO Auto-generated method stub
-		return "+"+level*2f+"% ёмкость щита/+"+(level*5f);
+		return "ёмкость +"+Helper.round_to(_e.base_value*level*0.02f+level*1f, 10f);
 	}
 
 

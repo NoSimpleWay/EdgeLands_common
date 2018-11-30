@@ -19,7 +19,7 @@ public class EnergoshieldFast extends Energoshield {
 	{
 		base_value=380;
 		base_regen_speed=22;
-		base_reflect=3f;
+		base_reflect=7f;
 		
 		name=Localisation.get_value_from_id("name_shield_fast");
 		uid="shfast";

@@ -67,8 +67,14 @@ public class EntitySpawnTower extends Entity {
 			armored[1].ammo=(int) armored[1].total_ammo_size;
 		}	
 		
-		collision_size_x=120;
-		collision_size_y=80;
+		collision_size_x=100;
+		collision_size_y=70;
+		
+		path_x=3;
+		path_y=3;
+		
+		
+		
 		size=100;
 		
 		spr.setOrigin(50, 0);
@@ -89,10 +95,10 @@ public class EntitySpawnTower extends Entity {
 		{
 			spawn_cooldown=20;
 			
-			for (int sp=0; sp<8; sp++)
+			for (int sp=0; sp<4; sp++)
 			{
-				float px=100f*GScreen.sinR(sp*80);
-				float py=100f*GScreen.cosR(sp*80);
+				float px=150f*GScreen.sinR(sp*80);
+				float py=150f*GScreen.cosR(sp*80);
 				
 				Random rn=new Random();
 				

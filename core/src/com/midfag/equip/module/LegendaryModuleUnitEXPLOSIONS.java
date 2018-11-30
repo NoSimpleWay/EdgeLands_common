@@ -31,11 +31,11 @@ public class LegendaryModuleUnitEXPLOSIONS extends ModuleUnit {
 	public float total_time_slow_resist;
 	private Entity master;
 	
-	public float base_damage=20;
-	public float base_burn=2;
+	public float base_damage=100;
+	public float base_burn=20;
 	
-	public float total_damage=20;
-	public float total_burn=2;
+	public float total_damage=0;
+	public float total_burn=0;
 	
 	public float self_defence=0;
 
@@ -44,12 +44,10 @@ public class LegendaryModuleUnitEXPLOSIONS extends ModuleUnit {
 		name="Модуль 'Детонатор'";
 		uid="modexpl";
 		
-		
 		base_duration=1.5f;
 		base_cooldown=60;
 		
 		level=1;
-		
 		
 		can_be_locked=true;
 		
@@ -66,6 +64,8 @@ public class LegendaryModuleUnitEXPLOSIONS extends ModuleUnit {
 		
 		
 		total_duration=2f;
+		
+		red_text="Можно задать тебе вопрос?";
 	}
 	
 	public void  get_available_attribute()
@@ -81,7 +81,7 @@ public class LegendaryModuleUnitEXPLOSIONS extends ModuleUnit {
 	@Override
 	public String get_description()
 	{
-		return "Подрывает всех противников, нанося им урон от взрыва и поджигет их"+"\n"+"Урон от взрыва: "+total_damage+" dddd"+"Урон от огня: "+total_burn;
+		return "Подрывает всех противников, нанося им урон от взрыва и поджигет их"+"\n"+"Урон от взрыва: "+total_damage+" Урон от огня: "+total_burn;
 	}
 	
 	@Override
@@ -183,8 +183,6 @@ public class LegendaryModuleUnitEXPLOSIONS extends ModuleUnit {
 			{
 				el.get(i).hit_action(total_damage,false);
 				el.get(i).burn_it(total_burn);
-				
-			
 			}
 		}
 		

@@ -83,7 +83,7 @@ public class Weapon {
 	public List<WeaponAttribute> Attribute_list = new ArrayList<WeaponAttribute>();
 	
 	public Rarity rarity;
-	public float missile_speed=1555;
+	public float missile_speed=800;
 	
 	public float total_fire_damage;
 	public float base_fire_damage;

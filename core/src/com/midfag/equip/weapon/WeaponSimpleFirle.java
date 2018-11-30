@@ -28,10 +28,12 @@ public class WeaponSimpleFirle extends Weapon {
 			
 			
 			base_accuracy=get_accuracy_rating_by_degrees(1f);
-			base_accuracy_additional=get_accuracy_rating_by_degrees(5f);
+			base_accuracy_additional=get_accuracy_rating_by_degrees(1f);
 			
 			base_ammo_size=17;
 			base_reload_time=3;
+			
+			missile_speed=1200;
 			
 			fire_multiplier=base_shoot_cooldown/base_missile_count;
 			

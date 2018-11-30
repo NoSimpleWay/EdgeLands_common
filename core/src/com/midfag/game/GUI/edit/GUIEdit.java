@@ -249,7 +249,20 @@ public class GUIEdit extends GUI {
 		}
 		
 		//delete action
-		if (Gdx.input.isKeyPressed(112)&&(selected_object!=null)){selected_object.need_remove=true; selected_object=null; clear_sliders(); }
+		if (Gdx.input.isKeyPressed(112))
+		{
+			if (selected_object!=null)
+			{selected_object.need_remove=true; selected_object=null; clear_sliders();}
+			
+			if (!selected_object_list.isEmpty())
+			{
+				for (Entity e:selected_object_list)
+				{e.need_remove=true;}
+				
+				selected_object_list.clear();
+			}
+
+		}
 		
 		//clone
 		if ((Gdx.input.isKeyPressed(Keys.V))&&(selected_object!=null))

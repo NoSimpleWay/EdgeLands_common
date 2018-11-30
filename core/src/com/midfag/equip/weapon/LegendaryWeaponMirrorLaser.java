@@ -19,7 +19,7 @@ public class LegendaryWeaponMirrorLaser extends Weapon {
 		{
 			uid="weapon_mirror_laser";
 			
-			base_damage=50;
+			base_damage=30;
 			base_missile_count=1;
 			base_shoot_cooldown=0.8f;
 			

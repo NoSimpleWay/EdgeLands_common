@@ -3,7 +3,9 @@ package com.midfag.game.GUI.buttons.inventory;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.midfag.entity.Entity;
 import com.midfag.equip.energoshield.Energoshield;
 import com.midfag.equip.module.ModuleUnit;
@@ -222,6 +224,10 @@ public class ButtonEquip extends Button {
 					draw_info(m.Attribute_list.get(i).get_descr(),"");
 				}
 				//model.
+				
+				mov=400;
+				Main.font_dot_console.setColor(1.0f, 0.2f, 0.1f, 1f);
+				draw_info("'"+m.red_text+"'","");
 			}
 			//
 			if (obj instanceof Weapon)
@@ -278,13 +284,17 @@ public class ButtonEquip extends Button {
 			if (obj instanceof Energoshield)
 			{
 				Energoshield e=((Energoshield)obj);
-				draw_info(""+e.name,"("+e.attr_point_indicate+","+e.level+")");
-				
+				draw_info(""+e.name,"");
 				mov+=15;
 				
-				color_it (e.total_value,e.base_value); draw_info("Value: ",""+((Energoshield)obj).total_value);
-				color_it (e.total_regen_speed,e.base_regen_speed); draw_info("Regen speed: ",""+((Energoshield)obj).total_regen_speed);
-				color_it (e.total_reflect,e.base_reflect); draw_info("Reflect chance: ",""+((Energoshield)obj).total_reflect);
+				draw_info("Уровень "+e.level,"");
+				mov+=15;
+				
+				color_it (e.total_value,e.base_value); draw_info("Ёмкость: ",""+Math.round(e.total_value));
+				
+				color_it (e.total_regen_speed,e.base_regen_speed); draw_info("Regen speed: ",""+Helper.round_to(e.total_regen_speed,10f));
+				
+				color_it (e.total_reflect,e.base_reflect); draw_info("Reflect chance: ",""+Helper.round_to(e.total_reflect,10f));
 				
 				Main.font_dot_console.setColor(1.0f, 0.5f, 0.25f, 1);
 				
@@ -292,7 +302,7 @@ public class ButtonEquip extends Button {
 				for (int i=0; i<e.Attribute_list.size(); i++)
 				{
 					Main.font_dot_console.setColor(Color.WHITE);
-					draw_info(e.Attribute_list.get(i).get_descr()+"["+e.Attribute_list.get(i).level+"]","");
+					draw_info(e.Attribute_list.get(i).get_descr(e),"");
 				}
 				
 				if (e.red_text!=null)
@@ -379,12 +389,12 @@ public class ButtonEquip extends Button {
 		
 		if (!need_remove)
 		{
+			
+			
 			if (obj instanceof Energoshield)
 			{
 				((Energoshield)obj).spr.setPosition(pos.x-spr.getWidth()/2+15,pos.y-spr.getHeight()/2);
-				((Energoshield)obj).spr.draw(GScreen.batch_static);
-				
-				
+				((Energoshield)obj).spr.draw(GScreen.batch_static);	
 			}
 			
 			if (obj instanceof Weapon)
@@ -399,6 +409,8 @@ public class ButtonEquip extends Button {
 				GScreen.batch_static.draw(((ModuleUnit)obj).tex, pos.x-spr.getWidth()/2+15f,pos.y-spr.getHeight()/2f);
 				
 			}
+			
+			
 		}
 		
 		
@@ -412,8 +424,7 @@ public class ButtonEquip extends Button {
 		
 		if (!_s2.equals(""))
 		{
-			
-			
+
 			GScreen.batch_static.setColor(0.25f,1,0.5f,0.1f);
 			GScreen.batch_static.draw(Assets.rect_white, info_x+_x-2+218, info_y-mov-17,120,18);
 			
@@ -427,11 +438,11 @@ public class ButtonEquip extends Button {
 
 		if ((_s2.equals(""))&&(mov<380))
 		{
-			Helper.layout.setText(Main.font, _s1);
+			Helper.layout.setText(Main.font_dot_console, _s1);
 			
 			
 			GScreen.batch_static.setColor(1.0f,1,0.5f,0.1f);
-			GScreen.batch_static.draw(Assets.rect_white, info_x+_x-2, info_y-3-mov-Helper.layout.height,Helper.layout.width+10,Helper.layout.height+5);
+			GScreen.batch_static.draw(Assets.rect_white, info_x+_x-4, info_y-4-mov-Helper.layout.height,Helper.layout.width+30,Helper.layout.height+5);
 			GScreen.batch_static.setColor(Color.WHITE);
 		}
 		
@@ -451,6 +462,38 @@ public class ButtonEquip extends Button {
 	public void draw_info(String _s1, String _s2)
 	{
 		draw_info(_s1, _s2, 0);
+	}
+	
+	@Override
+	public void pre_draw()
+	{
+		if ((target.inventory[99]!=null)&&(inventory_id<0))
+		{
+			if ((target.inventory[99] instanceof Weapon)&&((inventory_id==weapon1)||(inventory_id==weapon2)))
+			{
+				GScreen.batch_static.setColor(1f, 0.8f, 0.4f, (float) ((Math.sin(TimeUtils.millis()/100))+1)/2f);
+				
+				GScreen.batch_static.draw(Assets.rect_white, pos.x-44, pos.y-24,88,48);
+				GScreen.batch_static.setColor(Color.WHITE);
+			}
+			
+			if ((target.inventory[99] instanceof Energoshield)&&(inventory_id==shield))
+			{
+				GScreen.batch_static.setColor(1f, 0.8f, 0.4f, (float) ((Math.sin(TimeUtils.millis()/100))+1)/2f);
+				
+				GScreen.batch_static.draw(Assets.rect_white, pos.x-44, pos.y-24,88,48);
+				GScreen.batch_static.setColor(Color.WHITE);
+			}
+			
+			if ((target.inventory[99] instanceof ModuleUnit)&&(inventory_id<=-10)&&(inventory_id>-15))
+			{
+				GScreen.batch_static.setColor(1f, 0.8f, 0.4f, (float) ((Math.sin(TimeUtils.millis()/100))+1)/2f);
+				
+				GScreen.batch_static.draw(Assets.rect_white, pos.x-44, pos.y-24,88,48);
+				GScreen.batch_static.setColor(Color.WHITE);
+			}
+				
+		}
 	}
 	
 }

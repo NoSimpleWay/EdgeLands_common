@@ -41,8 +41,8 @@ public class EntityRaiderTank extends Entity {
 		armored[0]=new WeaponRaiderTank();
 		armored[0].generate();
 		
-		armored[1]=new WeaponRaiderTank();
-		armored[1].generate();
+		//armored[1]=new WeaponRaiderTank();
+		//armored[1].generate();
 		
 		if (armored[0]!=null)
 		{
@@ -60,8 +60,8 @@ public class EntityRaiderTank extends Entity {
 		offset.y=10;
 		can_rotate=false;
 		
-		friction=50f;
-		speed/=0.2f;
+		friction=40f;
+		speed/=0.3f;
 	}
 	
 	@Override

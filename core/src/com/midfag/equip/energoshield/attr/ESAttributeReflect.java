@@ -1,6 +1,7 @@
 package com.midfag.equip.energoshield.attr;
 
 import com.midfag.equip.energoshield.Energoshield;
+import com.midfag.game.Helper;
 
 
 public class ESAttributeReflect extends ESAttribute {
@@ -24,8 +25,8 @@ public class ESAttributeReflect extends ESAttribute {
 	}
 	
 	@Override
-	public String get_descr() {
+	public String get_descr(Energoshield _e) {
 		// TODO Auto-generated method stub
-		return "+"+level*3f+"%/+"+level*0.5+" уровень отражения";
+		return "поглощение +"+Helper.round_to(_e.base_reflect*level*0.03f+level*0.5f,10f);
 	}
 }

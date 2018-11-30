@@ -204,7 +204,8 @@ public class EntitySmiler extends Entity {
 				}
 			}
 			
-			if ((catch_target!=null)&&(catch_target.need_remove)) {catch_target=null;}
+			if ((catch_target!=null)&&(catch_target.need_remove)) {catch_target=null; Assets.smiler_saw.pause();}
+			if (catch_target==null) {Assets.smiler_saw.pause();}
 			//can_rotate=false;
 
 		}
@@ -246,8 +247,8 @@ public class EntitySmiler extends Entity {
 				{
 					catch_target=near_object;
 					
-					sx=30f*GScreen.sinR(360f-rot);
-					sy=30f*GScreen.cosR(360f-rot);
+					sx=38f*GScreen.sinR(360f-rot);
+					sy=38f*GScreen.cosR(360f-rot);
 					catch_x=-sx;
 					catch_y=-sy;
 					

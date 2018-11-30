@@ -16,10 +16,13 @@ public class ScreenEffectTimeStop extends ScreenEffect {
 	{
 		sound_effect=Gdx.audio.newSound(Gdx.files.internal("data/time_stop.wav"));
 		sound_effect.play();
+		
 		GScreen.batch_static.setShader(Main.shader_time_slow);
-		Assets.main_music.setVolume(0.05f);
-		Assets.battle_music_multiplier=0.01f;
-		Assets.battle_music_00.setVolume(0);
+		
+		Assets.main_music.stop();
+		
+		//Assets.battle_music_multiplier=0.01f;
+		Assets.battle_music_00.stop();
 		
 		shader=Main.shader_time_slow;
 	}
@@ -60,13 +63,11 @@ public class ScreenEffectTimeStop extends ScreenEffect {
 		sound_effect.stop();
 		
 		
-		Assets.battle_music_multiplier=0.333f;
-		
-		Assets.main_music.setVolume(0.5f);
+		if (GScreen.battle_music_timer>0) {Assets.battle_music_00.play();}else {Assets.main_music.play();}
 		
 			
 		
-		shader=GScreen.batch_custom.getShader();
+		//shader=GScreen.batch_custom.getShader();
 		GScreen.batch_static.setShader(Main.shader_default);
 	}
 	

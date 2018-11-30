@@ -45,6 +45,11 @@ public class Helper {
 		
 	}
 	
+	public static float round_to(float _num, float _round_factor)
+	{
+		return Math.round(_num*_round_factor)/_round_factor;
+	}
+	
 	
 	
 	public static void LoadMap()

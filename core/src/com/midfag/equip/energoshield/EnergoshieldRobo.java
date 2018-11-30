@@ -14,7 +14,7 @@ public class EnergoshieldRobo extends Energoshield {
 		base_value=400;
 		value=400;
 		base_regen_speed=30;
-		base_reflect=3;
+		base_reflect=7;
 		
 		name="Roboshield";
 		uid="shrobo";

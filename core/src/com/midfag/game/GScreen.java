@@ -57,6 +57,9 @@ import com.midfag.game.script.ScriptTimer;
 
 public class GScreen implements Screen {
 	
+	public int random_path_find_cooldown=1;
+	private static final int default_cluster_update_size = 8;
+	private static final int editor_cluster_update_size = 15;
 	public static int enemy_count=0;
 	public static int plposx;
 	public static int plposy;
@@ -248,6 +251,7 @@ public class GScreen implements Screen {
 	private int movie_frame_y;
 	private float movie_frame_time;
 	private float glass_effect=0;
+	private int CUR;
 	
 	//public CustomSpriteBatchTwoUV batch_UV;
 
@@ -300,7 +304,7 @@ public class GScreen implements Screen {
 	public static boolean chunk_info;
 
 	public static boolean time_freeze=false;
-	public static float enemy_see_player_timer;
+	public static float enemy_see_player_timer=0f;
 	public static float blur_opacity=0.035f;
 	
 	public class MySpriteComparator implements Comparator<Entity> {
@@ -1175,6 +1179,7 @@ public class GScreen implements Screen {
     	
     	/*======================================*/
     	
+		if (show_edit) {CUR=editor_cluster_update_size;}else {CUR=default_cluster_update_size;}
 		
 		 cluster_x=(int)(camera.position.x/cluster_size);
 	     cluster_y=(int)(camera.position.y/cluster_size);
@@ -1612,8 +1617,8 @@ public class GScreen implements Screen {
         //Helper.log("UPDATE BEGIN!");
 
         //batch.begin();
-      	for (int x=cluster_x-8; x<=cluster_x+8; x++)
-      	for (int y=cluster_y-8; y<=cluster_y+8; y++)
+      	for (int x=cluster_x-CUR; x<=cluster_x+CUR; x++)
+      	for (int y=cluster_y-CUR; y<=cluster_y+CUR; y++)
       	if ((x>=0)&&(y>=0)&&(x<30)&&(y<30))
         for (int i=0; i<cluster[x][y].Entity_list.size();i++)
         {
@@ -1960,8 +1965,8 @@ public class GScreen implements Screen {
        		 InputHandler.keyF_release=false;
           	}
 
-    	      		for (int x=cluster_x-8; x<=cluster_x+8; x++)
-    	          	for (int y=cluster_y-8; y<=cluster_y+8; y++)
+    	      		for (int x=cluster_x-CUR; x<=cluster_x+CUR; x++)
+    	          	for (int y=cluster_y-CUR; y<=cluster_y+CUR; y++)
     	          	if ((x>=0)&&(y>=0)&&(x<30)&&(y<30))
     	            for (int i=0; i<cluster[x][y].Entity_list.size();i++)
     	            {
@@ -2001,82 +2006,7 @@ public class GScreen implements Screen {
 
     	terrain_fbo.end();
     	
-    	/*
-    	entity_fbo.begin();
-    	Gdx.gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
-    	batch.begin();
-    	batch.setBlendFunction(-1, -1);
-    	Gdx.gl20.glBlendFuncSeparate(Gdx.gl.GL_SRC_ALPHA,Gdx.gl.GL_ONE_MINUS_SRC_ALPHA, Gdx.gl.GL_ONE,Gdx.gl.GL_ONE);
-	    	for (int draw_y=cluster_y+cluster_draw_distance; draw_y>=cluster_y-cluster_draw_distance; draw_y--)
-			{
-				
-				Draw_list.clear();
-				
-		    	for (int draw_x=cluster_x-cluster_draw_distance; draw_x<=cluster_x+cluster_draw_distance; draw_x++)
-		    	if ((draw_x>=0)&&(draw_y>=0)&&(draw_x<30)&&(draw_y<30))
-		    	for (int i=0; i<cluster[draw_x][draw_y].Entity_list.size();i++)
-		    	{
-		    		Entity e=cluster[draw_x][draw_y].Entity_list.get(i);
-		    		
-		    		if (!e.hidden)
-		    		{
-		    			e.draw();
-		    		}
-		    		///
-		    	}
-		    	
-		    	//Helper.log("Y="+draw_y+" size="+Draw_list.size());
-		    	try {Draw_list.sort(comparator);} catch (Exception e) {e.printStackTrace();}
-	
-		         for (int i=0; i<Draw_list.size(); i++)
-		         {
-		        	Entity e=Draw_list.get(i);
-		         	e.draw_action(delta);
-		         	e.effect_draw(delta);
-		         } 
-			}
-    	batch.end();
-    	entity_fbo.end();
-    	*/
     	
-    	/*
-    	lightmap_offset_mask.begin();
-	    	batch.begin();
-	    	Gdx.gl.glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
-	        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling?GL20.GL_COVERAGE_BUFFER_BIT_NV:0));
-		      	batch.setShader(Main.shader_lightmap_offset);
-		      	for (int draw_y=cluster_y+cluster_draw_distance; draw_y>=cluster_y-cluster_draw_distance; draw_y--)
-				{
-					
-					Draw_list.clear();
-					
-			    	for (int draw_x=cluster_x-cluster_draw_distance; draw_x<=cluster_x+cluster_draw_distance; draw_x++)
-			    	if ((draw_x>=0)&&(draw_y>=0)&&(draw_x<30)&&(draw_y<30))
-			    	for (int i=0; i<cluster[draw_x][draw_y].Entity_list.size();i++)
-			    	{
-			    		Entity e=cluster[draw_x][draw_y].Entity_list.get(i);
-			    		
-			    		if (!e.hidden)
-			    		{
-			    			e.draw();
-			    		}
-			    		///
-			    	}
-			    	
-			    	//Helper.log("Y="+draw_y+" size="+Draw_list.size());
-			    	try {Draw_list.sort(comparator);} catch (Exception e) {e.printStackTrace();}
-		
-			         for (int i=0; i<Draw_list.size(); i++)
-			         {
-			        	Entity e=Draw_list.get(i);
-			         	e.draw_offset_mask(delta);
-			         } 
-				}
-		      	batch.setShader(Main.shader_default);
-	      	batch.end();
-      	lightmap_offset_mask.end();
-    	*/
 		
 
     	
@@ -2090,25 +2020,7 @@ public class GScreen implements Screen {
 		 
 		 batch_static.setShader(Main.shader_default);
 		 batch_static.begin();
-		 
-		 /*
-			batch_static.setShader(Main.shader_bloom);
-			Main.shader_bloom.setUniformf("x", glass_effect);
-			
-			Assets.normal_map.bind(1);
-			Main.shader_bloom.setUniformi("u_texture", 1); //passing first texture!!!
-			
-			terrain_fbo.getColorBufferTexture().bind(0);
-			Main.shader_bloom.setUniformi("u_texture2", 0); //passing first texture!!!
-			*/
-		 
 
-
-		
-		
-		
-		//terrain_fbo.begin();
-		
 			
 		if (screen_effect!=null) {batch_static.setShader(screen_effect.shader);}
 			
@@ -2123,35 +2035,10 @@ public class GScreen implements Screen {
 				{
 					screen_effect.update(delta, real_delta);
 				}
-				
-				/*batch_static.setShader(Main.shader_lightmap);
-				
-				
-				
-					Main.shader_lightmap.setUniformf("zoom",camera.zoom);
-					Main.shader_lightmap.setUniformf("x",camera.position.x/9000f);
-					Main.shader_lightmap.setUniformf("y",camera.position.y/9000f);
-					
-					lightmap_offset_mask.getColorBufferTexture().bind(2);
-					Main.shader_lightmap.setUniformi("u_texture3", 2); //passing first texture!!!
-					
-					lightmap_texture.bind(1);
-					Main.shader_lightmap.setUniformi("u_texture2", 1); //passing first texture!!!
-					
-					entity_fbo.getColorBufferTexture().bind(0);
-					
-					
-					Main.shader_lightmap.setUniformi("u_texture", 0); //passing first texture!!!
-					
-					batch_static.setBlendFunction(-1, -1);
-					Gdx.gl20.glBlendFuncSeparate(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA,GL20.GL_ONE, GL20.GL_DST_ALPHA);
-				{batch_static.draw(entity_fbo.getColorBufferTexture(),0,scr_h,scr_w,-scr_h);}*/
-				
-				//{batch_static.draw(terrain_fbo.getColorBufferTexture(),150,scr_h-15,scr_w,-scr_h);}
-				batch_static.setShader(Main.shader_default);
+
+				//batch_static.setShader(Main.shader_default);
 				batch_static.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-				//{batch_static.draw(lightmap_offset_mask.getColorBufferTexture(),0,scr_h,scr_w,-scr_h);}
-				//batch_static.draw(terrain_fbo.getColorBufferTexture(),0,scr_h,scr_w,-scr_h);
+
 				
 				
 		//terrain_fbo.end();
@@ -2402,8 +2289,8 @@ public class GScreen implements Screen {
 		
 	   //for (int k=0; k<3; k++)
 		
-		 for (int i=plposy-41; i<plposy+41; i++)
-		 for (int j=plposx-41; j<plposx+41; j++)
+		 for (int i=(int)(camera.position.y/30f)-41; i<(int)(camera.position.y/30f)+41; i++)
+		 for (int j=(int)(camera.position.x/30f)-41; j<(int)(camera.position.x/30f)+41; j++)
 		 		if ((i>0)&&(i<299)&&(j>0)&&(j<299))
 		 		{
 		 		
@@ -2432,7 +2319,7 @@ public class GScreen implements Screen {
 			 		 			}
 			 		 			
 			 					
-			 					if (path[j][i][current_path]<0)
+			 					if (path[j][i][current_path]<-100)
 			 					{
 			 						sr.setColor(1,0,0,0.25f);
 			 					}
@@ -2452,6 +2339,7 @@ public class GScreen implements Screen {
 			
 			
 			
+			
 			/*
 			batch.begin();
 			batch.setColor(Color.WHITE);
@@ -2459,7 +2347,7 @@ public class GScreen implements Screen {
 				Main.font.getData().setScale(0.5f);
 				 	for (int i=plposy-51; i<plposy+51; i++)
 					 for (int j=plposx-51; j<plposx+51; j++)
-					 if ((i>0)&&(i<299)&&(j>0)&&(j<299)&&(path[j][i][main_path]>=0)&&(path[j][i][main_path]<1000))
+					 if ((i>0)&&(i<299)&&(j>0)&&(j<299)&&(path[j][i][main_path]<1000))
 					{Main.font.draw(batch, ""+Math.round(path[j][i][main_path]), j*30+10f, i*30+15f);}
 				 Main.font.getData().setScale(1.0f);
 				 batch.end();
@@ -2594,16 +2482,29 @@ public class GScreen implements Screen {
 					if (path_calculate_mode==1)
 					{
 						
-						 if ((enemy_see_player)||(show_edit))
+						 if ((enemy_see_player))
 						{
 							plposx=(int)(pl.pos.x/path_cell);
 							plposy=(int)(pl.pos.y/path_cell);
 						}
-						/* else
+						 else
 						 {
-							 plposx=(int)(Math.random()*300);
-							 plposy=(int)(Math.random()*300);
-						 }*/
+							 if (random_path_find_cooldown>0)
+							 {
+								 random_path_find_cooldown-=1;
+								 
+								 if (random_path_find_cooldown<=0)
+								 {
+									 plposx+=(int)(Math.random()*20)-10;
+									plposy+=(int)(Math.random()*20)-10;
+									
+									if (plposx<1) {plposx=1;} if (plposx>298) {plposx=298;}
+									if (plposy<1) {plposy=1;} if (plposy>298) {plposy=298;}
+									 
+									 random_path_find_cooldown=10;
+								 }
+							 }
+						 }
 						 
 					   
 					    	if (path[plposx][plposy][background_path]>=0)
@@ -2797,7 +2698,7 @@ public class GScreen implements Screen {
 			
 			Main.font.draw(batch_static, "battle music volume"+Assets.battle_music_00.getVolume(), 407, 110);
 			
-			Main.font.draw(batch_static, "enemy see us: "+enemy_see_player, 7, 130);
+			Main.font.draw(batch_static, "enemy see us: "+enemy_see_player, 7, 130); Main.font.draw(batch_static, "random path timer: "+random_path_find_cooldown, 207, 130);
 			
 			draw_shaded_text("zoom: "+camera.zoom, 7, 150, Color.GREEN,150);
 		}

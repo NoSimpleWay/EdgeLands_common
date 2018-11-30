@@ -63,7 +63,7 @@ public class ESAttribute {
 		
 	}
 
-	public String get_descr() {
+	public String get_descr(Energoshield _e) {
 		// TODO Auto-generated method stub
 		return "";
 	}

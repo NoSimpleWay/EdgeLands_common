@@ -14,7 +14,7 @@ public class EnergoshieldMirror extends Energoshield {
 	{
 		base_value=400;
 		base_regen_speed=10;
-		base_reflect=8;
+		base_reflect=20;
 		
 		name=Localisation.get_value_from_id("name_shield_mirror");
 		uid="shmirr";

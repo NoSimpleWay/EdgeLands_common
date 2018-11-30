@@ -267,7 +267,7 @@ public class InputHandler implements InputProcessor {
     		}
     		else
     		{
-    			Assets.skill_wheel.getTexture().dispose();
+    			//Assets.skill_wheel.getTexture().dispose();
     			GScreen.main_control=true;
     			
     			

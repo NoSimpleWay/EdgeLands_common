@@ -845,9 +845,17 @@ public class Entity {
 		//float dy=_e.pos.y-pos.y;
 		//float spd=(float) Math.sqrt(dx*dx+dy*dy);
 		
-		Entity e=GScreen.get_collision(pos.x,pos.y,_e.pos.x,_e.pos.y,(pos.x-_e.pos.x)/(pos.y-_e.pos.y),(pos.y-_e.pos.y)/(pos.x-_e.pos.x),1,1);
+		Entity e=GScreen.get_collision(pos.x,pos.y,_e.pos.x,_e.pos.y,(_e.pos.x-pos.x)/(_e.pos.y-pos.y),(_e.pos.y-pos.y)/(_e.pos.x-pos.x),5,5);
 		
-		if ((e!=null)&&(e.is_enemy!=is_enemy))
+		/*if (e!=null)
+		{
+			e.total_alpha=(float) Math.random();
+			e.total_illum_R=(float) Math.random();
+			e.total_illum_G=(float) Math.random();
+			e.total_illum_B=(float) Math.random();
+		}
+		*/
+		if ((e!=null)&&(e.is_enemy!=is_enemy)&&(!e.is_decor))
 		{GScreen.enemy_see_player_timer=3f; return true;}
 		
 		return false;
@@ -1155,7 +1163,9 @@ public class Entity {
 				look_cooldown=1.5f;
 				
 				is_see=false;
-				if ((is_enemy)){target=GScreen.pl;}
+				
+				if (is_enemy){target=GScreen.pl;}
+				
 				if (target!=null){is_see=can_see(target);}
 				
 				if (
